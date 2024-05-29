@@ -1,17 +1,17 @@
-// File System Stuff
+//File System Stuff
+#include "Arduino.h"
+#include "LittleFS.h"
 
-#include "myHeader.h"
-#include "SPIFFS.h"
-#include "FS.h"
+#include "globals.h"
 
 void SaveDataToFile(String fileNameForSave, String DataToSave)
 {
-  // Serial.println(fileNameForSave);
-  // SPIFFS.begin();
+  //Serial.println(fileNameForSave);
+  //SPIFFS.begin();
 #ifdef ESP32
-  File f = SPIFFS.open(String("/data/" + fileNameForSave + ".dat"), "w");
+  File f = LittleFS.open(String("/data/" + fileNameForSave + ".dat"), "w");
 #else
-  fs::File f = SPIFFS.open(String("/data/" + fileNameForSave + ".dat"), "w");
+  fs::File f = LittleFS.open(String("/data/" + fileNameForSave + ".dat"), "w");
 #endif
 
   if (!f)
@@ -30,20 +30,20 @@ void BasicProgramWriteLine(int LineNumberToLookUp, String DataToWriteForProgramL
 String LoadDataFromFile(String fileNameForSave)
 {
   String WhatIwillReturn;
-  // SPIFFS.begin();
+  //LittleFS.begin();
 #ifdef ESP32
-  File f = SPIFFS.open(String("/data/" + fileNameForSave + ".dat"), "r");
+  File f = LittleFS.open(String("/data/" + fileNameForSave + ".dat"), "r");
 #else
-  fs::File f = SPIFFS.open(String("/data/" + fileNameForSave + ".dat"), "r");
+  fs::File f = LittleFS.open(String("/data/" + fileNameForSave + ".dat"), "r");
 #endif
   if (!f)
   {
-    // Serial.print("file open failed  :");
-    // Serial.println(fileNameForSave);
+    //Serial.print("file open failed  :");
+    //Serial.println(fileNameForSave);
   }
   else
   {
-    WhatIwillReturn = f.readStringUntil('\r');
+    WhatIwillReturn =  f.readStringUntil('\r');
     WhatIwillReturn.replace("\n", "");
     f.close();
     return WhatIwillReturn;
@@ -57,47 +57,56 @@ static File BasicFileToSave;
 #else
 static fs::File BasicFileToSave;
 #endif
-// static int  program_nb_lines = 0;
-// static uint16_t  line_seeks[256];
+//static int  program_nb_lines = 0;
+//static uint16_t  line_seeks[256];
 
 bool OpenToWriteOnFlash(String fileNameForWrite)
 {
-  // Serial.printf("Opening SPIFFS file %s\n",(char *)fileNameForWrite.c_str());
-  BasicFileToSave = SPIFFS.open(fileNameForWrite, "w");
+  //Serial.printf("Opening SPIFFS file %s\n",(char *)fileNameForWrite.c_str());
+  BasicFileToSave = LittleFS.open(fileNameForWrite, "w");
   if (!BasicFileToSave)
   {
     Serial.println(F("file write open failed"));
-    return false;
+	return false;
   }
   return true;
 }
 
 bool WriteBasicLineOnFlash(String codeLine)
 {
-  int ret;
-  int i = 1;
-  int where = codeLine.lastIndexOf("\n");
-  // Serial.printf("where = %d and length=%d\n",where,codeLine.length());
-  while (codeLine.length() - where <= 2)
+	int ret;
+  int i=1;
+  int where=codeLine.lastIndexOf("\n");
+  //Serial.printf("where = %d and length=%d\n",where,codeLine.length());
+  while (codeLine.length()-where<=2) 
   {
-    // Serial.printf("Dropped last line #%d\n",i++);
-    codeLine = codeLine.substring(0, where);
-    where = codeLine.lastIndexOf("\n");
-    // Serial.printf("where = %d and length=%d\n",where,codeLine.length());
+    //Serial.printf("Dropped last line #%d\n",i++);
+    codeLine=codeLine.substring(0,where);
+    where=codeLine.lastIndexOf("\n");
+    //Serial.printf("where = %d and length=%d\n",where,codeLine.length());
   }
   ret = BasicFileToSave.print(codeLine);
   if (ret == 0)
   {
     Serial.println(F("file write println failed"));
-    return false;
-  }
+    return false; 
+  } 
   return true;
 }
 
 void CloseWriteOnFlash(void)
 {
-  BasicFileToSave.close();
+	BasicFileToSave.close();
 }
+
+
+void LoadBasicProgramFromFlash(String fileNameForRead)
+{
+  fs::File f = LittleFS.open(fileNameForRead, "r");
+  f.read((uint8_t *)&buf, BUFSIZE);
+  return;
+}
+
 
 String MakeSureFileNameStartsWithSlash(String FileNameToCheckForSlash)
 {

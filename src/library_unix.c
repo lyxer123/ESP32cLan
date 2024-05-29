@@ -1,9 +1,11 @@
 #include "interpreter.h"
-#include "myHeader.h"
 #include "picoc.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+
+#include "myVar.h"
+
 extern char literal;
 extern char buf[BUFSIZE];
 extern char DebugBar[];

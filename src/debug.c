@@ -1,11 +1,12 @@
 /* picoc interactive debugger */
+#include "myVar.h"
+
 
 #ifndef NO_DEBUGGER
 extern char SingleStep;
 extern char DebugBar[];
 extern char sendChunked;
 #include "interpreter.h"
-#include "myHeader.h"
 #include <stdio.h>
 
 #define BREAKPOINT_TABLE_SIZE 21
@@ -140,9 +141,7 @@ void DebugCheckStatement(struct ParseState *Parser)
     if (SingleStep) CurLinePrint(Parser);
 }
 
-// extern struct StackFrame* TopStackFrame;     //lyx
-// struct StackFrame *TopStackFrame;
-
+// extern struct StackFrame* TopStackFrame;
 const char * Ident;
 
 void PrintValue(struct Value * Var)

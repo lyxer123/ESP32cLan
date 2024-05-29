@@ -51,6 +51,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+#include "myVar.h"
+
 extern char * Prompt;
 /* space for the the stack */
 extern char buf[BUFSIZE];

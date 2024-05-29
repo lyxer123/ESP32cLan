@@ -1,4 +1,10 @@
 //wifi code here
+#include "globals.h"
+#include "Arduino.h"
+#include "WiFi.h"
+#include "utilities.h"  // 包含头文件以声明 getValue
+#include "main.h"
+
 #ifdef OLED
 #include <U8g2lib.h>
 extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8x8;
@@ -61,9 +67,11 @@ bool ConnectToTheWIFI(String NetworkName, String NetworkPassword, String Network
     NetworkStaticIP += ".";
     NetworkGateway += ".";
     NetworkSubnet += ".";
+
     IPAddress ip(     getValue(NetworkStaticIP, '.', 0).toInt(), getValue(NetworkStaticIP, '.', 1).toInt(), getValue(NetworkStaticIP, '.', 2).toInt(), getValue(NetworkStaticIP, '.', 3).toInt());
     IPAddress gateway(getValue(NetworkGateway,  '.', 0).toInt(), getValue(NetworkGateway, '.', 1).toInt(), getValue(NetworkGateway, '.', 2).toInt(), getValue(NetworkGateway, '.', 3).toInt());
     IPAddress subnet( getValue(NetworkSubnet,   '.', 0).toInt(), getValue(NetworkSubnet, '.', 1).toInt(), getValue(NetworkSubnet, '.', 2).toInt(), getValue(NetworkSubnet, '.', 3).toInt());
+    
     WiFi.config(ip, gateway, subnet);
   }
   if (WiFi.localIP().toString().endsWith(".0"))

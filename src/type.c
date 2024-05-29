@@ -3,6 +3,8 @@
  
 #include "interpreter.h"
 
+#include "myVar.h"
+
 /* some basic types */
 struct ValueType UberType;
 struct ValueType IntType;

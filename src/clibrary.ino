@@ -1,17 +1,14 @@
 /* picoc mini standard C library - provides an optional tiny C standard library and built in functions
  * if BUILTIN_MINI_STDLIB is defined */
-
-// clibray.ino不能修改为.cpp。修改后会出现很多莫名奇妙的错误
-
-#include "shield.h"           //lyx-2023-9-15
-#include "myHeader.h"         //lyx-2023-9-15
-//#include "interpreter.h"    //lyx-2023-9-15,不能包含进来
+#include "globals.h"
+#include "myVar.h"
 
 #include "picoc.h"
 #include <FS.h>
 
 #ifdef ESP32
-#include <SPIFFS.h>
+// #include <SPIFFS.h>
+#include "LittleFS.h"
 #include <ESP32Servo.h>
 #endif
 
@@ -20,6 +17,8 @@
 #include <Adafruit_BME280.h>
 Adafruit_BME280 bme; // I2C
 #endif
+
+
 #ifdef ePAPER
 #include <GxEPD.h>
 #include <GxGDEP015OC1/GxGDEP015OC1.cpp> // 1.54" b/w
@@ -102,10 +101,10 @@ void ePaper_drawLine(struct ParseState *Parser, struct Value *ReturnValue, struc
   display.drawLine(x1, y1, x2, y2, color);
 }
 #endif
+
 void loop();
 extern char doScreenCapture;
 boolean screenServer(void);
-
 void doLoop(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
   loop();
@@ -274,7 +273,6 @@ void NEO_theaterChaseRainbow(struct ParseState *Parser, struct Value *ReturnValu
 }
 #endif
 
-
 #ifdef ESP32
 ESP32PWM PWMs[16];
 int pwmAssigns[16] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
@@ -294,17 +292,18 @@ extern "C"
 {
   extern char literal;
 }
-
 #ifdef OLED
 #include <U8g2lib.h>
 extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8x8;
 extern int oi;
 #endif // OLED
+
 #ifdef SSD1306OLED
 #include "SSD1306Wire.h"
 extern SSD1306Wire display;
 extern OLEDDISPLAY_COLOR OLEDcolor;
 #endif
+
 #ifdef BME280
 float temp, pressure, rh;
 void BME_init(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
@@ -333,15 +332,16 @@ void BME_readRH(struct ParseState *Parser, struct Value *ReturnValue, struct Val
   ReturnValue->Val->FP = rh;
 }
 #endif BME280
-#ifdef TFT
-  #include <TftGauge.h>
-  #include <Hershey.h>
-  extern TFT_eSPI tft;
-  void drawJpeg(char *filename, int xpos, int ypos);
-  void FontShow();
-  extern Hershey HF;
-#endif // TFT
 
+
+#ifdef TFT
+#include <TftGauge.h>
+#include <Hershey.h>
+extern TFT_eSPI tft;
+void drawJpeg(char *filename, int xpos, int ypos);
+void FontShow();
+extern Hershey HF;
+#endif // TFT
 void setFont(char *font);
 #ifdef TFT
 int nGauges = 0;
@@ -606,7 +606,7 @@ void iconsoleOut(char *what)
   if (strstr(Bufp, ">-> ") > 0)
   {
     Bufp = strstr(Bufp, ">->") + 4; // DEBUGP.print("d >-> ");
-                                    //  DEBUGP.println(Bufp);
+    // DEBUGP.println(Bufp);
   }
   if (Bufp[strlen(Bufp) - 1] == '\n')
   { // DEBUGP.print("has [CR]");
@@ -763,33 +763,34 @@ void HFsetFont(struct ParseState *Parser, struct Value *ReturnValue, struct Valu
   HF.setFont(str);
 }
 #endif
-// extern struct StackFrame *TopStackFrame;          //lyx-2023-09-15
-// struct StackFrame *TopStackFrame;
+// extern struct StackFrame *TopStackFrame;
 
 const char *Ident;
-
+extern void sendContent(char *it);
+extern void send(char *it);
+extern void sendc(char it);
+extern void sendln(char *it);
 #ifdef ESP32
-  #include <WebServer.h>
+#include <WebServer.h>
 #else
-  #include <ESP8266WebServer.h>
+#include <ESP8266WebServer.h>
 #endif
-
 #ifdef ESP32
-  extern WebServer server;
+extern WebServer server;
 #else
-  extern ESP8266WebServer server;
+extern ESP8266WebServer server;
 #endif
-
 #include <Arduino.h>
+
 extern "C"
 {
   #include "picoc.h"
   #include "interpreter.h"
+  // struct StackFrame *TopStackFrame;     //lyx
   extern char listIncludes;
-
-  #ifndef ESP32
-  #include "user_interface.h"
-  #endif // ESP32
+#ifndef ESP32
+#include "user_interface.h"
+#endif // ESP32
 }
 
 extern "C"
@@ -821,7 +822,6 @@ extern "C"
       if (strcmp((char *)&watches[i][0], what) == 0)
       {
         // Ssend("Watch already in place");
-        Serial.println("Watch already in place");
         return;
       }
     //  sprint("Adding watch for ");sprint(what);sprint("\n");
@@ -974,7 +974,7 @@ extern "C"
    * A more complete standard library for larger computers is in the library_XXX.c files.
    */
 
-  // IOFILE *CStdOut;         //lyx
+  IOFILE *CStdOut;
   IOFILE CStdOutBase;
 
   static int TRUEValue = 1;
@@ -999,7 +999,7 @@ extern "C"
   void SPutc(unsigned char Ch)
   {
     PrintAndWebOut((char *)&Ch); // struct StringOutputStream *Out = &Stream->Str;
-                                 //*Out->WritePos++ = Ch;
+    //*Out->WritePos++ = Ch;
   }
 
   /* print a character to a stream without using printf/sprintf */
@@ -1239,7 +1239,10 @@ extern "C"
           else
           {
             NextArg = (struct Value *)((char *)NextArg + MEM_ALIGN(sizeof(struct Value) + TypeStackSizeValue(NextArg)));
-            if (NextArg->Typ != FormatType && !((FormatType == &IntType || *FPos == 'f') && IS_NUMERIC_COERCIBLE(NextArg)) && !(FormatType == CharPtrType && (NextArg->Typ->Base == TypePointer || (NextArg->Typ->Base == TypeArray && NextArg->Typ->FromType->Base == TypeChar))))
+            if (NextArg->Typ != FormatType &&
+                !((FormatType == &IntType || *FPos == 'f') && IS_NUMERIC_COERCIBLE(NextArg)) &&
+                !(FormatType == CharPtrType && (NextArg->Typ->Base == TypePointer ||
+                                                (NextArg->Typ->Base == TypeArray && NextArg->Typ->FromType->Base == TypeChar))))
               sendContent("XXX bad type\n"); /* bad type for format */
             else
             {
@@ -1420,7 +1423,10 @@ extern "C"
           else
           {
             NextArg = (struct Value *)((char *)NextArg + MEM_ALIGN(sizeof(struct Value) + TypeStackSizeValue(NextArg)));
-            if (NextArg->Typ != FormatType && !((FormatType == &IntType || *FPos == 'f') && IS_NUMERIC_COERCIBLE(NextArg)) && !(FormatType == CharPtrType && (NextArg->Typ->Base == TypePointer || (NextArg->Typ->Base == TypeArray && NextArg->Typ->FromType->Base == TypeChar))))
+            if (NextArg->Typ != FormatType &&
+                !((FormatType == &IntType || *FPos == 'f') && IS_NUMERIC_COERCIBLE(NextArg)) &&
+                !(FormatType == CharPtrType && (NextArg->Typ->Base == TypePointer ||
+                                                (NextArg->Typ->Base == TypeArray && NextArg->Typ->FromType->Base == TypeChar))))
               strncat(oBuf, "XXX bad type", 500); /* bad type for format */
             else
             {
@@ -2256,7 +2262,7 @@ extern "C"
     literal = 1;
     char th = toConsole;
 #ifdef ESP32
-    File root = SPIFFS.open((char *)"/");
+    File root = LittleFS.open((char *)"/");
     File file = root.openNextFile();
     toConsole = 0;
     sendContent("<tr><td colspan=\"2\" style=\"FONT-SIZE:14px; COLOR:#000000; LINE-HEIGHT:10px; FONT-FAMILY:Courier\">");
@@ -2299,7 +2305,7 @@ extern "C"
       toConsole = th;
     }
 #else
-    fs::File root = SPIFFS.open((char *)"/", "r");
+    fs::File root = LittleFS.open((char *)"/", "r");
     // fs::File file = root.openNextFile();
 #endif
     sendContent((char *)"\n");
@@ -2330,11 +2336,11 @@ extern "C"
     sendContent("\", ...)\n");
     showNums = Param[1]->Val->Integer;
 #ifdef ESP32
-    File fin = SPIFFS.open((char *)&fname, "r");
+    File fin = LittleFS.open((char *)&fname, "r");
     if (!fin)
     {
 #else
-    fs::File fin = SPIFFS.open((char *)&fname, "r");
+    fs::File fin = LittleFS.open((char *)&fname, "r");
     if (!fin)
     {
 #endif
@@ -2365,9 +2371,9 @@ extern "C"
     if (*FileName != '/')
       sprintf((char *)&fname, "/%s", FileName);
 #ifdef ESP32
-    File fin = SPIFFS.open((char *)&fname, "r");
+    File fin = LittleFS.open((char *)&fname, "r");
 #else
-    fs::File fin = SPIFFS.open((char *)&fname, "r");
+    fs::File fin = LittleFS.open((char *)&fname, "r");
 #endif
     if (!fin)
     {
@@ -2380,22 +2386,23 @@ extern "C"
     fin.close();
     sendContent((char *)&buf);
   }
+
   void Ctest(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
   {
     char bf[21];
     snprintf((char *)&bf, 20, "test(%d)\n", Param[0]->Val->Integer);
     sendContent((char *)&bf);
-    // Ssend((char *)&bf);                       // lyx
-    Serial.println((char *)&bf);
+    // Ssend((char *)&bf);       //lyx
     for (int i = 3; i < 11; i++)
     {
       snprintf((char *)&bf, 20, "test line %d\n", i);
       sendContent((char *)&bf);
-      // Ssend((char *)&bf);            //lyx
-      Serial.println((char *)&bf);
+      // Ssend((char *)&bf);
     }
     ReturnValue->Val->Integer = 1234;
   }
+
+
   void printLines(char *src)
   {
     // Ssend("Entered real printLines\n");
@@ -2459,6 +2466,8 @@ extern "C"
     literal = 0;
     toConsole = chold;
   }
+
+
   void printLn(char *src)
   {
     char Bf[351];
@@ -2930,7 +2939,7 @@ extern "C"
     if (*FileName != '/')
       sprintf((char *)&fname, "/%s", FileName);
     // send("Opening file ");sendln(((char *)&fname);
-    fs::File fin = SPIFFS.open((char *)&fname, "r");
+    fs::File fin = LittleFS.open((char *)&fname, "r");
     if (!fin)
     {
       PrintAndWebOut("can't read file ");
@@ -2968,223 +2977,221 @@ extern "C"
   /* list of all library functions and their prototypes */
   // http://download.labs.mediatek.com/package_mtk_linkit_7697_index.json,http://download.labs.mediatek.com/package_mtk_linkit_smart_7688_index.json,http://arduino.esp8266.com/stable/package_esp8266com_index.json,https://github.com/Ameba8195/Arduino/raw/master/release/package_realtek.com_ameba_index.json,https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/package_damellis_attiny_index.json,http://digistump.com/package_digistump_index.json,https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
   /* list of all library functions and their prototypes */
- struct LibraryFunction CLibrary[] = {        //lyx-2023-9-15
-      {Restart, "void restart();"},           // ESP.restart();
-      {Watch, "void Watch(char *);"},         // add Watch (if not already added) for variable named char string
-      {dropWatch, "void dropWatch(char *);"}, // drop Watch for char string name if present
-      {stopDebug, "void stopDebug();"},       // stop Debug single step display
-      {Debug, "void Debug();"},               // start Debug single step display
-      {Sprint, "void sprint(char *);"},       // Send char string to Serial Monitor
+  struct LibraryFunction CLibrary[] =
+      {
+          {Restart, "void restart();"},           // ESP.restart();
+          {Watch, "void Watch(char *);"},         // add Watch (if not already added) for variable named char string
+          {dropWatch, "void dropWatch(char *);"}, // drop Watch for char string name if present
+          {stopDebug, "void stopDebug();"},       // stop Debug single step display
+          {Debug, "void Debug();"},               // start Debug single step display
+          {Sprint, "void sprint(char *);"},       // Send char string to Serial Monitor
 #ifdef ESP32
-      {AnalogWrite, "void analogWrite(int,int);"}, // pin,value set pin analog out to value range 0-4095
+          {AnalogWrite, "void analogWrite(int,int);"}, // pin,value set pin analog out to value range 0-4095
 #else
 
 #endif
-      {AnalogRead, "int analogRead();"}, // returns read of A0
-      {Ctest, "int test(int);"},         // simply retuns 1234 and does some Console Output
+          {AnalogRead, "int analogRead();"}, // returns read of A0
+          {Ctest, "int test(int);"},         // simply retuns 1234 and does some Console Output
 #ifdef SSD1306OLED
-      {oconsolePrintln, "void oconsolePrintln(char *);"}, // draw char string at current cursor x,y
-      {oconsoleInit, "void oconsoleInit();"},             // must be called to start OLED display
-      {oinvertDisplay, "void oinvertDisplay(int);"},      // if arg=1 set  display to reverse video else normal video
-      {odrawLine, "void odrawLine(int,int,int,int);"},    // x1,y1,x2,y2
-      {ofillRect, "void ofillRect(int,int,int,int);"},    // x,y,width,height
-      {odrawRect, "void odrawRect(int,int,int,int);"},    // x,y,width,height
-      {oclear, "void oclear(void);"},
-      {odrawString, "void odrawString(int,int,char *);"}, // x,y in pixels,char string
-      {odisplay, "void odisplay(void);"},                 // update display
-      {osetPixel, "void osetPixel(int,int);"},            // x,y
-      {osetCursor, "void osetCursor(int,int);"},          // x,y
-      {oprint, "void oprint(char *);"},
-      {oprintln, "void oprintln(char *);"},
-      {osetFontSize, "void osetFontSize(int);"}, //  allowed values 10=ArialMT_Plain_10 16=ArialMT_Plain_16 24=ArialMT_Plain_24
-      {osetColor, "void osetColor(int);"},       // 0=black 1=white 2=invert
+          {oconsolePrintln, "void oconsolePrintln(char *);"}, // draw char string at current cursor x,y
+          {oconsoleInit, "void oconsoleInit();"},             // must be called to start OLED display
+          {oinvertDisplay, "void oinvertDisplay(int);"},      // if arg=1 set  display to reverse video else normal video
+          {odrawLine, "void odrawLine(int,int,int,int);"},    // x1,y1,x2,y2
+          {ofillRect, "void ofillRect(int,int,int,int);"},    // x,y,width,height
+          {odrawRect, "void odrawRect(int,int,int,int);"},    // x,y,width,height
+          {oclear, "void oclear(void);"},
+          {odrawString, "void odrawString(int,int,char *);"}, // x,y in pixels,char string
+          {odisplay, "void odisplay(void);"},                 // update display
+          {osetPixel, "void osetPixel(int,int);"},            // x,y
+          {osetCursor, "void osetCursor(int,int);"},          // x,y
+          {oprint, "void oprint(char *);"},
+          {oprintln, "void oprintln(char *);"},
+          {osetFontSize, "void osetFontSize(int);"}, //  allowed values 10=ArialMT_Plain_10 16=ArialMT_Plain_16 24=ArialMT_Plain_24
+          {osetColor, "void osetColor(int);"},       // 0=black 1=white 2=invert
 #endif
 #ifdef TFT
-      {setConsoleOn, "void setConsoleOn(int);"},                                          // 0 turns console output off for prntf function, 1 turns counsole output on
-      {HFsetCursor, "void HFsetCursor(int,int);"},                                        // x,y
-      {HFsetStrokeDelay, "void HFsetStrokeDelay(int);"},                                  // set delay between strokes normally 0 non zero make for character drawing animation on screen
-      {HFdrawStringRotated, "void HFdrawStringRotated(int,int,float,int,float,char *);"}, // x,y,radius,size,color,angle,char string
-      {HFdrawString, "void HFdrawString(int,int,float,int,char *);"},                     // x,y,size,color,char string
-      {HFdrawStringOpaque, "void HFdrawStringOpaque(int,int,float,int,int,char *);"},     // x,y,size,foreColor,backColor,char string
-      {HFdrawCenteredString, "void HFdrawCenteredString(int,float,int,char *);"},         // y,size,color,char string
-      {HFgetStringSize, "int HFgetStringSize(char *,float);"},                            // char string,size -- returns length
-      {HFdraw, "void HFdraw(char,float,int);"},                                           // char,size,color
-      {HFdrawRotated, "void HFdrawRotated(int,int,char,float,int,float);"},
-      {HFsetFont, "void HFsetFont(char *);"},                                    // font name -- allowed values are "serif" "sans" "sansbold" "greek" "cursive"
-      {fontShow, "void fontShow(void);"},                                        // runs a Hershey font demo
-      {scroll, "void scroll();"},                                                // scrolls scrollPixels vertically upward
-      {setScrollPixels, "void setScrollPixels(int);"},                           // scrollPixels -- sets scroll value independent of setTextSize
-      {consoleAlert, "void consoleAlert(char *);"},                              // send message char string in black on red to the terminal
-      {consoleOut, "void consoleOut(char *);"},                                  // char string to display on console \n are recognized and screen will scroll as necessary to show char string
-      {TFT_draw, "void TFT_draw(char *,int,int);"},                              // filename,x,y
-      {TFT_print, "void TFT_print(char *);"},                                    // char string to print
-      {TFT_setCursor, "void TFT_setCursor(int,int);"},                           // x,y y increases from 0 at top of display
-      {TFT_setTextColor, "void TFT_setTextColor(int,int);"},                     // foreColor,backColor
-      {TFT_setTextSize, "void TFT_setTextSize(int);"},                           // size
-      {TFT_fillScreen, "void TFT_fillScreen(int);"},                             // color
-      {TFT_drawLine, "void TFT_drawLine(int,int,int,int,int);"},                 // x1,y1,x2,y2,color
-      {TFT_drawRect, "void TFT_drawRect(int,int,int,int,int);"},                 // x,y,width,height,color
-      {TFT_fillRect, "void TFT_fillRect(int,int,int,int,int);"},                 // x,y,width,height,color
-      {TFT_fillCircle, "void TFT_fillCircle(int,int,int,int);"},                 // xc,yc,radius,color
-      {TFT_drawTriangle, "void TFT_drawTriangle(int,int,int,int,int,int,int);"}, // x1,y1,x2,y2,x3,y3,color
-      {TFT_fillTriangle, "void TFT_fillTriangle(int,int,int,int,int,int,int);"}, // x1,y1,x2,y2,x3,y3,color
-      {TFT_drawCircle, "void TFT_drawCircle(int,int,int,int);"},                 // xc,yc,radius,color
-      {TFT_drawRoundRect, "void TFT_drawRoundRect(int,int,int,int,int,int);"},   // x,y,width,height,radius,color
-      {TFT_fillRoundRect, "void TFT_fillRoundRect(int,int,int,int,int,int);"},   // x,y,width,height,radius,color
-      {
-          TFT_invertDisplay,
-          "void TFT_invertDisplay(int);",
-      },                                                                         // pass 0 for nurmal 1 for inverse
-      {TFT_drawEllipse, "void TFT_drawEllipse(short,short,short,short,short);"}, // xc,yc,radiusx,radiusy,color
-      {TFT_fillEllipse, "void TFT_fillEllipse(short,short,short,short,short);"}, // xc,yc,radiusx,radiusy,color
-      {TFT_readRect, "void TFT_readRect(int,int,int,int,short *);"},             // startx,starty,width,height
-      {TFT_pushRect, "void TFT_pushRect(int,int,int,int,short *);"},             // startx,starty,width,height
-      {screenCapture, "void screenCapture();"},
-      {TFT_Gauge, "int TFT_Gauge(float,float,float,float,float,float,float,int,float,int,char *,char *);"},
-      //(float xc,float yc,float sang,float eang,float radius,float sval,float eval,int divisions,float increments,int color,char * fmt,char * valueFmt);
-      {TFT_Gauge_draw, "void TFT_Gauge_draw(int);"},                                           // gauge#
-      {TFT_Gauge_setPosition, "void TFT_Gauge_setPosition(int,float);"},                       // gauge#,value
-      {TFT_Gauge_drawDanger, "void TFT_Gauge_drawDanger(int,float,float,int);"},               // gauge#,startValue,endValue, color
-      {TFT_Gauge_drawDangerByValue, "void TFT_Gauge_drawDangerByValue(int,float,float,int);"}, // gsuge#,startValue,endValue, color
-      {TFT_Gauge_dropGauges, "void TFT_Gauge_dropGauges();"},
-      {TFT_VbarGraph, "int TFT_VbarGraph(float,float,int,int,float,float,int,float,int,char *,char *);"},
-      // float x,float y,int width,int height,float sval,float eval,int divisions,float increments,int color,char * fmt,char * valueFmt
-      {TFT_VbarGraph_draw, "void TFT_VbarGraph_draw(int);"},                     // gauge#
-      {TFT_VbarGraph_setPosition, "void TFT_VbarGraph_setPosition(int,float);"}, // gauge#,value
-      {TFT_VbarGraph_dropGauges, "void TFT_VbarGraph_dropGauges();"},            // gauge#
-      {TFT_HbarGraph, "int TFT_HbarGraph(float,float,int,int,float,float,int,float,int,char *,char *);"},
-      // float x,float y,int width,int height,float sval,float eval,int divisions,float increments,int color,char * fmt,char * valueFmt
-      {TFT_HbarGraph_draw, "void TFT_HbarGraph_draw(int);"},                     // gauge#
-      {TFT_HbarGraph_setPosition, "void TFT_HbarGraph_setPosition(int,float);"}, // gauge#,value
-      {TFT_HbarGraph_dropGauges, "void TFT_HbarGraph_dropGauges();"},            // frees all gauge storage
+          {setConsoleOn, "void setConsoleOn(int);"},                                          // 0 turns console output off for prntf function, 1 turns counsole output on
+          {HFsetCursor, "void HFsetCursor(int,int);"},                                        // x,y
+          {HFsetStrokeDelay, "void HFsetStrokeDelay(int);"},                                  // set delay between strokes normally 0 non zero make for character drawing animation on screen
+          {HFdrawStringRotated, "void HFdrawStringRotated(int,int,float,int,float,char *);"}, // x,y,radius,size,color,angle,char string
+          {HFdrawString, "void HFdrawString(int,int,float,int,char *);"},                     // x,y,size,color,char string
+          {HFdrawStringOpaque, "void HFdrawStringOpaque(int,int,float,int,int,char *);"},     // x,y,size,foreColor,backColor,char string
+          {HFdrawCenteredString, "void HFdrawCenteredString(int,float,int,char *);"},         // y,size,color,char string
+          {HFgetStringSize, "int HFgetStringSize(char *,float);"},                            // char string,size -- returns length
+          {HFdraw, "void HFdraw(char,float,int);"},                                           // char,size,color
+          {HFdrawRotated, "void HFdrawRotated(int,int,char,float,int,float);"},
+          {HFsetFont, "void HFsetFont(char *);"},                                    // font name -- allowed values are "serif" "sans" "sansbold" "greek" "cursive"
+          {fontShow, "void fontShow(void);"},                                        // runs a Hershey font demo
+          {scroll, "void scroll();"},                                                // scrolls scrollPixels vertically upward
+          {setScrollPixels, "void setScrollPixels(int);"},                           // scrollPixels -- sets scroll value independent of setTextSize
+          {consoleAlert, "void consoleAlert(char *);"},                              // send message char string in black on red to the terminal
+          {consoleOut, "void consoleOut(char *);"},                                  // char string to display on console \n are recognized and screen will scroll as necessary to show char string
+          {TFT_draw, "void TFT_draw(char *,int,int);"},                              // filename,x,y
+          {TFT_print, "void TFT_print(char *);"},                                    // char string to print
+          {TFT_setCursor, "void TFT_setCursor(int,int);"},                           // x,y y increases from 0 at top of display
+          {TFT_setTextColor, "void TFT_setTextColor(int,int);"},                     // foreColor,backColor
+          {TFT_setTextSize, "void TFT_setTextSize(int);"},                           // size
+          {TFT_fillScreen, "void TFT_fillScreen(int);"},                             // color
+          {TFT_drawLine, "void TFT_drawLine(int,int,int,int,int);"},                 // x1,y1,x2,y2,color
+          {TFT_drawRect, "void TFT_drawRect(int,int,int,int,int);"},                 // x,y,width,height,color
+          {TFT_fillRect, "void TFT_fillRect(int,int,int,int,int);"},                 // x,y,width,height,color
+          {TFT_fillCircle, "void TFT_fillCircle(int,int,int,int);"},                 // xc,yc,radius,color
+          {TFT_drawTriangle, "void TFT_drawTriangle(int,int,int,int,int,int,int);"}, // x1,y1,x2,y2,x3,y3,color
+          {TFT_fillTriangle, "void TFT_fillTriangle(int,int,int,int,int,int,int);"}, // x1,y1,x2,y2,x3,y3,color
+          {TFT_drawCircle, "void TFT_drawCircle(int,int,int,int);"},                 // xc,yc,radius,color
+          {TFT_drawRoundRect, "void TFT_drawRoundRect(int,int,int,int,int,int);"},   // x,y,width,height,radius,color
+          {TFT_fillRoundRect, "void TFT_fillRoundRect(int,int,int,int,int,int);"},   // x,y,width,height,radius,color
+          {
+              TFT_invertDisplay,
+              "void TFT_invertDisplay(int);",
+          },                                                                         // pass 0 for nurmal 1 for inverse
+          {TFT_drawEllipse, "void TFT_drawEllipse(short,short,short,short,short);"}, // xc,yc,radiusx,radiusy,color
+          {TFT_fillEllipse, "void TFT_fillEllipse(short,short,short,short,short);"}, // xc,yc,radiusx,radiusy,color
+          {TFT_readRect, "void TFT_readRect(int,int,int,int,short *);"},             // startx,starty,width,height
+          {TFT_pushRect, "void TFT_pushRect(int,int,int,int,short *);"},             // startx,starty,width,height
+          {screenCapture, "void screenCapture();"},
+          {TFT_Gauge, "int TFT_Gauge(float,float,float,float,float,float,float,int,float,int,char *,char *);"},
+          //(float xc,float yc,float sang,float eang,float radius,float sval,float eval,int divisions,float increments,int color,char * fmt,char * valueFmt);
+          {TFT_Gauge_draw, "void TFT_Gauge_draw(int);"},                                           // gauge#
+          {TFT_Gauge_setPosition, "void TFT_Gauge_setPosition(int,float);"},                       // gauge#,value
+          {TFT_Gauge_drawDanger, "void TFT_Gauge_drawDanger(int,float,float,int);"},               // gauge#,startValue,endValue, color
+          {TFT_Gauge_drawDangerByValue, "void TFT_Gauge_drawDangerByValue(int,float,float,int);"}, // gsuge#,startValue,endValue, color
+          {TFT_Gauge_dropGauges, "void TFT_Gauge_dropGauges();"},
+          {TFT_VbarGraph, "int TFT_VbarGraph(float,float,int,int,float,float,int,float,int,char *,char *);"},
+          // float x,float y,int width,int height,float sval,float eval,int divisions,float increments,int color,char * fmt,char * valueFmt
+          {TFT_VbarGraph_draw, "void TFT_VbarGraph_draw(int);"},                     // gauge#
+          {TFT_VbarGraph_setPosition, "void TFT_VbarGraph_setPosition(int,float);"}, // gauge#,value
+          {TFT_VbarGraph_dropGauges, "void TFT_VbarGraph_dropGauges();"},            // gauge#
+          {TFT_HbarGraph, "int TFT_HbarGraph(float,float,int,int,float,float,int,float,int,char *,char *);"},
+          // float x,float y,int width,int height,float sval,float eval,int divisions,float increments,int color,char * fmt,char * valueFmt
+          {TFT_HbarGraph_draw, "void TFT_HbarGraph_draw(int);"},                     // gauge#
+          {TFT_HbarGraph_setPosition, "void TFT_HbarGraph_setPosition(int,float);"}, // gauge#,value
+          {TFT_HbarGraph_dropGauges, "void TFT_HbarGraph_dropGauges();"},            // frees all gauge storage
 #endif
 #ifndef ESP32
-      {speed, "void cpuClock(int);"},
+          {speed, "void cpuClock(int);"},
 #endif
-      {sysTime, "int sysTime();"}, // calls milli
+          {sysTime, "int sysTime();"}, // calls milli
 //   { sendToFile,  "void sendToFile(char *);"               },
 #ifdef ESP32
-      {servoAngle, "void servoAngle(int,float);"},             // pin,angle
-      {setServoRange, "void setServoRange(int,float,float);"}, // pin, min_millisec, mac_millisec
-      {pwmServo, "void pwmServo(int,float);"},                 // pin,dutyCycle
-      {setServoReport, "void setServoReport(int);"},           // 1=on 0=off
+          {servoAngle, "void servoAngle(int,float);"},             // pin,angle
+          {setServoRange, "void setServoRange(int,float,float);"}, // pin, min_millisec, mac_millisec
+          {pwmServo, "void pwmServo(int,float);"},                 // pin,dutyCycle
+          {setServoReport, "void setServoReport(int);"},           // 1=on 0=off
 #endif
-      //    { get,          "void get(char *);"                     },
-      {setBkp, "void setBkp(char *,int);"},     // filename,line
-      {clearBkp, "void clearBkp(char *,int);"}, // fileName,line
-      {ls, "void ls();"},
-      {cat, "void cat(char *,int);"}, // fileName,with_linenumbers
-      {SDB, "void SDB(int);"},        // o to disable, 1 to enable
-      {drop, "void drop(char *);"},   // name
-      {listSrc, "void listSrc();"},
-      {defs, "void defs();"},
-      {help, "void help();"},
-      {isprime, "int isprime(int,int,int);"},        // start,end,reportInterval
-      {Delay, "void delay(int);"},                   // Arduino equiv delay(milliseconds);
-      {DigitalWrite, "void digitalWrite(int,int);"}, // Arduino equiv digitalWrite(pin,value);
-      {DigitalRead, "int digitalRead(int);"},        // Arduino equiv int digitalRead(pin);
-      {PinMode, "void pinMode(int,char *);"},        // pin,"OUTPUT" or "INPUT" or "INPUT_PULLUP"
+          //    { get,          "void get(char *);"                     },
+          {setBkp, "void setBkp(char *,int);"},     // filename,line
+          {clearBkp, "void clearBkp(char *,int);"}, // fileName,line
+          {ls, "void ls();"},
+          {cat, "void cat(char *,int);"}, // fileName,with_linenumbers
+          {SDB, "void SDB(int);"},        // o to disable, 1 to enable
+          {drop, "void drop(char *);"},   // name
+          {listSrc, "void listSrc();"},
+          {defs, "void defs();"},
+          {help, "void help();"},
+          {isprime, "int isprime(int,int,int);"},        // start,end,reportInterval
+          {Delay, "void delay(int);"},                   // Arduino equiv delay(milliseconds);
+          {DigitalWrite, "void digitalWrite(int,int);"}, // Arduino equiv digitalWrite(pin,value);
+          {DigitalRead, "int digitalRead(int);"},        // Arduino equiv int digitalRead(pin);
+          {PinMode, "void pinMode(int,char *);"},        // pin,"OUTPUT" or "INPUT" or "INPUT_PULLUP"
 #ifndef ESP32
-      {heap, "void heap();"},
+          {heap, "void heap();"},
 #endif
 #ifdef BME280
-      {BME_init, "void BME_init();"},
-      {BME_readTemp, "float BME_readTemp();"},
-      {BME_readPressure, "float BME_readPressure();"},
-      {BME_readRH, "float BME_readRH();"},
+          {BME_init, "void BME_init();"},
+          {BME_readTemp, "float BME_readTemp();"},
+          {BME_readPressure, "float BME_readPressure();"},
+          {BME_readRH, "float BME_readRH();"},
 
 #endif // BME280
 
 #ifdef NEO_PIXEL
-      {NEO_begin_init, "void NEO_init(int,int);"},                                 // count,pin
-      {NEO_setup, "void NEO_setup(int);"},                                         // brightness
-      {NEO_setPixelColorRGB, "void NEO_setPixelColorRGB(int,int,int,int);"},       // n,r,g,b
-      {NEO_setPixelColorRGBW, "void NEO_setPixelColorRGBW(int,int,int,int,int);"}, // n,r,g,b,w
-      {NEO_setPixelColor32, "void NEO_setPixelColor32(int,int);"},                 // n,c
-      {NEO_fill, "void NEO_fill(int,int,int);"},                                   // c,first,count
-      {NEO_setBrightness, "void NEO_setBrightness(int);"},                         // brightness
-      {NEO_colorWipe, "void NEO_colorWipe(int,int);"},
-      {NEO_theaterChase, "void NEO_theaterChase(int,int);"},
-      {NEO_rainbow, "void NEO_rainbow(int);"},
-      {NEO_theaterChaseRainbow, "void NEO_theaterChaseRainbow(int);"},
+          {NEO_begin_init, "void NEO_init(int,int);"},                                 // count,pin
+          {NEO_setup, "void NEO_setup(int);"},                                         // brightness
+          {NEO_setPixelColorRGB, "void NEO_setPixelColorRGB(int,int,int,int);"},       // n,r,g,b
+          {NEO_setPixelColorRGBW, "void NEO_setPixelColorRGBW(int,int,int,int,int);"}, // n,r,g,b,w
+          {NEO_setPixelColor32, "void NEO_setPixelColor32(int,int);"},                 // n,c
+          {NEO_fill, "void NEO_fill(int,int,int);"},                                   // c,first,count
+          {NEO_setBrightness, "void NEO_setBrightness(int);"},                         // brightness
+          {NEO_colorWipe, "void NEO_colorWipe(int,int);"},
+          {NEO_theaterChase, "void NEO_theaterChase(int,int);"},
+          {NEO_rainbow, "void NEO_rainbow(int);"},
+          {NEO_theaterChaseRainbow, "void NEO_theaterChaseRainbow(int);"},
 #endif
 #ifdef ePAPER
-      {ePaper_init, "void ePaper_init();"},
-      {ePaper_setCursor, "void ePaper_setCursor(int,int);"},
-      {ePaper_setTextColor, "void ePaper_setTextColor(int);"},
-      {ePaper_println, "void ePaper_println(char *);"},
-      {ePaper_powerDown, "void ePaper_powerDown();"},
-      {ePaper_update, "void ePaper_update();"},
-      {ePaper_drawRect, "void ePaper_drawRect(int,int,int,int,int);"},
-      {ePaper_fillRect, "void ePaper_fillRect(int,int,int,int,int);"},
-      {ePaper_drawLine, "void ePaper_drawLine(int,int,int,int,int);"},
+          {ePaper_init, "void ePaper_init();"},
+          {ePaper_setCursor, "void ePaper_setCursor(int,int);"},
+          {ePaper_setTextColor, "void ePaper_setTextColor(int);"},
+          {ePaper_println, "void ePaper_println(char *);"},
+          {ePaper_powerDown, "void ePaper_powerDown();"},
+          {ePaper_update, "void ePaper_update();"},
+          {ePaper_drawRect, "void ePaper_drawRect(int,int,int,int,int);"},
+          {ePaper_fillRect, "void ePaper_fillRect(int,int,int,int,int);"},
+          {ePaper_drawLine, "void ePaper_drawLine(int,int,int,int,int);"},
 #endif
-      {doLoop, "void doLoop();"}, // calls the ESP32Program sketch's loop() function
-      {LibPrint, "void print(char *, ...);"},
-      {LibPrintf, "void printf(char *, ...);"},
-      {LibSPrintf, "char *sprintf(char *, char *, ...);"},
-      {LibGets, "char *gets(char *);"},
-      {LibGetc, "int getchar();"},
-      {LibExit, "void exit(int);"},
+          {doLoop, "void doLoop();"}, // calls the ESP32Program sketch's loop() function
+          {LibPrint, "void print(char *, ...);"},
+          {LibPrintf, "void printf(char *, ...);"},
+          {LibSPrintf, "char *sprintf(char *, char *, ...);"},
+          {LibGets, "char *gets(char *);"},
+          {LibGetc, "int getchar();"},
+          {LibExit, "void exit(int);"},
 #ifdef PICOC_LIBRARY
 #ifndef NO_FP
-      {StdlibAtof, "float atof(char *);"},
+          {StdlibAtof, "float atof(char *);"},
 #endif // NO_FP
-      {StdlibAtoi, "int atoi(char *);"},
-      {StdlibAtol, "int atol(char *);"},
+          {StdlibAtoi, "int atoi(char *);"},
+          {StdlibAtol, "int atol(char *);"},
 #ifndef NO_FP
-      {StdlibStrtod, "float strtod(char *,char **);"},
+          {StdlibStrtod, "float strtod(char *,char **);"},
 #endif // NO_FP
-      {StdlibStrtol, "int strtol(char *,char **,int);"},
-      {StdlibStrtoul, "int strtoul(char *,char **,int);"},
-      {StdlibRand, "int rand();"},
-      {StdlibSrand, "void srand(int);"},
-      {StdlibAbs, "int abs(int);"},
-      {StdlibLabs, "int labs(int);"},
-      {LibSin, "float sin(float);"},
-      {LibCos, "float cos(float);"},
-      {LibTan, "float tan(float);"},
-      {LibAsin, "float asin(float);"},
-      {LibAcos, "float acos(float);"},
-      {LibAtan, "float atan(float);"},
-      {LibSinh, "float sinh(float);"},
-      {LibCosh, "float cosh(float);"},
-      {LibTanh, "float tanh(float);"},
-      {LibExp, "float exp(float);"},
-      {LibFabs, "float fabs(float);"},
-      {LibLog, "float log(float);"},
-      {LibLog10, "float log10(float);"},
-      {LibPow, "float pow(float,float);"},
-      {LibSqrt, "float sqrt(float);"},
-      {LibRound, "float round(float);"},
-      {LibCeil, "float ceil(float);"},
-      {LibFloor, "float floor(float);"},
-      {LibMalloc, "void *malloc(int);"},
+          {StdlibStrtol, "int strtol(char *,char **,int);"},
+          {StdlibStrtoul, "int strtoul(char *,char **,int);"},
+          {StdlibRand, "int rand();"},
+          {StdlibSrand, "void srand(int);"},
+          {StdlibAbs, "int abs(int);"},
+          {StdlibLabs, "int labs(int);"},
+          {LibSin, "float sin(float);"},
+          {LibCos, "float cos(float);"},
+          {LibTan, "float tan(float);"},
+          {LibAsin, "float asin(float);"},
+          {LibAcos, "float acos(float);"},
+          {LibAtan, "float atan(float);"},
+          {LibSinh, "float sinh(float);"},
+          {LibCosh, "float cosh(float);"},
+          {LibTanh, "float tanh(float);"},
+          {LibExp, "float exp(float);"},
+          {LibFabs, "float fabs(float);"},
+          {LibLog, "float log(float);"},
+          {LibLog10, "float log10(float);"},
+          {LibPow, "float pow(float,float);"},
+          {LibSqrt, "float sqrt(float);"},
+          {LibRound, "float round(float);"},
+          {LibCeil, "float ceil(float);"},
+          {LibFloor, "float floor(float);"},
+          {LibMalloc, "void *malloc(int);"},
 #ifndef NO_CALLOC
-      {LibCalloc, "void *calloc(int,int);"},
+          {LibCalloc, "void *calloc(int,int);"},
 #endif // NOCALLOC
 #ifndef NO_REALLOC
-      {LibRealloc, "void *realloc(void *,int);"},
+          {LibRealloc, "void *realloc(void *,int);"},
 #endif // NO_REALLOC
-      {LibFree, "void free(void *);"},
+          {LibFree, "void free(void *);"},
 #ifndef NO_STRING_FUNCTIONS
-      {Libstrcpy, "void strcpy(char *,char *);"},
-      {LibStrncpy, "void strncpy(char *,char *,int);"},
-      {LibStrcmp, "int strcmp(char *,char *);"},
-      {LibStrncmp, "int strncmp(char *,char *,int);"},
-      {Libstrcat, "void strcat(char *,char *);"},
-      {Libstrncat, "void strncat(char *,char *,int);"},
-      {LibIndex, "char *index(char *,int);"},
-      {LibRindex, "char *rindex(char *,int);"},
-      {LibStrlen, "int strlen(char *);"},
-      {LibMemset, "void memset(void *,int,int);"},
-      {LibMemcpy, "void memcpy(void *,void *,int);"},
-      {LibMemcmp, "int memcmp(void *,void *,int);"},
+          {Libstrcpy, "void strcpy(char *,char *);"},
+          {LibStrncpy, "void strncpy(char *,char *,int);"},
+          {LibStrcmp, "int strcmp(char *,char *);"},
+          {LibStrncmp, "int strncmp(char *,char *,int);"},
+          {Libstrcat, "void strcat(char *,char *);"},
+          {Libstrncat, "void strncat(char *,char *,int);"},
+          {LibIndex, "char *index(char *,int);"},
+          {LibRindex, "char *rindex(char *,int);"},
+          {LibStrlen, "int strlen(char *);"},
+          {LibMemset, "void memset(void *,int,int);"},
+          {LibMemcpy, "void memcpy(void *,void *,int);"},
+          {LibMemcmp, "int memcmp(void *,void *,int);"},
 #endif // STRING_FUNCTIONS
 #endif // PICOC_LIBRARY
-      {NULL, NULL}
-  };
-
-// extern struct LibraryFunction CLibrary[];    //lyx-2023-9-16
+          {NULL, NULL}};
 }
 #endif /* BUILTIN_MINI_STDLIB */

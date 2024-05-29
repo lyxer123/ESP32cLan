@@ -1,12 +1,13 @@
-/* picoc main header file - this has all the main data structures and 
+/* picoc main header file - this has all the main data structures and
  * function prototypes. If you're just calling picoc you should look at the
- * external interface instead, in picoc.h 
-*/
- 
+ * external interface instead, in picoc.h */
+
 #ifndef INTERPRETER_H
 #define INTERPRETER_H
 #include "picoc.h"
 #include "platform.h"
+
+#include "globals.h"
 
 #define BUILTIN_MINI_STDLIB
 #define USE_MALLOC_STACK
@@ -16,19 +17,19 @@
 #define TRUE 1
 #define FALSE 0
 #endif
-//#define DEBUG_EXPRESSIONS
-//#define DEBUG_LEXER
-//#define DEBUG_HEAP
+// #define DEBUG_EXPRESSIONS
+// #define DEBUG_LEXER
+// #define DEBUG_HEAP
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 #ifndef min
-#define min(x,y) (((x)<(y))?(x):(y))
+#define min(x, y) (((x) < (y)) ? (x) : (y))
 #endif
 extern char buf[BUFSIZE];
-#define MEM_ALIGN(x) (((x) + sizeof(ALIGN_TYPE) - 1) & ~(sizeof(ALIGN_TYPE)-1))
+#define MEM_ALIGN(x) (((x) + sizeof(ALIGN_TYPE) - 1) & ~(sizeof(ALIGN_TYPE) - 1))
 
 #define GETS_BUF_MAX 256
 
@@ -54,42 +55,109 @@ typedef FILE IOFILE;
 #define IS_INTEGER_NUMERIC_TYPE(t) ((t)->Base >= TypeInt && (t)->Base <= TypeUnsignedLong)
 #define IS_INTEGER_NUMERIC(v) IS_INTEGER_NUMERIC_TYPE((v)->Typ)
 #define IS_NUMERIC_COERCIBLE(v) (IS_INTEGER_NUMERIC(v) || IS_FP(v))
-#define IS_NUMERIC_COERCIBLE_PLUS_POINTERS(v,ap) (IS_NUMERIC_COERCIBLE(v) || IS_POINTER_COERCIBLE(v,ap))
-
+#define IS_NUMERIC_COERCIBLE_PLUS_POINTERS(v, ap) (IS_NUMERIC_COERCIBLE(v) || IS_POINTER_COERCIBLE(v, ap))
 
 struct Table;
 
 /* lexical tokens */
 enum LexToken
 {
-    /* 0x00 */ TokenNone, 
+    /* 0x00 */ TokenNone,
     /* 0x01 */ TokenComma,
-    /* 0x02 */ TokenAssign, TokenAddAssign, TokenSubtractAssign, TokenMultiplyAssign, TokenDivideAssign, TokenModulusAssign,
-    /* 0x08 */ TokenShiftLeftAssign, TokenShiftRightAssign, TokenArithmeticAndAssign, TokenArithmeticOrAssign, TokenArithmeticExorAssign,
-    /* 0x0d */ TokenQuestionMark, TokenColon, 
-    /* 0x0f */ TokenLogicalOr, 
-    /* 0x10 */ TokenLogicalAnd, 
-    /* 0x11 */ TokenArithmeticOr, 
-    /* 0x12 */ TokenArithmeticExor, 
-    /* 0x13 */ TokenAmpersand, 
-    /* 0x14 */ TokenEqual, TokenNotEqual, 
-    /* 0x16 */ TokenLessThan, TokenGreaterThan, TokenLessEqual, TokenGreaterEqual,
-    /* 0x1a */ TokenShiftLeft, TokenShiftRight, 
-    /* 0x1c */ TokenPlus, TokenMinus, 
-    /* 0x1e */ TokenAsterisk, TokenSlash, TokenModulus,
-    /* 0x21 */ TokenIncrement, TokenDecrement, TokenUnaryNot, TokenUnaryExor, TokenSizeof, TokenCast,
-    /* 0x27 */ TokenLeftSquareBracket, TokenRightSquareBracket, TokenDot, TokenArrow, 
-    /* 0x2b */ TokenOpenBracket, TokenCloseBracket,
-    /* 0x2d */ TokenIdentifier, TokenIntegerConstant, TokenFPConstant, TokenStringConstant, TokenCharacterConstant,
-    /* 0x32 */ TokenSemicolon, TokenEllipsis,
-    /* 0x34 */ TokenLeftBrace, TokenRightBrace,
-    /* 0x36 */ TokenIntType, TokenCharType, TokenFloatType, TokenDoubleType, TokenVoidType, TokenEnumType,
-    /* 0x3c */ TokenLongType, TokenSignedType, TokenShortType, TokenStaticType, TokenAutoType, TokenRegisterType, TokenExternType, TokenStructType, TokenUnionType, TokenUnsignedType, TokenTypedef,
-    /* 0x46 */ TokenContinue, TokenDo, TokenElse, TokenFor, TokenGoto, TokenIf, TokenWhile, TokenBreak, TokenSwitch, TokenCase, TokenDefault, TokenReturn,
-    /* 0x52 */ TokenHashDefine, TokenHashInclude, TokenHashIf, TokenHashIfdef, TokenHashIfndef, TokenHashElse, TokenHashEndif,
-    /* 0x59 */ TokenNew, TokenDelete,
+    /* 0x02 */ TokenAssign,
+    TokenAddAssign,
+    TokenSubtractAssign,
+    TokenMultiplyAssign,
+    TokenDivideAssign,
+    TokenModulusAssign,
+    /* 0x08 */ TokenShiftLeftAssign,
+    TokenShiftRightAssign,
+    TokenArithmeticAndAssign,
+    TokenArithmeticOrAssign,
+    TokenArithmeticExorAssign,
+    /* 0x0d */ TokenQuestionMark,
+    TokenColon,
+    /* 0x0f */ TokenLogicalOr,
+    /* 0x10 */ TokenLogicalAnd,
+    /* 0x11 */ TokenArithmeticOr,
+    /* 0x12 */ TokenArithmeticExor,
+    /* 0x13 */ TokenAmpersand,
+    /* 0x14 */ TokenEqual,
+    TokenNotEqual,
+    /* 0x16 */ TokenLessThan,
+    TokenGreaterThan,
+    TokenLessEqual,
+    TokenGreaterEqual,
+    /* 0x1a */ TokenShiftLeft,
+    TokenShiftRight,
+    /* 0x1c */ TokenPlus,
+    TokenMinus,
+    /* 0x1e */ TokenAsterisk,
+    TokenSlash,
+    TokenModulus,
+    /* 0x21 */ TokenIncrement,
+    TokenDecrement,
+    TokenUnaryNot,
+    TokenUnaryExor,
+    TokenSizeof,
+    TokenCast,
+    /* 0x27 */ TokenLeftSquareBracket,
+    TokenRightSquareBracket,
+    TokenDot,
+    TokenArrow,
+    /* 0x2b */ TokenOpenBracket,
+    TokenCloseBracket,
+    /* 0x2d */ TokenIdentifier,
+    TokenIntegerConstant,
+    TokenFPConstant,
+    TokenStringConstant,
+    TokenCharacterConstant,
+    /* 0x32 */ TokenSemicolon,
+    TokenEllipsis,
+    /* 0x34 */ TokenLeftBrace,
+    TokenRightBrace,
+    /* 0x36 */ TokenIntType,
+    TokenCharType,
+    TokenFloatType,
+    TokenDoubleType,
+    TokenVoidType,
+    TokenEnumType,
+    /* 0x3c */ TokenLongType,
+    TokenSignedType,
+    TokenShortType,
+    TokenStaticType,
+    TokenAutoType,
+    TokenRegisterType,
+    TokenExternType,
+    TokenStructType,
+    TokenUnionType,
+    TokenUnsignedType,
+    TokenTypedef,
+    /* 0x46 */ TokenContinue,
+    TokenDo,
+    TokenElse,
+    TokenFor,
+    TokenGoto,
+    TokenIf,
+    TokenWhile,
+    TokenBreak,
+    TokenSwitch,
+    TokenCase,
+    TokenDefault,
+    TokenReturn,
+    /* 0x52 */ TokenHashDefine,
+    TokenHashInclude,
+    TokenHashIf,
+    TokenHashIfdef,
+    TokenHashIfndef,
+    TokenHashElse,
+    TokenHashEndif,
+    /* 0x59 */ TokenNew,
+    TokenDelete,
     /* 0x5b */ TokenOpenMacroBracket,
-    /* 0x5c */ TokenEOF, TokenEndOfLine, TokenEndOfFunction
+    /* 0x5c */ TokenEOF,
+    TokenEndOfLine,
+    TokenEndOfFunction
 };
 
 /* used in dynamic memory allocation */
@@ -102,90 +170,90 @@ struct AllocNode
 /* whether we're running or skipping code */
 enum RunMode
 {
-    RunModeRun,                 /* we're running code as we parse it */
-    RunModeSkip,                /* skipping code, not running */
-    RunModeReturn,              /* returning from a function */
-    RunModeCaseSearch,          /* searching for a case label */
-    RunModeBreak,               /* breaking out of a switch/while/do */
-    RunModeContinue,            /* as above but repeat the loop */
-    RunModeGoto                 /* searching for a goto label */
+    RunModeRun,        /* we're running code as we parse it */
+    RunModeSkip,       /* skipping code, not running */
+    RunModeReturn,     /* returning from a function */
+    RunModeCaseSearch, /* searching for a case label */
+    RunModeBreak,      /* breaking out of a switch/while/do */
+    RunModeContinue,   /* as above but repeat the loop */
+    RunModeGoto        /* searching for a goto label */
 };
 
 /* parser state - has all this detail so we can parse nested files */
 struct ParseState
 {
-    const unsigned char *Pos;   /* the character position in the source text */
-    char *FileName;             /* what file we're executing (registered string) */
-    short int Line;             /* line number we're executing */
-    short int CharacterPos;     /* character/column in the line we're executing */
-    enum RunMode Mode;          /* whether to skip or run code */
-    int SearchLabel;            /* what case label we're searching for */
-    const char *SearchGotoLabel;/* what goto label we're searching for */
-    const char *SourceText;     /* the entire source text */
-    short int HashIfLevel;      /* how many "if"s we're nested down */
-    short int HashIfEvaluateToLevel;    /* if we're not evaluating an if branch, what the last evaluated level was */
-    char DebugMode;             /* debugging mode */
+    const unsigned char *Pos;        /* the character position in the source text */
+    char *FileName;                  /* what file we're executing (registered string) */
+    short int Line;                  /* line number we're executing */
+    short int CharacterPos;          /* character/column in the line we're executing */
+    enum RunMode Mode;               /* whether to skip or run code */
+    int SearchLabel;                 /* what case label we're searching for */
+    const char *SearchGotoLabel;     /* what goto label we're searching for */
+    const char *SourceText;          /* the entire source text */
+    short int HashIfLevel;           /* how many "if"s we're nested down */
+    short int HashIfEvaluateToLevel; /* if we're not evaluating an if branch, what the last evaluated level was */
+    char DebugMode;                  /* debugging mode */
 };
 
 /* values */
 enum BaseType
 {
-    TypeVoid,                   /* no type */
-    TypeInt,                    /* integer */
-    TypeShort,                  /* short integer */
-    TypeChar,                   /* a single character (unsigned) */
-    TypeLong,                   /* long integer */
-    TypeUnsignedInt,            /* unsigned integer */
-    TypeUnsignedShort,          /* unsigned short integer */
-    TypeUnsignedLong,           /* unsigned long integer */
+    TypeVoid,          /* no type */
+    TypeInt,           /* integer */
+    TypeShort,         /* short integer */
+    TypeChar,          /* a single character (unsigned) */
+    TypeLong,          /* long integer */
+    TypeUnsignedInt,   /* unsigned integer */
+    TypeUnsignedShort, /* unsigned short integer */
+    TypeUnsignedLong,  /* unsigned long integer */
 #ifndef NO_FP
-    TypeFP,                     /* floating point */
+    TypeFP, /* floating point */
 #endif
-    TypeFunction,               /* a function */
-    TypeMacro,                  /* a macro */
-    TypePointer,                /* a pointer */
-    TypeArray,                  /* an array of a sub-type */
-    TypeStruct,                 /* aggregate type */
-    TypeUnion,                  /* merged type */
-    TypeEnum,                   /* enumerated integer type */
-    TypeGotoLabel,              /* a label we can "goto" */
-    Type_Type                   /* a type for storing types */
+    TypeFunction,  /* a function */
+    TypeMacro,     /* a macro */
+    TypePointer,   /* a pointer */
+    TypeArray,     /* an array of a sub-type */
+    TypeStruct,    /* aggregate type */
+    TypeUnion,     /* merged type */
+    TypeEnum,      /* enumerated integer type */
+    TypeGotoLabel, /* a label we can "goto" */
+    Type_Type      /* a type for storing types */
 };
 
 /* data type */
 struct ValueType
 {
-    enum BaseType Base;             /* what kind of type this is */
-    int ArraySize;                  /* the size of an array type */
-    int Sizeof;                     /* the storage required */
-    int AlignBytes;                 /* the alignment boundary of this type */
-    const char *Identifier;         /* the name of a struct or union */
-    struct ValueType *FromType;     /* the type we're derived from (or NULL) */
-    struct ValueType *DerivedTypeList;  /* first in a list of types derived from this one */
-    struct ValueType *Next;         /* next item in the derived type list */
-    struct Table *Members;          /* members of a struct or union */
-    int OnHeap;                     /* true if allocated on the heap */
-    int StaticQualifier;            /* true if it's a static */
+    enum BaseType Base;                /* what kind of type this is */
+    int ArraySize;                     /* the size of an array type */
+    int Sizeof;                        /* the storage required */
+    int AlignBytes;                    /* the alignment boundary of this type */
+    const char *Identifier;            /* the name of a struct or union */
+    struct ValueType *FromType;        /* the type we're derived from (or NULL) */
+    struct ValueType *DerivedTypeList; /* first in a list of types derived from this one */
+    struct ValueType *Next;            /* next item in the derived type list */
+    struct Table *Members;             /* members of a struct or union */
+    int OnHeap;                        /* true if allocated on the heap */
+    int StaticQualifier;               /* true if it's a static */
 };
 
 /* function definition */
 struct FuncDef
 {
-    struct ValueType *ReturnType;   /* the return value type */
-    int NumParams;                  /* the number of parameters */
-    int VarArgs;                    /* has a variable number of arguments after the explicitly specified ones */
-    struct ValueType **ParamType;   /* array of parameter types */
-    char **ParamName;               /* array of parameter names */
-    void (*Intrinsic)();            /* intrinsic call address or NULL */
-    struct ParseState Body;         /* lexical tokens of the function body if not intrinsic */
+    struct ValueType *ReturnType; /* the return value type */
+    int NumParams;                /* the number of parameters */
+    int VarArgs;                  /* has a variable number of arguments after the explicitly specified ones */
+    struct ValueType **ParamType; /* array of parameter types */
+    char **ParamName;             /* array of parameter names */
+    void (*Intrinsic)();          /* intrinsic call address or NULL */
+    struct ParseState Body;       /* lexical tokens of the function body if not intrinsic */
 };
 
 /* macro definition */
 struct MacroDef
 {
-    int NumParams;                  /* the number of parameters */
-    char **ParamName;               /* array of parameter names */
-    struct ParseState Body;         /* lexical tokens of the function body if not intrinsic */
+    int NumParams;          /* the number of parameters */
+    char **ParamName;       /* array of parameter names */
+    struct ParseState Body; /* lexical tokens of the function body if not intrinsic */
 };
 
 /* values */
@@ -199,31 +267,31 @@ union AnyValue
     unsigned int UnsignedInteger;
     unsigned long UnsignedLongInteger;
     char *Identifier;
-    char ArrayMem[2];               /* placeholder for where the data starts, doesn't point to it */
+    char ArrayMem[2]; /* placeholder for where the data starts, doesn't point to it */
     struct ValueType *Typ;
     struct FuncDef FuncDef;
     struct MacroDef MacroDef;
 #ifndef NO_FP
     double FP;
 #endif
-    void *Pointer;                  /* unsafe native pointers */
+    void *Pointer; /* unsafe native pointers */
 };
 
 struct Value
 {
-    struct ValueType *Typ;          /* the type of this value */
-    union AnyValue *Val;            /* pointer to the AnyValue which holds the actual content */
-    struct Value *LValueFrom;       /* if an LValue, this is a Value our LValue is contained within (or NULL) */
-    char ValOnHeap;                 /* the AnyValue is on the heap (but this Value is on the stack) */
-    char ValOnStack;                /* the AnyValue is on the stack along with this Value */
-    char IsLValue;                  /* is modifiable and is allocated somewhere we can usefully modify it */
+    struct ValueType *Typ;    /* the type of this value */
+    union AnyValue *Val;      /* pointer to the AnyValue which holds the actual content */
+    struct Value *LValueFrom; /* if an LValue, this is a Value our LValue is contained within (or NULL) */
+    char ValOnHeap;           /* the AnyValue is on the heap (but this Value is on the stack) */
+    char ValOnStack;          /* the AnyValue is on the stack along with this Value */
+    char IsLValue;            /* is modifiable and is allocated somewhere we can usefully modify it */
 };
 
 /* hash table data structure */
 struct TableEntry
 {
-    struct TableEntry *Next;        /* next item in this hash chain */
-    const char *DeclFileName;       /* where the variable was declared */
+    struct TableEntry *Next;  /* next item in this hash chain */
+    const char *DeclFileName; /* where the variable was declared */
     unsigned short DeclLine;
     unsigned short DeclColumn;
 
@@ -231,22 +299,22 @@ struct TableEntry
     {
         struct ValueEntry
         {
-            char *Key;              /* points to the shared string table */
-            struct Value *Val;      /* the value we're storing */
-        } v;                        /* used for tables of values */
-        
-        char Key[1];                /* dummy size - used for the shared string table */
-        
-        struct BreakpointEntry      /* defines a breakpoint */
+            char *Key;         /* points to the shared string table */
+            struct Value *Val; /* the value we're storing */
+        } v;                   /* used for tables of values */
+
+        char Key[1]; /* dummy size - used for the shared string table */
+
+        struct BreakpointEntry /* defines a breakpoint */
         {
             const char *FileName;
             short int Line;
             short int CharacterPos;
         } b;
-        
+
     } p;
 };
-    
+
 struct Table
 {
     short Size;
@@ -254,22 +322,18 @@ struct Table
     struct TableEntry **HashTable;
 };
 
-
-
 /* stack frame for function calls */
 struct StackFrame
 {
-    struct ParseState ReturnParser;         /* how we got here */
-    const char *FuncName;                   /* the name of the function we're in */
-    struct Value *ReturnValue;              /* copy the return value here */
-    struct Value **Parameter;               /* array of parameter values */
-    int NumParams;                          /* the number of parameters */
-    struct Table LocalTable;                /* the local variables and parameters */
+    struct ParseState ReturnParser; /* how we got here */
+    const char *FuncName;           /* the name of the function we're in */
+    struct Value *ReturnValue;      /* copy the return value here */
+    struct Value **Parameter;       /* array of parameter values */
+    int NumParams;                  /* the number of parameters */
+    struct Table LocalTable;        /* the local variables and parameters */
     struct TableEntry *LocalHashTable[LOCAL_TABLE_SIZE];
-    struct StackFrame *PreviousStackFrame;  /* the next lower stack frame */
+    struct StackFrame *PreviousStackFrame; /* the next lower stack frame */
 };
-
-extern struct StackFrame *TopStackFrame;
 
 /* lexer state */
 enum LexMode
@@ -321,13 +385,28 @@ struct OutputStream
 };
 
 /* possible results of parsing a statement */
-enum ParseResult { ParseResultEOF, ParseResultError, ParseResultOk };
+enum ParseResult
+{
+    ParseResultEOF,
+    ParseResultError,
+    ParseResultOk
+};
 
 /* globals */
 extern void *HeapStackTop;
 extern struct Table GlobalTable;
+// extern struct StackFrame *TopStackFrame;
 
+// #ifdef __cplusplus
+// extern "C"
+// {
+// #endif
 
+//     extern struct StackFrame *TopStackFrame;
+
+// #ifdef __cplusplus
+// }
+// #endif
 
 extern struct ValueType UberType;
 extern struct ValueType IntType;
@@ -346,12 +425,7 @@ extern struct ValueType *CharArrayType;
 extern struct ValueType *VoidPtrType;
 extern char *StrEmpty;
 extern struct PointerValue NULLPointer;
-
-extern struct LibraryFunction CLibrary[]; 
-// extern "C" struct LibraryFunction CLibrary[];          //error: expected identifier or '(' before string constant
-// extern struct LibraryFunction CLibrary[];           //报conflicting declaration of 'LibraryFunction CLibrary []' with 'C' linkage
-// struct LibraryFunction CLibrary[];                  //报这个错误，storage size of 'CLibrary' isn't known
-
+extern struct LibraryFunction CLibrary[];
 extern struct LibraryFunction PlatformLibrary[];
 extern IOFILE *CStdOut;
 
@@ -426,7 +500,7 @@ void HeapFreeMem(void *Mem);
 
 /* variable.c */
 void VariableInit();
-// void VariableCleanup();
+void VariableCleanup();
 void VariableFree(struct Value *Val);
 void VariableTableCleanup(struct Table *HashTable);
 void *VariableAlloc(struct ParseState *Parser, int Size, int OnHeap);
@@ -447,18 +521,18 @@ struct Value *VariableStringLiteralGet(char *Ident);
 void VariableStringLiteralDefine(char *Ident, struct Value *Val);
 void *VariableDereferencePointer(struct ParseState *Parser, struct Value *PointerValue, struct Value **DerefVal, int *DerefOffset, struct ValueType **DerefType, int *DerefIsLValue);
 
-/* clibrary.c */   //lyx
-// void BasicIOInit();
-// void LibraryInit();
-// void LibraryAdd(struct Table *GlobalTable, const char *LibraryName, struct LibraryFunction *FuncList);
-// void CLibraryInit();
-// void PrintCh(char OutCh);
-// void PrintSimpleInt(long Num);
-// void PrintInt(long Num, int FieldWidth, int ZeroPad, int LeftJustify);
-// void PrintStr(const char *Str);
-// void PrintFP(double Num);
-// void PrintType(struct ValueType *Typ);
-// void LibPrintf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);
+/* clibrary.c */
+void BasicIOInit();
+void LibraryInit();
+void LibraryAdd(struct Table *GlobalTable, const char *LibraryName, struct LibraryFunction *FuncList);
+void CLibraryInit();
+void PrintCh(char OutCh);
+void PrintSimpleInt(long Num);
+void PrintInt(long Num, int FieldWidth, int ZeroPad, int LeftJustify);
+void PrintStr(const char *Str);
+void PrintFP(double Num);
+void PrintType(struct ValueType *Typ);
+void LibPrintf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);
 
 /* platform.c */
 /* the following are defined in picoc.h:
@@ -475,7 +549,7 @@ void PlatformInit();
 void PlatformCleanup();
 char *PlatformGetLine(char *Buf, int MaxLen, const char *Prompt);
 int PlatformGetCharacter();
-void PlatformPutc(unsigned char OutCh, FILE * fout);
+void PlatformPutc(unsigned char OutCh, FILE *fout);
 void PlatformErrorPrefix(struct ParseState *Parser);
 void PlatformPrintf(const char *Format, ...);
 void PlatformVPrintf(const char *Format, va_list Args);
@@ -496,7 +570,6 @@ extern int DebugManualBreak;
 void DebugInit();
 void DebugCleanup();
 void DebugCheckStatement(struct ParseState *Parser);
-
 
 /* stdio.c */
 extern const char StdioDefs[];
@@ -531,8 +604,8 @@ extern const char StdboolDefs[];
 void StdboolSetupFunc(void);
 
 /* unistd.c */
-//extern const char UnistdDefs[];
-//extern struct LibraryFunction UnistdFunctions[];
-//void UnistdSetupFunc(void);
+// extern const char UnistdDefs[];
+// extern struct LibraryFunction UnistdFunctions[];
+// void UnistdSetupFunc(void);
 
 #endif /* INTERPRETER_H */

@@ -1,6 +1,7 @@
-#include <Arduino.h>
-#include "myHeader.h"
-#include "shield.h"
+#include "Arduino.h"
+
+#include "main.h"
+
 
 String GetRidOfurlCharacters(String urlChars)
 {
@@ -38,6 +39,22 @@ String GetRidOfurlCharacters(String urlChars)
   
 }
 
+
+String RunningProgramGui()
+{
+
+  //sendContent(WebArgumentsReceivedInput );
+
+  //Serial.println("Program is running. CHecking for goto statemets");
+
+
+
+
+  String WebOut = String(MobileFreindlyWidth) + String(F("<form action='input'>"))  + HTMLout + String(F("</form>"));
+
+
+  return WebOut;
+}
 
 
 

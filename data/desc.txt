@@ -1,0 +1,16 @@
+   /d/pin -> reports value of pin d
+   /d/pin/1 or 0 -> sets the pin pin to 1 or 0
+   /a/0 -> reads and reports value on A0
+   /a/pin/value -> sets pwm value for pin pin over the range 0 to 1023
+   /m/pin -> sets pin pin to any of OUTPUT, INPUT, or INPUT_PULLUP
+   /p/a/interval -> update MTQQ Broker and MySQL with values of A0 every interval msec
+   /p/Dn/interval - > update MQTT Broker and MySQL with value of digitan pin n
+   /p/DC/n -> update MQTT Broker and MySQL every time pin Dn changes value
+   /S/n/interval - > set pwm pulse width for pin Dn to interval millisec
+   /files/name -> send file name from spiffs as a http response with appropriate content-type
+   /f/freq -> set pwm frequency from D1Mini for freq hertz
+   /draw/name -> draws file name from spiffs to the TFT display attached to the D1Mini
+   /cgi-bin/weather.exe -> sends back a web page whowing weather as measured by BME280 sensor
+   /sendfile/name -> send file name from spiffs as a http response with appropriate content-type
+   /rfidLock -> sets the output controlling rfidLock to high
+   /desc -> supplies the description of D1Mini commands on a web server page

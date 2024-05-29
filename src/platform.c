@@ -5,6 +5,8 @@
 #include "interpreter.h"
 #include <stdarg.h>
 #include <Arduino.h>
+
+#include "myVar.h"
 /* the value passed to exit() */
 int PicocExitValue = 0;
 
@@ -50,10 +52,10 @@ void sPrintln(char * what);
 /* free memory */
 void PicocCleanup()
 {    
-    int free = system_get_free_heap_size();
+    // int free = system_get_free_heap_size();
     char fm[]="In PicocCleanup freeMemory=";
     Ssend((char *)&fm);
-    DebugPrintInt(free);
+    // DebugPrintInt(free);
     DebugCleanup(); 
   //Ssend("Done DebugCleanup\n");
 #ifndef NO_HASH_INCLUDE
@@ -63,41 +65,41 @@ void PicocCleanup()
   Ssend("Doing ParseCleanup\n");
     //ParseCleanup(); 
   Ssend("Done ParseCleanup\n");
-  free = system_get_free_heap_size();
+//   free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    sPrintInt(free);
+    // sPrintInt(free);
   Ssend("Doing LexCleanup\n");
     LexCleanup(); 
   Ssend("Done LexCleanup\n");
-  free = system_get_free_heap_size();
+//   free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    sPrintInt(free);
+    // sPrintInt(free);
   Ssend("Doing VariableCleanup\n");
  //   VariableCleanup(); 
   Ssend("Done VariableCleanup\n");
-  free = system_get_free_heap_size();
+//   free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    sPrintInt(free);
+    // sPrintInt(free);
  //   TypeCleanup(); 
   Ssend("Done TypeCleanup\n");
-  free = system_get_free_heap_size();
+//   free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    sPrintInt(free);
+    // sPrintInt(free);
  //   TableStrFree(); 
   Ssend("Done TableStrFree\n");
-  free = system_get_free_heap_size();
+//   free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    sPrintInt(free);
+    // sPrintInt(free);
   //  HeapCleanup(); 
   Ssend("Done HeapCleanup\n");
-  free = system_get_free_heap_size();
+//   free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    sPrintInt(free);
+    // sPrintInt(free);
     PlatformCleanup(); 
   Ssend("Done PlatformCleanup\n");
-  free = system_get_free_heap_size();
+//   free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    sPrintInt(free);
+    // sPrintInt(free);
 }
 
 /* platform-dependent code for running programs */

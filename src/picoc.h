@@ -14,15 +14,13 @@
 #else
 #define PICOC_VERSION "v2.2"
 #endif
-
 #define BUFSIZE 12000
 #define HEAP_SIZE 45000
-
-// void sendContent(char *it); 
-// extern void send(char *it);          //lyx
-// extern void sendc(char it);
-// extern void sendln(char * it);
-// extern void sprint(char * what);
+void sendContent(char *it); 
+extern void send(char *it);
+extern void sendc(char it);
+extern void sendln(char * it);
+extern void sprint(char * what);
 
 /* handy definitions */
 #ifndef TRUE
@@ -64,6 +62,6 @@ extern int PicocExitValue;
 
 
 /* include.c */
-void PicocIncludeAllSystemHeaders(int inctmpl);
+ void PicocIncludeAllSystemHeaders(int inctmpl);
 
 #endif /* PICOC_H */

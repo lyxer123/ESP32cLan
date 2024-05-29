@@ -3,7 +3,8 @@
  
 #include "picoc.h"
 #include "interpreter.h"
-#include "myHeader.h"
+
+#include "myVar.h"
 
 #ifndef NO_HASH_INCLUDE
 
@@ -83,9 +84,7 @@ void PicocIncludeAllSystemHeaders(int inctmpl)
 		      IncludeFile("usefull.h");
     }
 }
-
-char fileExists(char * fileName);               //lyx，用的别的文件ESP32Program.ino中的函数，需要再次申明下？
-
+char fileExists(char * fileName);
 /* include one of a number of predefined libraries, or perhaps an actual file */
 void IncludeFile(char *FileName)
 {

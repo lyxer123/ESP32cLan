@@ -4,6 +4,8 @@ void Ssend(char * what);
 #include "picoc.h"
 #include "interpreter.h"
 
+#include "myVar.h"
+
 void CurLinePrint(struct ParseState * Parser);
 
 void PrintLines(struct  ParseState * Parser);
