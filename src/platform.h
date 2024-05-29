@@ -2,6 +2,8 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
+#include <Arduino.h>
+
 /* configurable options */
 /* select your host type (or do it in the Makefile):
  * #define  WIN32

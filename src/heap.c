@@ -3,6 +3,7 @@
  * you can define USE_MALLOC_HEAP to use your system's own malloc() allocator */
  
 /* stack grows up from the bottom and heap grows down from the top of heap space */
+#include <Arduino.h>
 #include "interpreter.h"
 //#define USE_MALLOC_STACK
 #define FREELIST_BUCKETS 8                          /* freelists for 4, 8, 12 ... 32 byte allocs */

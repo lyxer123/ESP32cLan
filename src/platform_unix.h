@@ -1,6 +1,9 @@
 
 #ifndef PLATFORM_UNIX_H
 #define PLATFORM_UNIX_H
+#include <Arduino.h>
+
+
 #define BUILTIN_MINI_STDLIB
 //# define USE_MALLOC_STACK                   /* stack is allocated using malloc() */
 //# define USE_MALLOC_HEAP                    /* heap is allocated using malloc() */

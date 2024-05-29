@@ -1,4 +1,5 @@
 /* picoc parser - parses source and executes statements */
+#include <Arduino.h>
 void Ssend(char * what);
 #define DEBUGP Ssend
 #include "picoc.h"

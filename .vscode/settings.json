@@ -3,6 +3,8 @@
     "stm32-for-vscode.makePath": false,
     "stm32-for-vscode.armToolchainPath": false,
     "files.associations": {
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "interpreter.h": "c",
+        "globals.h": "c"
     }
 }

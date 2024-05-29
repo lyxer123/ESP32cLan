@@ -1,5 +1,7 @@
 /* picoc mini standard C library - provides an optional tiny C standard library and built in functions
  * if BUILTIN_MINI_STDLIB is defined */
+#include <Arduino.h>
+
 #include "globals.h"
 #include "myVar.h"
 

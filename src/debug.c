@@ -1,4 +1,6 @@
 /* picoc interactive debugger */
+#include <Arduino.h>
+
 #include "myVar.h"
 
 

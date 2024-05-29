@@ -14,7 +14,7 @@
 // defining NEO_PIXEL includes Adafruit_NeoPixel support functions;
 //#define ePAPER
 // defining ePAPER includes 1.54 in ePaper Display from WaveShare
-
+#include <Arduino.h>
 #include "globals.h"
 #include "myVar.h"
 #include "utilities.h"

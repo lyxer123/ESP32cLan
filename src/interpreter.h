@@ -4,6 +4,8 @@
 
 #ifndef INTERPRETER_H
 #define INTERPRETER_H
+
+#include <Arduino.h>
 #include "picoc.h"
 #include "platform.h"
 

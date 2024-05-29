@@ -1,6 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
-
+#include <Arduino.h>
 void runProgram();
 extern String HTMLout;
 extern const char MobileFreindlyWidth[] PROGMEM;

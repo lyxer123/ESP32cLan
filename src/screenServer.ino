@@ -15,6 +15,7 @@
 // Version: 0.08
 
 // MIT licence applies, all text above must be included in derivative works
+#include <Arduino.h>
 #ifdef TFT
 //====================================================================================
 //                                  Definitions

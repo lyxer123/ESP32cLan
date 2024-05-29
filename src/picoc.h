@@ -3,6 +3,8 @@
 #ifndef PICOC_H
 #define PICOC_H
 
+#include <Arduino.h>
+
 //#define BLINKY
 //#define NO_HASH_INCLUDE
 

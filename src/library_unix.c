@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include "interpreter.h"
 #include "picoc.h"
 #include <unistd.h>

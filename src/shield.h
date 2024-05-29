@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #define D0 26
 #define D1 22
 #define D2 21

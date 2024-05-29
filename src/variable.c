@@ -1,6 +1,6 @@
 /* picoc variable storage. This provides ways of defining and accessing
  * variables */
- 
+#include <Arduino.h> 
 #include "interpreter.h"
 #include "globals.h"
 

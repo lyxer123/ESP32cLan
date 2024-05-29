@@ -1,4 +1,6 @@
 /* stdlib.h library for large systems - small embedded systems use clibrary.c instead */
+#include <Arduino.h>
+
 #include <stdio.h>
 #include <limits.h>
 #include "interpreter.h"
