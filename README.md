@@ -7,4 +7,4 @@
 * 3.esp8266版本的basic解释器：https://github.com/esp8266/Basic
 * 4.esp32的c语言：https://www.codeproject.com/Articles/5061494/Run-a-C-Language-Interpreter-on-Your-ESP32
 
-接近编译通过
+编译通过
