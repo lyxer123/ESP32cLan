@@ -3,6 +3,8 @@
 
 #include "myVar.h"
 
+#include "debug.h"
+
 
 #ifndef NO_DEBUGGER
 extern char SingleStep;
