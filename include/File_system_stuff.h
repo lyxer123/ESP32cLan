@@ -5,7 +5,7 @@
 #include "LittleFS.h"
 
 void SaveDataToFile(String fileNameForSave, String DataToSave);
-void BasicProgramWriteLine(int LineNumberToLookUp, String DataToWriteForProgramLine);
+// void BasicProgramWriteLine(int LineNumberToLookUp, String DataToWriteForProgramLine);
 String LoadDataFromFile(String fileNameForSave);
 
 bool OpenToWriteOnFlash(String fileNameForWrite);

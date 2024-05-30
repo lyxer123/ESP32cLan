@@ -54,10 +54,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "myVar.h"
 #include "picoc.h"
+#include "interpreter.h"
 
 extern char * Prompt;
 /* space for the the stack */
-extern char buf[BUFSIZE];
+// extern char buf[BUFSIZE];
 int picoc_main()
 {
     int i;

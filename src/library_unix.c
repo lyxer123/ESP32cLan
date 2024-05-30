@@ -11,7 +11,7 @@
 #include "library_unix.h"
 
 extern char literal;
-extern char buf[BUFSIZE];
+// extern char buf[BUFSIZE];
 extern char DebugBar[];
 void UnixSetupFunc()
 {    

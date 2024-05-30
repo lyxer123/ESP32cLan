@@ -4,6 +4,8 @@
 
 #include "globals.h"
 #include "File_system_stuff.h"
+#include "interpreter.h"
+
 
 void SaveDataToFile(String fileNameForSave, String DataToSave)
 {
@@ -27,7 +29,7 @@ void SaveDataToFile(String fileNameForSave, String DataToSave)
   return;
 }
 
-void BasicProgramWriteLine(int LineNumberToLookUp, String DataToWriteForProgramLine);
+// void BasicProgramWriteLine(int LineNumberToLookUp, String DataToWriteForProgramLine);
 String LoadDataFromFile(String fileNameForSave)
 {
   String WhatIwillReturn;
@@ -104,7 +106,7 @@ void CloseWriteOnFlash(void)
 void LoadBasicProgramFromFlash(String fileNameForRead)
 {
   fs::File f = LittleFS.open(fileNameForRead, "r");
-  f.read((uint8_t *)&buf, BUFSIZE);
+  f.read((uint8_t *)&buf, BUFSIZE);    
   return;
 }
 

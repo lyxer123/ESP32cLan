@@ -9,7 +9,7 @@
 #include <NTPClient.h>
 #include <Hershey.h>
 extern TFT_eSPI tft;
-extern char buf[BUFSIZE];
+// extern char buf[BUFSIZE];
 extern int indx;
 extern float temp,pressure,dp,rh;
 extern NTPClient timeClient;
