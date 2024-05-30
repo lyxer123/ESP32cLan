@@ -3,7 +3,7 @@
 #include "Arduino.h"
 #include "globals.h"
 #include "WiFi.h"
-#include "utilities.h"  // 包含头文件以声明 getValue
+
 #include "main.h"
 
 #ifdef OLED
