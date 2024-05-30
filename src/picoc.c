@@ -53,6 +53,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 
 #include "myVar.h"
+#include "picoc.h"
 
 extern char * Prompt;
 /* space for the the stack */
