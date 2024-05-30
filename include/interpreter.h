@@ -163,11 +163,11 @@ enum LexToken
 };
 
 /* used in dynamic memory allocation */
-struct AllocNode
-{
-    unsigned int Size;
-    struct AllocNode *NextFree;
-};
+// struct AllocNode
+// {
+//     unsigned int Size;
+//     struct AllocNode *NextFree;
+// };
 
 /* whether we're running or skipping code */
 enum RunMode
