@@ -2,6 +2,8 @@
 #include <Arduino.h>
 #include "interpreter.h"
 
+#include "mymath.h"
+
 #ifndef BUILTIN_MINI_STDLIB
 #ifndef NO_FP
 
