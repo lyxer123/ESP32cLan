@@ -2,6 +2,7 @@
 
 #include "main.h"
 #include "Web_GUI_Stuff.h"
+#include "globals.h"
 
 
 String GetRidOfurlCharacters(String urlChars)
