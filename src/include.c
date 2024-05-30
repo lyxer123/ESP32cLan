@@ -5,20 +5,21 @@
 #include "interpreter.h"
 #include "myVar.h"
 
+#include "include.h"
 
 
 #ifndef NO_HASH_INCLUDE
 
 char listIncludes=1;
 /* a list of libraries we can include */
-struct IncludeLibrary
-{
-    char *IncludeName;
-    void (*SetupFunction)(void);
-    struct LibraryFunction *FuncList;
-    const char *SetupCSource;
-    struct IncludeLibrary *NextLib;
-};
+// struct IncludeLibrary
+// {
+//     char *IncludeName;
+//     void (*SetupFunction)(void);
+//     struct LibraryFunction *FuncList;
+//     const char *SetupCSource;
+//     struct IncludeLibrary *NextLib;
+// };
 
 struct IncludeLibrary *IncludeLibList = NULL;
 void sprint(char * what);
