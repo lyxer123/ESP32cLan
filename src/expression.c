@@ -1,15 +1,18 @@
 /* picoc expression evaluator - a stack-based expression evaluation system
  * which handles operator precedence */
-#include <Arduino.h> 
+#include <Arduino.h>
 #include "interpreter.h"
-
 #include "myVar.h"
+#include "expression.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* whether evaluation is left to right for a given precedence level */
 #define IS_LEFT_TO_RIGHT(p) ((p) != 2 && (p) != 14)
 #define BRACKET_PRECEDENCE 20
 #define IS_TYPE_TOKEN(t) ((t) >= TokenIntType && (t) <= TokenUnsignedType)
-
 #define DEEP_PRECEDENCE (BRACKET_PRECEDENCE*1000)
 
 #ifdef DEBUG_EXPRESSIONS
@@ -20,33 +23,33 @@ void debugf(char *Format, ...)
 }
 #endif
 
-/* local prototypes */
-enum OperatorOrder
-{
-    OrderNone,
-    OrderPrefix,
-    OrderInfix,
-    OrderPostfix
-};
+// /* local prototypes */
+// enum OperatorOrder
+// {
+//     OrderNone,
+//     OrderPrefix,
+//     OrderInfix,
+//     OrderPostfix
+// };
 
-/* a stack of expressions we use in evaluation */
-struct ExpressionStack
-{
-    struct ExpressionStack *Next;       /* the next lower item on the stack */
-    struct Value *Val;                  /* the value for this stack node */
-    enum LexToken Op;                   /* the operator */
-    short unsigned int Precedence;      /* the operator precedence of this node */
-    unsigned char Order;                /* the evaluation order of this operator */
-};
+// /* a stack of expressions we use in evaluation */
+// struct ExpressionStack
+// {
+//     struct ExpressionStack *Next;       /* the next lower item on the stack */
+//     struct Value *Val;                  /* the value for this stack node */
+//     enum LexToken Op;                   /* the operator */
+//     short unsigned int Precedence;      /* the operator precedence of this node */
+//     unsigned char Order;                /* the evaluation order of this operator */
+// };
 
-/* operator precedence definitions */
-struct OpPrecedence
-{
-    unsigned int PrefixPrecedence:4;
-    unsigned int PostfixPrecedence:4;
-    unsigned int InfixPrecedence:4;
-    char *Name;
-};
+// /* operator precedence definitions */
+// struct OpPrecedence
+// {
+//     unsigned int PrefixPrecedence:4;
+//     unsigned int PostfixPrecedence:4;
+//     unsigned int InfixPrecedence:4;
+//     char *Name;
+// };
 
 /* NOTE: the order of this array must correspond exactly to the order of these tokens in enum LexToken */
 static struct OpPrecedence OperatorPrecedence[] =
@@ -1122,7 +1125,7 @@ int ExpressionParse(struct ParseState *Parser, struct Value **Result)
                         ExpressionStackPushOperator(Parser, &StackTop, OrderInfix, Token, Precedence);
                         PrefixState = TRUE;
                         
-                        switch (Token)
+                                                switch (Token)
                         {
                             case TokenQuestionMark: TernaryDepth++; break;
                             case TokenColon: TernaryDepth--; break;
