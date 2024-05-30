@@ -6,6 +6,7 @@ void Ssend(char * what);
 #include "interpreter.h"
 
 #include "myVar.h"
+#include "parse.h"
 
 void CurLinePrint(struct ParseState * Parser);
 
