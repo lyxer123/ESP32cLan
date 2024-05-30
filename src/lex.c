@@ -2,6 +2,8 @@
 #include <Arduino.h>
 #include "interpreter.h"
 
+#include "lex.h"
+
 #ifdef NO_CTYPE
 #define isalpha(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z'))
 #define isdigit(c) ((c) >= '0' && (c) <= '9')
@@ -30,12 +32,12 @@
 static union AnyValue LexAnyValue;
 static struct Value LexValue = { TypeVoid, (void*)&LexAnyValue, FALSE, FALSE };
 
-struct ReservedWord
-{
-    const char *Word;
-    enum LexToken Token;
-    const char *SharedWord; /* word stored in shared string space */
-};
+// struct ReservedWord
+// {
+//     const char *Word;
+//     enum LexToken Token;
+//     const char *SharedWord; /* word stored in shared string space */
+// };
 
 static struct ReservedWord ReservedWords[] =
 {
@@ -85,12 +87,12 @@ static struct ReservedWord ReservedWords[] =
 };
 
 /* linked list of tokens used in interactive mode */
-struct TokenLine
-{
-    struct TokenLine *Next;
-    unsigned char *Tokens;
-    int NumBytes;
-};
+// struct TokenLine
+// {
+//     struct TokenLine *Next;
+//     unsigned char *Tokens;
+//     int NumBytes;
+// };
 
 static struct TokenLine *InteractiveHead = NULL;
 static struct TokenLine *InteractiveTail = NULL;
