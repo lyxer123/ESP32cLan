@@ -1,11 +1,6 @@
 #ifndef MYVAR_H
 #define MYVAR_H
 
-
-
-// void PicocInitialise(int StackSize);
-// void PicocIncludeAllSystemHeaders(int inctmpl);
-
 #ifdef __cplusplus
 extern "C" {
 #endif
