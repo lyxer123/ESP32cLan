@@ -4,6 +4,7 @@
 #include "myInterpreter.h"
 
 #include "myVar.h"
+#include "myType.h"
 
 /* some basic types */
 struct ValueType UberType;
