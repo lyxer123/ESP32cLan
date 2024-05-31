@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "myInterpreter.h"
 #include "myPicoc.h"
+#include "myPlatform_unix.h"
 
 /* mark where to end the program for platforms which require this */
 jmp_buf PicocExitBuf;

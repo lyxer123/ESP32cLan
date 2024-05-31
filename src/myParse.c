@@ -1,15 +1,15 @@
 /* picoc parser - parses source and executes statements */
 #include <Arduino.h>
-void Ssend(char * what);
-#define DEBUGP Ssend
+
 #include "myPicoc.h"
 #include "myInterpreter.h"
-
 #include "myVar.h"
 #include "myParse.h"
 
-void CurLinePrint(struct ParseState * Parser);
+void Ssend(char * what);
+#define DEBUGP Ssend
 
+void CurLinePrint(struct ParseState * Parser);
 void PrintLines(struct  ParseState * Parser);
 
 /* a chunk of heap-allocated tokens we'll cleanup when we're done */

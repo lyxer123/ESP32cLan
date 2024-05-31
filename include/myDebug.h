@@ -6,7 +6,6 @@
 #include "myInterpreter.h"
 
 #ifndef NO_DEBUGGER
-
 /* Constants */
 #define BREAKPOINT_TABLE_SIZE 21
 #define BREAKPOINT_HASH(p) ( ((unsigned long)(p)->FileName) ^ (((p)->Line << 16) | (0 << 16)) )

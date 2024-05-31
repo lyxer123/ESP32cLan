@@ -2,12 +2,12 @@
 
 #include <Arduino.h>
 #include "myInterpreter.h"
+#include "myStdbool.h"
 
 #ifndef BUILTIN_MINI_STDLIB
 
 static int trueValue = 1;
 static int falseValue = 0;
-
 
 /* structure definitions */
 const char StdboolDefs[] = "typedef int bool;";

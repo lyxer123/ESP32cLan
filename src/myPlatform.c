@@ -1,12 +1,13 @@
 /* picoc's interface to the underlying platform. most platform-specific code
  * is in platform/platform_XX.c and platform/library_XX.c */
 #include <Arduino.h> 
+#include <stdarg.h>
+
 #include "myPicoc.h"
 #include "myInterpreter.h"
-#include <stdarg.h>
-#include <Arduino.h>
-
 #include "myVar.h"
+#include "myPlatform.h"
+
 /* the value passed to exit() */
 int PicocExitValue = 0;
 

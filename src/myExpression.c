@@ -1,13 +1,14 @@
 /* picoc expression evaluator - a stack-based expression evaluation system
  * which handles operator precedence */
 #include <Arduino.h>
-#include "myInterpreter.h"
-#include "myVar.h"
-#include "myExpression.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "myInterpreter.h"
+#include "myVar.h"
+#include "myExpression.h"
 
 /* whether evaluation is left to right for a given precedence level */
 #define IS_LEFT_TO_RIGHT(p) ((p) != 2 && (p) != 14)

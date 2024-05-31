@@ -1,7 +1,7 @@
 /* picoc lexer - converts source text into a tokenised form */ 
 #include <Arduino.h>
-#include "myInterpreter.h"
 
+#include "myInterpreter.h"
 #include "myLex.h"
 
 #ifdef NO_CTYPE

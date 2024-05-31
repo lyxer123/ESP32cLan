@@ -429,7 +429,8 @@ extern char *StrEmpty;
 extern struct PointerValue NULLPointer;
 extern struct LibraryFunction CLibrary[];
 extern struct LibraryFunction PlatformLibrary[];
-extern IOFILE *CStdOut;
+
+// extern IOFILE *CStdOut;
 
 /* table.c */
 void TableInit();

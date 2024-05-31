@@ -1,8 +1,8 @@
 /* picoc interactive debugger */
 #include <Arduino.h>
-
 #include "myVar.h"
-
+#include <stdio.h>
+#include "myInterpreter.h"
 #include "myDebug.h"
 
 
@@ -10,8 +10,7 @@
 extern char SingleStep;
 extern char DebugBar[];
 extern char sendChunked;
-#include "myInterpreter.h"
-#include <stdio.h>
+
 
 #define BREAKPOINT_TABLE_SIZE 21
 #define BREAKPOINT_HASH(p) ( ((unsigned long)(p)->FileName) ^ (((p)->Line << 16) | (0 << 16)) )

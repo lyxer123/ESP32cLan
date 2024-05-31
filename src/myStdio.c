@@ -4,6 +4,7 @@
 #include <errno.h>
 #include "myInterpreter.h"
 #include "myPicoc.h"
+#include "myStdio.h"
 
 #ifndef BUILTIN_MINI_STDLIB
 #ifdef WIN32

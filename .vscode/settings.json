@@ -8,6 +8,7 @@
         "globals.h": "c",
         "library_unix.h": "c",
         "myinterpreter.h": "c",
-        "myvar.h": "c"
+        "myvar.h": "c",
+        "mypicoc.h": "c"
     }
 }

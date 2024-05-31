@@ -1,7 +1,6 @@
 #ifndef MYDATA_TYPES_H
 #define MYDATA_TYPES_H
 
-
 #include <Arduino.h>
 
 #define _INT32_ long

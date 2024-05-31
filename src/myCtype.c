@@ -3,6 +3,7 @@
 
 #include <ctype.h>
 #include "myInterpreter.h"
+#include "myCtype.h"
 
 // #include "ctype.h"
 

@@ -1,8 +1,8 @@
 /* string.h library for large systems - small embedded systems use clibrary.c instead */
 #include <Arduino.h>
-
-#include <errno.h>
+#include <errno.h>                                          //ESP32内置的errno.h头文件
 #include "myInterpreter.h"
+#include "myErrno.h"
 
 #ifndef BUILTIN_MINI_STDLIB
 
