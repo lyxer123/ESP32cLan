@@ -2,6 +2,7 @@
 #include <Arduino.h>
 
 #include "myInterpreter.h"
+#include "myStdlib.h"
 
 #ifndef BUILTIN_MINI_STDLIB
 

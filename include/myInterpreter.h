@@ -10,6 +10,7 @@
 #include "myPlatform.h"
 
 #include "globals.h"
+#include "myTable.h"
 
 #define BUILTIN_MINI_STDLIB
 #define USE_MALLOC_STACK
@@ -59,7 +60,7 @@ typedef FILE IOFILE;
 #define IS_NUMERIC_COERCIBLE(v) (IS_INTEGER_NUMERIC(v) || IS_FP(v))
 #define IS_NUMERIC_COERCIBLE_PLUS_POINTERS(v, ap) (IS_NUMERIC_COERCIBLE(v) || IS_POINTER_COERCIBLE(v, ap))
 
-struct Table;
+// struct Table;
 
 /* lexical tokens */
 enum LexToken
@@ -289,40 +290,9 @@ struct Value
     char IsLValue;            /* is modifiable and is allocated somewhere we can usefully modify it */
 };
 
-/* hash table data structure */
-struct TableEntry
-{
-    struct TableEntry *Next;  /* next item in this hash chain */
-    const char *DeclFileName; /* where the variable was declared */
-    unsigned short DeclLine;
-    unsigned short DeclColumn;
 
-    union TableEntryPayload
-    {
-        struct ValueEntry
-        {
-            char *Key;         /* points to the shared string table */
-            struct Value *Val; /* the value we're storing */
-        } v;                   /* used for tables of values */
 
-        char Key[1]; /* dummy size - used for the shared string table */
 
-        struct BreakpointEntry /* defines a breakpoint */
-        {
-            const char *FileName;
-            short int Line;
-            short int CharacterPos;
-        } b;
-
-    } p;
-};
-
-struct Table
-{
-    short Size;
-    short OnHeap;
-    struct TableEntry **HashTable;
-};
 
 /* stack frame for function calls */
 struct StackFrame
@@ -433,15 +403,15 @@ extern struct LibraryFunction PlatformLibrary[];
 // extern IOFILE *CStdOut;
 
 /* table.c */
-void TableInit();
-char *TableStrRegister(const char *Str);
-char *TableStrRegister2(const char *Str, int Len);
-void TableInitTable(struct Table *Tbl, struct TableEntry **HashTable, int Size, int OnHeap);
-int TableSet(struct Table *Tbl, char *Key, struct Value *Val, const char *DeclFileName, int DeclLine, int DeclColumn);
-int TableGet(struct Table *Tbl, const char *Key, struct Value **Val, const char **DeclFileName, int *DeclLine, int *DeclColumn);
-struct Value *TableDelete(struct Table *Tbl, const char *Key);
-char *TableSetIdentifier(struct Table *Tbl, const char *Ident, int IdentLen);
-void TableStrFree();
+// void TableInit();
+// char *TableStrRegister(const char *Str);
+// char *TableStrRegister2(const char *Str, int Len);
+// void TableInitTable(struct Table *Tbl, struct TableEntry **HashTable, int Size, int OnHeap);
+// int TableSet(struct Table *Tbl, char *Key, struct Value *Val, const char *DeclFileName, int DeclLine, int DeclColumn);
+// int TableGet(struct Table *Tbl, const char *Key, struct Value **Val, const char **DeclFileName, int *DeclLine, int *DeclColumn);
+// struct Value *TableDelete(struct Table *Tbl, const char *Key);
+// char *TableSetIdentifier(struct Table *Tbl, const char *Ident, int IdentLen);
+// void TableStrFree();
 
 /* lex.c */
 void LexInit();

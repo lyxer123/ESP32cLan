@@ -5,6 +5,8 @@
 #include "myInterpreter.h"
 #include "myPicoc.h"
 
+//这个文件内容不全，lyx
+
 #ifdef __cplusplus
 extern "C" {
 #endif

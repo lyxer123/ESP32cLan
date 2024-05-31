@@ -2,6 +2,7 @@
  * and the shared string table. */
 #include <Arduino.h> 
 #include "myInterpreter.h"
+#include "myTable.h"
 
 struct Table StringTable;
 struct TableEntry *StringHashTable[STRING_TABLE_SIZE];
