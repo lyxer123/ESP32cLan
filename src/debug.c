@@ -235,5 +235,4 @@ int DebugStep(struct ParseState * Parser)
          return ParseResultOk;
 }
 
-
 #endif /* !NO_DEBUGGER */

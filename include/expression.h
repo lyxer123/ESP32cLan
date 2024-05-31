@@ -53,13 +53,17 @@ void ExpressionStackPushValue(struct ParseState *Parser, struct ExpressionStack 
 void ExpressionStackPushLValue(struct ParseState *Parser, struct ExpressionStack **StackTop, struct Value *PushValue, int Offset);
 void ExpressionStackPushDereference(struct ParseState *Parser, struct ExpressionStack **StackTop, struct Value *DereferenceValue);
 void ExpressionPushInt(struct ParseState *Parser, struct ExpressionStack **StackTop, long IntValue);
+
 #ifndef NO_FP
 void ExpressionPushFP(struct ParseState *Parser, struct ExpressionStack **StackTop, double FPValue);
 #endif
+
 long ExpressionAssignInt(struct ParseState *Parser, struct Value *DestValue, long FromInt, int After);
+
 #ifndef NO_FP
 double ExpressionAssignFP(struct ParseState *Parser, struct Value *DestValue, double FromFP);
 #endif
+
 void ExpressionAssignToPointer(struct ParseState *Parser, struct Value *ToValue, struct Value *FromValue, const char *FuncName, int ParamNo, int AllowPointerCoercion);
 void ExpressionAssign(struct ParseState *Parser, struct Value *DestValue, struct Value *SourceValue, int Force, const char *FuncName, int ParamNo, int AllowPointerCoercion);
 void ExpressionQuestionMarkOperator(struct ParseState *Parser, struct ExpressionStack **StackTop, struct Value *BottomValue, struct Value *TopValue);

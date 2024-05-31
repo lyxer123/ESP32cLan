@@ -37,74 +37,7 @@ extern GxGDEP015OC1 display;    // 1.54" b/w display; //(io, -1, -1/*RST=D4*/ /*
 
 #define DBG_OUTPUT_PORT Serial
 /*
-
-   portions of the code are based upon the ESPBasic Arduino sketch developed by Michael Molinari
-   and modified by Rick Lunglhofer for the ESP32 and to replace the Basic Interpreter with a C
-   language interpreter along with enhancement to support additional displays and sensors.
-
-   for ESP8266Basic
-  The MIT License (MIT)
-
-  Copyright (c) 2015 Michael Molinari
-            (c) 2019 Rick Lunglhofer
-
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-  Significant speed improvements submited by cicciocb
-  Uploading of bas files improvement added by cicciocb
-
-
-  the C Language interpreter is based upon the picoc work of
-  Zik Saleeba and Copyright (c) 2009-2011.
-  The license is shown below:
-
-  picoc is published under the "New BSD License".
-  http://www.opensource.org/licenses/bsd-license.php
-  Copyright (c) 2009-2011, Zik Saleeba
-  All rights reserved.
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are
-  met:
-      Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-            Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in
-      the documentation and/or other materials provided with the
-      distribution.
-            Neither the name of the Zik Saleeba nor the names of its
-      contributors may be used to endorse or promote products derived
-      from this software without specific prior written permission.
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 */
-
-
 #define DEBUGP Serial
 #ifndef ESP32
 #define FS_NO_GLOBALS
@@ -649,46 +582,6 @@ OLEDDISPLAY_COLOR OLEDcolor;
 PROGMEM const char BasicVersion[] = "<h2>ESP32 picoc version v2.2 beta r C Interpreter</h2>";
 /*   PICOC LICENSE INFO
       _________________
-  Copyright
-  ---------
-
-  picoc is published under the "New BSD License".
-  http://www.opensource.org/licenses/bsd-license.php
-
-
-  Copyright (c) 2009-2011, Zik Saleeba
-  All rights reserved.
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are
-  met:
-
-      Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-
-      Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in
-      the documentation and/or other materials provided with the
-      distribution.
-
-      Neither the name of the Zik Saleeba nor the names of its
-      contributors may be used to endorse or promote products derived
-      from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-  Modified for ESP32, debugging, printf enhancements, and WebServer access by Rick Lunglhofer 2019
-
 */
 // SPI STUFF
 #include <SPI.h>
