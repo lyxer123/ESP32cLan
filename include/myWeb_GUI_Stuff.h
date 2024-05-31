@@ -1,5 +1,5 @@
-#ifndef WEB_GUI_STUFF_H
-#define WEB_GUI_STUFF_H
+#ifndef MYWEB_GUI_STUFF_H
+#define MYWEB_GUI_STUFF_H
 
 #include "Arduino.h"
 

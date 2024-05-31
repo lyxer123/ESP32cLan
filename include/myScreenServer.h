@@ -1,5 +1,5 @@
-#ifndef SCREENSERVER_H
-#define SCREENSERVER_H
+#ifndef MYSCREENSERVER_H
+#define MYSCREENSERVER_H
 
 #include <Arduino.h>
 

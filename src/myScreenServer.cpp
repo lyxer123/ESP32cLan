@@ -17,7 +17,7 @@
 // MIT licence applies, all text above must be included in derivative works
 #include <Arduino.h>
 
-#include "screenServer.h"
+#include "myScreenServer.h"
 #ifdef TFT
 //====================================================================================
 //                                  Definitions

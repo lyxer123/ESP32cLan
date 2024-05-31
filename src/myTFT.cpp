@@ -1,7 +1,7 @@
 #include <Arduino.h>
-#include "picoc.h"
+#include "myPicoc.h"
 
-#include "tft.h"
+#include "myTft.h"
 
 #ifdef TFT
 #include <TFT_eSPI.h> // Hardware-specific library

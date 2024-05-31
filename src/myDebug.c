@@ -3,14 +3,14 @@
 
 #include "myVar.h"
 
-#include "debug.h"
+#include "myDebug.h"
 
 
 #ifndef NO_DEBUGGER
 extern char SingleStep;
 extern char DebugBar[];
 extern char sendChunked;
-#include "interpreter.h"
+#include "myInterpreter.h"
 #include <stdio.h>
 
 #define BREAKPOINT_TABLE_SIZE 21

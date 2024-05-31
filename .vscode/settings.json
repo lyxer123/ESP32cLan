@@ -6,6 +6,8 @@
         "*.tcc": "cpp",
         "interpreter.h": "c",
         "globals.h": "c",
-        "library_unix.h": "c"
+        "library_unix.h": "c",
+        "myinterpreter.h": "c",
+        "myvar.h": "c"
     }
 }

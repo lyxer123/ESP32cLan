@@ -1,5 +1,5 @@
-#ifndef HEAP_H
-#define HEAP_H
+#ifndef MYHEAP_H
+#define MYHEAP_H
 
 #include <Arduino.h>
 

@@ -2,8 +2,8 @@
 #include <Arduino.h>
 
 #include <errno.h>
-#include "interpreter.h"
-#include "picoc.h"
+#include "myInterpreter.h"
+#include "myPicoc.h"
 
 #ifndef BUILTIN_MINI_STDLIB
 #ifdef WIN32

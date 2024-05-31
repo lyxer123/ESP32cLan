@@ -2,11 +2,11 @@
 #include <Arduino.h>
 void Ssend(char * what);
 #define DEBUGP Ssend
-#include "picoc.h"
-#include "interpreter.h"
+#include "myPicoc.h"
+#include "myInterpreter.h"
 
 #include "myVar.h"
-#include "parse.h"
+#include "myParse.h"
 
 void CurLinePrint(struct ParseState * Parser);
 

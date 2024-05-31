@@ -1,8 +1,8 @@
-#ifndef EXPRESSION_H
-#define EXPRESSION_H
+#ifndef MYEXPRESSION_H
+#define MYEXPRESSION_H
 
 #include <Arduino.h>
-#include "interpreter.h"
+#include "myInterpreter.h"
 #include "myVar.h"
 
 /* Macros for expression handling */

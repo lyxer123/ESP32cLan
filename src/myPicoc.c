@@ -2,7 +2,7 @@
  * how you're using picoc */
  
 /* include only picoc.h here - should be able to use it with only the external interfaces, no internals from interpreter.h */
-#include "picoc.h"
+#include "myPicoc.h"
 
 /* platform-dependent code for running programs is in this file */
 
@@ -53,8 +53,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 
 #include "myVar.h"
-#include "picoc.h"
-#include "interpreter.h"
+#include "myPicoc.h"
+#include "myInterpreter.h"
 
 extern char * Prompt;
 /* space for the the stack */

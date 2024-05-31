@@ -1,8 +1,8 @@
 /* picoc's interface to the underlying platform. most platform-specific code
  * is in platform/platform_XX.c and platform/library_XX.c */
 #include <Arduino.h> 
-#include "picoc.h"
-#include "interpreter.h"
+#include "myPicoc.h"
+#include "myInterpreter.h"
 #include <stdarg.h>
 #include <Arduino.h>
 

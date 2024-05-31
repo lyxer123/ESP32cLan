@@ -1,7 +1,7 @@
 /* picoc hash table module. This hash table code is used for both symbol tables
  * and the shared string table. */
 #include <Arduino.h> 
-#include "interpreter.h"
+#include "myInterpreter.h"
 
 struct Table StringTable;
 struct TableEntry *StringHashTable[STRING_TABLE_SIZE];

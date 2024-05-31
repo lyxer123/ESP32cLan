@@ -1,8 +1,8 @@
-#ifndef TFT_H
-#define TFT_H
+#ifndef MYTFT_H
+#define MYTFT_H
 
 #include <Arduino.h>
-#include "picoc.h"
+#include "myPicoc.h"
 
 #ifdef TFT
 #include <TFT_eSPI.h>

@@ -1,6 +1,6 @@
 
-#ifndef PLATFORM_UNIX_H
-#define PLATFORM_UNIX_H
+#ifndef MYPLATFORM_UNIX_H
+#define MYPLATFORM_UNIX_H
 #include <Arduino.h>
 
 

@@ -1,7 +1,7 @@
 /* picoc external interface. This should be the only header you need to use if
  * you're using picoc as a library. Internal details are in interpreter.h */
-#ifndef PICOC_H
-#define PICOC_H
+#ifndef MYPICOC_H
+#define MYPICOC_H
 
 #include <Arduino.h>
 

@@ -1,8 +1,8 @@
 /* picoc lexer - converts source text into a tokenised form */ 
 #include <Arduino.h>
-#include "interpreter.h"
+#include "myInterpreter.h"
 
-#include "lex.h"
+#include "myLex.h"
 
 #ifdef NO_CTYPE
 #define isalpha(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z'))

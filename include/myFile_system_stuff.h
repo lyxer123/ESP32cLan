@@ -1,5 +1,5 @@
-#ifndef FILE_SYSTEM_STUFF_H
-#define FILE_SYSTEM_STUFF_H
+#ifndef MYFILE_SYSTEM_STUFF_H
+#define MYFILE_SYSTEM_STUFF_H
 
 #include "Arduino.h"
 #include "LittleFS.h"

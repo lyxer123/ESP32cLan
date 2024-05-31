@@ -1,7 +1,7 @@
-#ifndef LIBRARY_UNIX_H
-#define LIBRARY_UNIX_H
+#ifndef MYLIBRARY_UNIX_H
+#define MYLIBRARY_UNIX_H
 
-#include "interpreter.h"
+#include "myInterpreter.h"
 
 /* Function declarations */
 void UnixSetupFunc(void);

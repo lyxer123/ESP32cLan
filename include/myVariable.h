@@ -1,7 +1,7 @@
-#ifndef VARIABLE_H
-#define VARIABLE_H
+#ifndef MYVARIABLE_H
+#define MYVARIABLE_H
 
-#include "interpreter.h"
+#include "myInterpreter.h"
 #include "globals.h"
 
 /* maximum size of a value to temporarily copy while we create a variable */

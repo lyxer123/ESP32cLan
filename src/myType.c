@@ -1,7 +1,7 @@
 /* picoc data type module. This manages a tree of data types and has facilities
  * for parsing data types. */
 #include <Arduino.h> 
-#include "interpreter.h"
+#include "myInterpreter.h"
 
 #include "myVar.h"
 

@@ -2,12 +2,12 @@
  * function prototypes. If you're just calling picoc you should look at the
  * external interface instead, in picoc.h */
 
-#ifndef INTERPRETER_H
-#define INTERPRETER_H
+#ifndef MYINTERPRETER_H
+#define MYINTERPRETER_H
 
 #include <Arduino.h>
-#include "picoc.h"
-#include "platform.h"
+#include "myPicoc.h"
+#include "myPlatform.h"
 
 #include "globals.h"
 

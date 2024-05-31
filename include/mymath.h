@@ -1,7 +1,7 @@
 #ifndef MYMATH_H
 #define MYMATH_H
 
-#include "interpreter.h"
+#include "myInterpreter.h"
 
 /* Function declarations */
 void MathSin(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);

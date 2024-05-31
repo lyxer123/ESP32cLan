@@ -44,7 +44,7 @@ extern GxGDEP015OC1 display;    // 1.54" b/w display; //(io, -1, -1/*RST=D4*/ /*
 #include <FS.h>
 #include <ESP8266WiFi.h>
 #else
-#include "shield.h"
+#include "myShield.h"
 // #include <SPIFFS.h>
 #include "LittleFS.h"
 #include <WiFi.h>
@@ -81,8 +81,8 @@ String ProgramName;
 String GlobalNames[200];
 int GlobalCount = 0;
 extern "C" {
-#include "picoc.h"
-#include "interpreter.h"
+#include "myPicoc.h"
+#include "myInterpreter.h"
   extern char listIncludes;
   void IncludeFile(char *FileName);
   void idrop(char * what);

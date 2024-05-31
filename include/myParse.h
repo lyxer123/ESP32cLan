@@ -1,7 +1,7 @@
-#ifndef PARSE_H
-#define PARSE_H
+#ifndef MYPARSE_H
+#define MYPARSE_H
 
-#include "interpreter.h"
+#include "myInterpreter.h"
 
 /* Function declarations */
 void ParseCleanup(void);

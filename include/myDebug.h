@@ -1,9 +1,9 @@
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef MYDEBUG_H
+#define MYDEBUG_H
 
 #include <Arduino.h>
 #include "myVar.h"
-#include "interpreter.h"
+#include "myInterpreter.h"
 
 #ifndef NO_DEBUGGER
 

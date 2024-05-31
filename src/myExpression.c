@@ -1,9 +1,9 @@
 /* picoc expression evaluator - a stack-based expression evaluation system
  * which handles operator precedence */
 #include <Arduino.h>
-#include "interpreter.h"
+#include "myInterpreter.h"
 #include "myVar.h"
-#include "expression.h"
+#include "myExpression.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

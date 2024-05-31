@@ -1,6 +1,6 @@
 /* all platform-specific includes and defines go in this file */
-#ifndef PLATFORM_H
-#define PLATFORM_H
+#ifndef MYPLATFORM_H
+#define MYPLATFORM_H
 
 #include <Arduino.h>
 
@@ -37,7 +37,7 @@
 #if defined(WIN32)
 #include "platform\platform_win32.h"
 #elif defined(UNIX_HOST)
-#include "platform_unix.h"
+#include "myPlatform_unix.h"
 #elif defined(FLYINGFOX_HOST)
 #include "platform\platform_ffox.h"
 #elif defined(SURVEYOR_HOST)

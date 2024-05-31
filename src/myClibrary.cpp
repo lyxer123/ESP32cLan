@@ -5,7 +5,7 @@
 #include "globals.h"
 #include "myVar.h"
 
-#include "picoc.h"
+#include "myPicoc.h"
 #include <FS.h>
 
 #ifdef ESP32
@@ -786,8 +786,8 @@ extern ESP8266WebServer server;
 
 extern "C"
 {
-  #include "picoc.h"
-  #include "interpreter.h"
+  #include "myPicoc.h"
+  #include "myInterpreter.h"
   // struct StackFrame *TopStackFrame;     //lyx
   extern char listIncludes;
 #ifndef ESP32

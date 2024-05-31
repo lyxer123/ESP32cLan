@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <limits.h>
-#include "interpreter.h"
+#include "myInterpreter.h"
 
 #ifndef BUILTIN_MINI_STDLIB
 #include <unistd.h>

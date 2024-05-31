@@ -1,14 +1,14 @@
 #include <Arduino.h>
 
-#include "interpreter.h"
-#include "picoc.h"
+#include "myInterpreter.h"
+#include "myPicoc.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
 
 #include "myVar.h"
 
-#include "library_unix.h"
+#include "myLibrary_unix.h"
 
 extern char literal;
 // extern char buf[BUFSIZE];

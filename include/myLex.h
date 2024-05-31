@@ -1,8 +1,8 @@
-#ifndef LEX_H
-#define LEX_H
+#ifndef MYLEX_H
+#define MYLEX_H
 
 #include <Arduino.h>
-#include "interpreter.h"
+#include "myInterpreter.h"
 
 #ifdef NO_CTYPE
 #define isalpha(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z'))

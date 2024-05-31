@@ -1,9 +1,9 @@
-#ifndef INCLUDE_H
-#define INCLUDE_H
+#ifndef MYINCLUDE_H
+#define MYINCLUDE_H
 
 #include <Arduino.h>
-#include "picoc.h"
-#include "interpreter.h"
+#include "myPicoc.h"
+#include "myInterpreter.h"
 #include "myVar.h"
 
 #ifndef NO_HASH_INCLUDE
