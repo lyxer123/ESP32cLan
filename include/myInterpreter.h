@@ -400,27 +400,27 @@ void *HeapAllocMem(int Size);
 void HeapFreeMem(void *Mem);
 
 /* variable.c */
-void VariableInit();
-void VariableCleanup();
-void VariableFree(struct Value *Val);
-void VariableTableCleanup(struct Table *HashTable);
-void *VariableAlloc(struct ParseState *Parser, int Size, int OnHeap);
-void VariableStackPop(struct ParseState *Parser, struct Value *Var);
-struct Value *VariableAllocValueAndData(struct ParseState *Parser, int DataSize, int IsLValue, struct Value *LValueFrom, int OnHeap);
-struct Value *VariableAllocValueAndCopy(struct ParseState *Parser, struct Value *FromValue, int OnHeap);
-struct Value *VariableAllocValueFromType(struct ParseState *Parser, struct ValueType *Typ, int IsLValue, struct Value *LValueFrom, int OnHeap);
-struct Value *VariableAllocValueFromExistingData(struct ParseState *Parser, struct ValueType *Typ, union AnyValue *FromValue, int IsLValue, struct Value *LValueFrom);
-struct Value *VariableAllocValueShared(struct ParseState *Parser, struct Value *FromValue);
-struct Value *VariableDefine(struct ParseState *Parser, char *Ident, struct Value *InitValue, struct ValueType *Typ, int MakeWritable);
-struct Value *VariableDefineButIgnoreIdentical(struct ParseState *Parser, char *Ident, struct ValueType *Typ, int IsStatic, int *FirstVisit);
-int VariableDefined(const char *Ident);
-void VariableGet(struct ParseState *Parser, const char *Ident, struct Value **LVal);
-void VariableDefinePlatformVar(struct ParseState *Parser, char *Ident, struct ValueType *Typ, union AnyValue *FromValue, int IsWritable);
-void VariableStackFrameAdd(struct ParseState *Parser, const char *FuncName, int NumParams);
-void VariableStackFramePop(struct ParseState *Parser);
-struct Value *VariableStringLiteralGet(char *Ident);
-void VariableStringLiteralDefine(char *Ident, struct Value *Val);
-void *VariableDereferencePointer(struct ParseState *Parser, struct Value *PointerValue, struct Value **DerefVal, int *DerefOffset, struct ValueType **DerefType, int *DerefIsLValue);
+// void VariableInit();
+// void VariableCleanup();
+// void VariableFree(struct Value *Val);
+// void VariableTableCleanup(struct Table *HashTable);
+// void *VariableAlloc(struct ParseState *Parser, int Size, int OnHeap);
+// void VariableStackPop(struct ParseState *Parser, struct Value *Var);
+// struct Value *VariableAllocValueAndData(struct ParseState *Parser, int DataSize, int IsLValue, struct Value *LValueFrom, int OnHeap);
+// struct Value *VariableAllocValueAndCopy(struct ParseState *Parser, struct Value *FromValue, int OnHeap);
+// struct Value *VariableAllocValueFromType(struct ParseState *Parser, struct ValueType *Typ, int IsLValue, struct Value *LValueFrom, int OnHeap);
+// struct Value *VariableAllocValueFromExistingData(struct ParseState *Parser, struct ValueType *Typ, union AnyValue *FromValue, int IsLValue, struct Value *LValueFrom);
+// struct Value *VariableAllocValueShared(struct ParseState *Parser, struct Value *FromValue);
+// struct Value *VariableDefine(struct ParseState *Parser, char *Ident, struct Value *InitValue, struct ValueType *Typ, int MakeWritable);
+// struct Value *VariableDefineButIgnoreIdentical(struct ParseState *Parser, char *Ident, struct ValueType *Typ, int IsStatic, int *FirstVisit);
+// int VariableDefined(const char *Ident);
+// void VariableGet(struct ParseState *Parser, const char *Ident, struct Value **LVal);
+// void VariableDefinePlatformVar(struct ParseState *Parser, char *Ident, struct ValueType *Typ, union AnyValue *FromValue, int IsWritable);
+// void VariableStackFrameAdd(struct ParseState *Parser, const char *FuncName, int NumParams);
+// void VariableStackFramePop(struct ParseState *Parser);
+// struct Value *VariableStringLiteralGet(char *Ident);
+// void VariableStringLiteralDefine(char *Ident, struct Value *Val);
+// void *VariableDereferencePointer(struct ParseState *Parser, struct Value *PointerValue, struct Value **DerefVal, int *DerefOffset, struct ValueType **DerefType, int *DerefIsLValue);
 
 /* clibrary.c */
 // void BasicIOInit();

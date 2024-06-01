@@ -787,6 +787,7 @@ extern "C"
 {
   #include "myPicoc.h"
   #include "myInterpreter.h"
+  #include "myVariable.h"
   // struct StackFrame *TopStackFrame;     //lyx
   extern char listIncludes;
 #ifndef ESP32
