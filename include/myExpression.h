@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "myInterpreter.h"
-#include "myVar.h"
+
 
 /* Macros for expression handling */
 #define IS_LEFT_TO_RIGHT(p) ((p) != 2 && (p) != 14)

@@ -3,6 +3,17 @@
 
 #include <Arduino.h>
 
+#define D0 26
+#define D1 22
+#define D2 21
+#define D3 17
+#define D4 16
+#define D5 18
+#define D6 19
+#define D7 23
+#define D8 5
+#define A0 36
+
 #ifdef ESP32
 #ifdef SSD1306OLED
 #define BUILTIN_LED 25
@@ -18,6 +29,9 @@ extern char didPlines;
 extern "C"
 {
 #endif
+
+    struct StackFrame;  // 前向声明
+    extern struct StackFrame *TopStackFrame;
 
     void sendln(char *it);
     void sendc(char it);

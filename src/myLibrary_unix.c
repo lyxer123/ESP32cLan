@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-#include "myVar.h"
+
 #include "myLibrary_unix.h"
 #include "myInterpreter.h"
 #include "myPicoc.h"

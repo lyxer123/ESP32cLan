@@ -1,10 +1,9 @@
-/* picoc include system - can emulate system includes from built-in libraries
- * or it can include and parse files if the system has files */
+/* picoc include system - can emulate system includes from built-in libraries or it can include and parse files if the system has files */
 #include <Arduino.h> 
 
 #include "myPicoc.h"
 #include "myInterpreter.h"
-#include "myVar.h"
+
 #include "myInclude.h"
 
 #ifndef NO_HASH_INCLUDE

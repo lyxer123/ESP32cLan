@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "myPicoc.h"
 #include "myInterpreter.h"
-#include "myVar.h"
+
 
 #ifndef NO_HASH_INCLUDE
 

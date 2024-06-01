@@ -1,5 +1,4 @@
-/* picoc hash table module. This hash table code is used for both symbol tables
- * and the shared string table. */
+/* picoc hash table module. This hash table code is used for both symbol tables and the shared string table. */
 #include <Arduino.h> 
 #include "myInterpreter.h"
 #include "myTable.h"

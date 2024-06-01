@@ -1,9 +1,7 @@
 #define ALWAYS_STATION
 // define ALWAYS_STATION to restart EPS32 if it can't connect to the specified SSID
-//                       when defined it will not enter AP mode on a Station Connect
-//                       failure. It will restart until it successfully connects
-//                       to the SSID specified in /data/WIFIname.dat using the
-//                       password specified in /data/WIFIpass.dat
+//                       when defined it will not enter AP mode on a Station Connect failure. It will restart until it successfully connects
+//                       to the SSID specified in /data/WIFIname.dat using the password specified in /data/WIFIpass.dat
 //#define TFT
 // define TFT to enable use of an attached 320x240 TFT Display
 //#define SSD1306OLED
@@ -16,10 +14,8 @@
 // defining ePAPER includes 1.54 in ePaper Display from WaveShare
 #include <Arduino.h>
 #include "globals.h"
-#include "myVar.h"
 
 #include "main.h"
-
 
 // #ifdef ESP32
 // #ifdef SSD1306OLED
@@ -36,15 +32,13 @@ extern GxGDEP015OC1 display;    // 1.54" b/w display; //(io, -1, -1/*RST=D4*/ /*
 #endif
 
 #define DBG_OUTPUT_PORT Serial
-/*
-*/
 #define DEBUGP Serial
 #ifndef ESP32
 #define FS_NO_GLOBALS
 #include <FS.h>
 #include <ESP8266WiFi.h>
 #else
-#include "myShield.h"
+// #include "myShield.h"
 // #include <SPIFFS.h>
 #include "LittleFS.h"
 #include <WiFi.h>
@@ -594,9 +588,6 @@ PROGMEM const char BasicVersion[] = "<h2>ESP32 picoc version v2.2 beta r C Inter
 
 WiFiClient client;
 
-
-
-
 //Web Server Variables
 String HTMLout;
 PROGMEM const char InputFormText[] = R"=====( <input type="text" id="myid" name="input"><input type="submit" value="Submit" name="inputButton"><hr>)=====";
@@ -864,12 +855,6 @@ Station Mode (Connect to your router):</th></tr>
 </table></form>
 <br>
 )=====";
-
-
-
-
-
-
 
 PROGMEM const char LogInPage[] =  R"=====(
 <form action='settings' id="usrform">
@@ -1536,7 +1521,6 @@ server.on(F("/ResetESP32"), []()
 
   */
 
-
   server.on(F("/msg"), []() {
 
     MsgBranchRetrnData = F("No MSG Branch Defined");
@@ -1549,10 +1533,6 @@ server.on(F("/ResetESP32"), []()
 
     server.send(200, F("text/html"), MsgBranchRetrnData);
   });
-
-
-
-
 
   server.on(F("/input"), []() {
     server.send(200, F("text/html"), RunningProgramGui());
@@ -1595,7 +1575,6 @@ server.on(F("/ResetESP32"), []()
   });
 
   //LoadBasicProgramFromFlash("");
-
 
   if (  ConnectToTheWIFI(LoadDataFromFile(F("WIFIname")), LoadDataFromFile(F("WIFIpass")), "", "", "") == 0)
   {
@@ -1740,8 +1719,6 @@ String SettingsPageHandeler()
   return WebOut;
 }
 
-
-
 String getContentType(String filename) {
   if (filename.endsWith(F(".htm"))) return F("text/html");
   else if (filename.endsWith(F(".html"))) return F("text/html");
@@ -1763,8 +1740,6 @@ void StartUpProgramTimer()
 {
   return;
 }
-
-
 
 void DoSomeFileManagerCode()
 {
@@ -1869,8 +1844,6 @@ void DoSomeFileManagerCode()
   server.send(200, F("text/html"),  String( AdminBarHTML + WholeUploadPage ));
 }
 
-
-
 void handleFileUpdate()
 {
   //if (server.uri() != "/edit") return;
@@ -1895,20 +1868,10 @@ void handleFileUpdate()
   }
 }
 
-
-
-
-
-
-
-
 String  getSerialInput()
 {
   return "";
 }
-
-
-
 
 bool CheckIfLoggedIn()
 {
@@ -1959,9 +1922,6 @@ String getValueforPrograming(String data, char separator, int index)
   }
   return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
-
-
-
 
 String getValue(String data, char separator, int index)
 {
@@ -2035,7 +1995,6 @@ String FetchWebUrl(String URLtoGet, int PortNoForPage)
   //  Serial.println(ServerToConnectTo);
   //  Serial.println(PageToGet);
 
-
   if (client.connect(ServerToConnectTo.c_str() , PortNoForPage))
   {
     client.print(String("GET " + PageToGet + " HTTP/1.1\r\nHost: " +  ServerToConnectTo + "\r\n\r\n"));
@@ -2059,17 +2018,12 @@ String FetchWebUrl(String URLtoGet, int PortNoForPage)
       }
 
     }
-
-
-
     client.stop();
     return str.substring(0, str.indexOf(String(String(char(10)) + "0" )  ));
   }
   client.stop();
   return "";
 }
-
-
 
 void serialFlush()
 {

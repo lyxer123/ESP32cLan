@@ -101,14 +101,12 @@ void CloseWriteOnFlash(void)
 	BasicFileToSave.close();
 }
 
-
 void LoadBasicProgramFromFlash(String fileNameForRead)
 {
   fs::File f = LittleFS.open(fileNameForRead, "r");
   f.read((uint8_t *)&buf, BUFSIZE);    
   return;
 }
-
 
 String MakeSureFileNameStartsWithSlash(String FileNameToCheckForSlash)
 {

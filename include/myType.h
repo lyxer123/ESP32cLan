@@ -2,7 +2,7 @@
 #define MYTYPE_H
 
 #include "myInterpreter.h"
-#include "myVar.h"
+
 
 /* some basic types */
 extern struct ValueType UberType;

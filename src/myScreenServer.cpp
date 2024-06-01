@@ -3,8 +3,7 @@
 // Serial.begin(1000000);
 
 // At 921600 baud a 320 x 240 image with 16 bit colour transfers can be sent to the
-// PC client in ~1.67s and 24 bit colour in ~2.5s which is close to the theoretical
-// minimum transfer time.
+// PC client in ~1.67s and 24 bit colour in ~2.5s which is close to the theoretical minimum transfer time.
 
 // This sketch has been created to work with the TFT_eSPI library here:
 // https://github.com/Bodmer/TFT_eSPI
@@ -14,7 +13,6 @@
 // Updated by: Bodmer 23/11/18 to support SDA reads and the ESP32
 // Version: 0.08
 
-// MIT licence applies, all text above must be included in derivative works
 #include <Arduino.h>
 #include "myScreenServer.h"
 #ifdef TFT

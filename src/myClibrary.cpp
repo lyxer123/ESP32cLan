@@ -1,9 +1,9 @@
 /* picoc mini standard C library - provides an optional tiny C standard library and built in functions
  * if BUILTIN_MINI_STDLIB is defined */
+
 #include <Arduino.h>
 
 #include "globals.h"
-#include "myVar.h"
 
 #include "myPicoc.h"
 #include <FS.h>
@@ -19,7 +19,6 @@
 #include <Adafruit_BME280.h>
 Adafruit_BME280 bme; // I2C
 #endif
-
 
 #ifdef ePAPER
 #include <GxEPD.h>

@@ -3,7 +3,7 @@
 
 #include "myPicoc.h"
 #include "myInterpreter.h"
-#include "myVar.h"
+
 #include "myParse.h"
 
 void Ssend(char * what);

@@ -1,11 +1,8 @@
 /* string.h library for large systems - small embedded systems use clibrary.c instead */
 #include <Arduino.h>
-
 #include <ctype.h>
 #include "myInterpreter.h"
 #include "myCtype.h"
-
-// #include "ctype.h"
 
 #ifndef BUILTIN_MINI_STDLIB
 

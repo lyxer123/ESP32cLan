@@ -5,7 +5,7 @@
 
 #include "myPicoc.h"
 #include "myInterpreter.h"
-#include "myVar.h"
+
 #include "myPlatform.h"
 
 /* the value passed to exit() */

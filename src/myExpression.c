@@ -7,7 +7,7 @@
 #include <string.h>
 
 #include "myInterpreter.h"
-#include "myVar.h"
+
 #include "myExpression.h"
 
 /* whether evaluation is left to right for a given precedence level */

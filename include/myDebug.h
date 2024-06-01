@@ -2,7 +2,7 @@
 #define MYDEBUG_H
 
 #include <Arduino.h>
-#include "myVar.h"
+
 #include "myInterpreter.h"
 
 #ifndef NO_DEBUGGER
