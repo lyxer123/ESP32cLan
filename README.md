@@ -20,12 +20,12 @@ platform_XXX.c 包含支持函数，以便编译器可以您的平台，例如�
 platform_library.c 包含您想要创建的函数库可供用户程序使用。   
 还有一个 clibrary.c，其中包含用户库函数，例如printf() 与平台无关。   
 
-移植系统将涉及设置适当的包含和定义 
+移植系统将涉及设置适当的包含和定义   
 在 platform.h 中，在 platform_XXX.c 中编写一些 I/O 例程，将在 platform_library.c 中你想要的任何用户功能然后更改picoc.c 中的主程序，用于获取程序所需的任何操作进入系统。   
 
-platform.h 默认设置为 UNIX_HOST，因此可以轻松运行测试UNIX 系统。您需要根据以下条件指定自己的主机设置您的目标平台。 
+platform.h 默认设置为 UNIX_HOST，因此可以轻松运行测试UNIX 系统。您需要根据以下条件指定自己的主机设置您的目标平台。   
 
-clibrary.c   （在这个文件中增加自定义函数，方便调用）   
+clibrary.c   （在这个文件中增加自定义函数，方便调用）     
 debug.c   
 expression.c   
 heap.c   
