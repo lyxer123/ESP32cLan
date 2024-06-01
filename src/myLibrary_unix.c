@@ -224,10 +224,7 @@ void LinePrint(char * src,int line,int col)
         }
 }
 
-
-
 extern char * Prompt;
-
 
 /* list of all library functions and their prototypes */
 struct LibraryFunction UnixFunctions[] =

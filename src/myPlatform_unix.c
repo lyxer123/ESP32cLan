@@ -31,11 +31,8 @@ void PlatformCleanup()
 {
 }
 
-
 /* read a file into memory */
 char *PlatformReadFile(const char *FileName);
-
-   
 
 /* read and scan a file for definitions */
 void PicocPlatformScanFile(const char *filename)

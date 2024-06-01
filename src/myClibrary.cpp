@@ -2036,6 +2036,8 @@ extern "C"
     OLEDdidWhen = millis();
   }
 #endif SSD1306OLED
+
+
 #ifdef TFT
   void TFT_invertDisplay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
   {
@@ -2237,6 +2239,8 @@ extern "C"
   }
 
 #endif // TFT
+
+
   // library additions for Arduino compatibility
   void printLines(char *src);
   void listSrc(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
