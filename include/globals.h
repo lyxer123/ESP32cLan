@@ -3,6 +3,11 @@
 
 #include <Arduino.h>
 
+#define _INT32_ long
+#define _UINT32_ unsigned long
+#define _INT16_ int
+#define _UINT16_ unsigned int
+
 #define D0 26
 #define D1 22
 #define D2 21
