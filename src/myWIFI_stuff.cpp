@@ -6,6 +6,7 @@
 
 #include "main.h"
 #include "myFile_system_stuff.h"
+#include "myWIFI_stuff.h"
 
 #ifdef OLED
 #include <U8g2lib.h>
