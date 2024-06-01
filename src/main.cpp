@@ -868,13 +868,9 @@ Log In Key
 //Graphics HTML CODE
 
 PROGMEM const char GraphicsStartCode[] =  R"=====(<svg width="*wid*" height="*hei*">)=====";
-
 PROGMEM const char GraphicsLineCode[] =  R"=====(<line x1="*x1*" y1="*y1*" x2="*x2*" y2="*y2*" stroke="*collor*"/>)=====";
-
 PROGMEM const char GraphicsCircleCode[] =  R"=====(<circle cx="*x1*" cy="*y1*" r="*x2*" fill="*collor*"/>)=====";
-
 PROGMEM const char GraphicsEllipseCode[] =  R"=====(<ellipse cx="*x1*" cy="*y1*" rx="*x2*" ry="*y2*" fill="*collor*"/>)=====";
-
 PROGMEM const char GraphicsRectangleCode[] =  R"=====(<rect x="*x1*" y="*y1*" width="*x2*" height="*y2*" style="fill:*collor*"/>)=====";
 
 byte numberButtonInUse = 0;

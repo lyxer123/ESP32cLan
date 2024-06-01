@@ -146,7 +146,6 @@ extern "C" {
     extern char watches[20][33];
 
     // extern WebServer server;    //liuyongxiang
-
     void stopDebug(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);
     void Debug(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);
     void Watch(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);

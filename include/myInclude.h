@@ -5,7 +5,6 @@
 #include "myPicoc.h"
 #include "myInterpreter.h"
 
-
 #ifndef NO_HASH_INCLUDE
 
 /* Struct for include libraries */

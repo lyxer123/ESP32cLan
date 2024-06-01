@@ -62,7 +62,6 @@ void PicocPlatformScanFile(const char *FileName);
 
 extern int PicocExitValue;
 
-
 /* include.c */
  void PicocIncludeAllSystemHeaders(int inctmpl);
 
