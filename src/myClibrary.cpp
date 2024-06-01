@@ -4,8 +4,9 @@
 #include <Arduino.h>
 
 #include "globals.h"
-
 #include "myPicoc.h"
+#include "myClibrary.h"
+
 #include <FS.h>
 
 #ifdef ESP32
@@ -277,11 +278,11 @@ void NEO_theaterChaseRainbow(struct ParseState *Parser, struct Value *ReturnValu
 #ifdef ESP32
 ESP32PWM PWMs[16];
 int pwmAssigns[16] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
-struct pwmRange
-{
-  float min;
-  float max;
-};
+// struct pwmRange
+// {
+//   float min;
+//   float max;
+// };
 pwmRange pwmRanges[16];
 float pwmFreqs[4] = {-1.0, -1.0, 0 - 1.0, -1.0};
 void PrintAndWebOut(String what);
@@ -333,7 +334,6 @@ void BME_readRH(struct ParseState *Parser, struct Value *ReturnValue, struct Val
   ReturnValue->Val->FP = rh;
 }
 #endif BME280
-
 
 #ifdef TFT
 #include <TftGauge.h>
@@ -799,12 +799,13 @@ extern "C"
   extern char SingleStep;
 
   /* the picoc version string */
-  static const char *VersionString = NULL;
-
+  // static const char *VersionString = NULL;
+  const char *VersionString = NULL;
   /* endian-ness checking */
-  static const int __ENDIAN_CHECK__ = 1;
-  static int BigEndian = 0;
-  static int LittleEndian = 0;
+  const int __ENDIAN_CHECK__ = 1;
+  int BigEndian = 0;
+  int LittleEndian = 0;
+
   int nwatches = 0;
   char watches[20][33];
   void stopDebug(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)

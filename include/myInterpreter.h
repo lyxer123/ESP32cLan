@@ -423,17 +423,17 @@ void VariableStringLiteralDefine(char *Ident, struct Value *Val);
 void *VariableDereferencePointer(struct ParseState *Parser, struct Value *PointerValue, struct Value **DerefVal, int *DerefOffset, struct ValueType **DerefType, int *DerefIsLValue);
 
 /* clibrary.c */
-void BasicIOInit();
-void LibraryInit();
-void LibraryAdd(struct Table *GlobalTable, const char *LibraryName, struct LibraryFunction *FuncList);
-void CLibraryInit();
-void PrintCh(char OutCh);
-void PrintSimpleInt(long Num);
-void PrintInt(long Num, int FieldWidth, int ZeroPad, int LeftJustify);
-void PrintStr(const char *Str);
-void PrintFP(double Num);
-void PrintType(struct ValueType *Typ);
-void LibPrintf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);
+// void BasicIOInit();
+// void LibraryInit();
+// void LibraryAdd(struct Table *GlobalTable, const char *LibraryName, struct LibraryFunction *FuncList);
+// void CLibraryInit();
+// void PrintCh(char OutCh);
+// void PrintSimpleInt(long Num);
+// void PrintInt(long Num, int FieldWidth, int ZeroPad, int LeftJustify);
+// void PrintStr(const char *Str);
+// void PrintFP(double Num);
+// void PrintType(struct ValueType *Typ);
+// void LibPrintf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);
 
 /* platform.c */
 /* the following are defined in picoc.h:
