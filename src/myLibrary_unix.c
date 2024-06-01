@@ -237,5 +237,5 @@ struct LibraryFunction UnixFunctions[] =
 
 void PlatformLibraryInit()
 {
-    IncludeRegister("picoc_unix.h", &UnixSetupFunc, &UnixFunctions[0], NULL);
+    // IncludeRegister("picoc_unix.h", &UnixSetupFunc, &UnixFunctions[0], NULL);             //刘永相编著，有缺失
 }

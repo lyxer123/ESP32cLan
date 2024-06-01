@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 #include <pgmspace.h>
+#include <esp_system.h>
+#include <esp_heap_caps.h>
 
 #define _INT32_ long
 #define _UINT32_ unsigned long
@@ -21,8 +23,6 @@
 #define A0 36
 
 extern const char myFont[][8] PROGMEM;
-
-
 
 #ifdef ESP32
 #ifdef SSD1306OLED

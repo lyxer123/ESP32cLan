@@ -1,8 +1,10 @@
 
-//setConsoleOn(1);TFT_setTextSize(1);
+// setConsoleOn(1);TFT_setTextSize(1);
 ls();
 printf("\n");
-cat("/tester.c",1);
+cat("/tester.c", 1);
 
 void main()
-{ printf("Program Done\n");}
+{
+    printf("Program Done\n");
+}

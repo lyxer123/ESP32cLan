@@ -2947,7 +2947,7 @@ extern "C"
   {
     sendContent("\nfree heap size = ");
     char lbuf[20];
-    sprintf((char *)&lbuf, "%d\n", system_get_free_heap_size());
+    sprintf((char *)&lbuf, "%d\n", ESP.getFreeHeap());
     sendContent((char *)&lbuf);
   }
 #endif
