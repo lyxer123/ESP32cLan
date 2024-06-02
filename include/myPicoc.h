@@ -40,7 +40,7 @@ extern jmp_buf PicocExitBuf;
 
 #ifdef UNIX_HOST
 
-#define PICOC_STACK_SIZE 45000
+#define PICOC_STACK_SIZE 45000      //定义堆栈大小，默认是512K
 #include <setjmp.h>
 #define BUILTIN_MINI_STDLIB
 /* mark where to end the program for platforms which require this */
