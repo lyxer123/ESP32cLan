@@ -11,9 +11,9 @@
 #define DEEP_PRECEDENCE (BRACKET_PRECEDENCE*1000)
 
 #ifdef DEBUG_EXPRESSIONS
-#define debugf printf
+    #define debugf printf
 #else
-void debugf(char *Format, ...);
+    void debugf(char *Format, ...);
 #endif
 
 /* Enum for operator order */
@@ -54,13 +54,13 @@ void ExpressionStackPushDereference(struct ParseState *Parser, struct Expression
 void ExpressionPushInt(struct ParseState *Parser, struct ExpressionStack **StackTop, long IntValue);
 
 #ifndef NO_FP
-void ExpressionPushFP(struct ParseState *Parser, struct ExpressionStack **StackTop, double FPValue);
+    void ExpressionPushFP(struct ParseState *Parser, struct ExpressionStack **StackTop, double FPValue);
 #endif
 
 long ExpressionAssignInt(struct ParseState *Parser, struct Value *DestValue, long FromInt, int After);
 
 #ifndef NO_FP
-double ExpressionAssignFP(struct ParseState *Parser, struct Value *DestValue, double FromFP);
+    double ExpressionAssignFP(struct ParseState *Parser, struct Value *DestValue, double FromFP);
 #endif
 
 void ExpressionAssignToPointer(struct ParseState *Parser, struct Value *ToValue, struct Value *FromValue, const char *FuncName, int ParamNo, int AllowPointerCoercion);

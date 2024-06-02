@@ -67,60 +67,59 @@ extern String GlobalNames[200];
 extern int GlobalCount;
 
 extern "C" {
-#include "myPicoc.h"
-#include "myInterpreter.h"
-extern char listIncludes;
-void IncludeFile(char *FileName);
-void idrop(char *what);
-void addGlobal(char *what);
-void DeleteGlobals();
-void espRestart();
-void shortEspRestart();
-char *getProgramArgs();
-extern char SingleStep;
-extern struct ParseState Parser;
-extern enum ParseResult Ok;
-extern char buf[BUFSIZE];
-extern char *Prompt;
-extern byte didit;
-extern byte line_available;
-extern char literal;
-extern char toConsole;
-#ifdef TFT
-void iconsoleOut(char *what);
-#endif
-void sendContent(char *it);
-void sok();
-int hextoi(char i);
-void urldecode(char *src, char *dst);
-extern char WebResponse;
-extern char WebResponseBuf[400];
-char *PlatformGets(char *Buf, int MaxLen, const char *Prompt);
-char *PlatformGetLine(char *Buf, int MaxLen, const char *Prompt);
-void DebugPrintln(char *what);
-void DebugPrintInt(int what);
-void sPrintln(char *what);
-void sPrintInt(int what);
-void sprint(char *what);
-void ssend(char *what);
-char *PlatformReadFile(char *FileName);
-int PlatformGetCharacter();
-void printLines(char *src);
-void sendc(char it);
-void sendln(char *it);
-void send(char *it);
-void PlatformPutc(unsigned char OutCh, FILE *Stream);
-extern int nwatches;
-void sok();
-void sendEOF();
-void send(char *it);
-extern int RunningProgram;
-void Ssend(char *it);
-void sendc(char it);
-void sendln(char *it);
-char fileExists(char *fileName);
+    #include "myPicoc.h"
+    #include "myInterpreter.h"
+    extern char listIncludes;
+    void IncludeFile(char *FileName);
+    void idrop(char *what);
+    void addGlobal(char *what);
+    void DeleteGlobals();
+    void espRestart();
+    void shortEspRestart();
+    char *getProgramArgs();
+    extern char SingleStep;
+    extern struct ParseState Parser;
+    extern enum ParseResult Ok;
+    extern char buf[BUFSIZE];
+    extern char *Prompt;
+    extern byte didit;
+    extern byte line_available;
+    extern char literal;
+    extern char toConsole;
+    #ifdef TFT
+    void iconsoleOut(char *what);
+    #endif
+    void sendContent(char *it);
+    void sok();
+    int hextoi(char i);
+    void urldecode(char *src, char *dst);
+    extern char WebResponse;
+    extern char WebResponseBuf[400];
+    char *PlatformGets(char *Buf, int MaxLen, const char *Prompt);
+    char *PlatformGetLine(char *Buf, int MaxLen, const char *Prompt);
+    void DebugPrintln(char *what);
+    void DebugPrintInt(int what);
+    void sPrintln(char *what);
+    void sPrintInt(int what);
+    void sprint(char *what);
+    void ssend(char *what);
+    char *PlatformReadFile(char *FileName);
+    int PlatformGetCharacter();
+    void printLines(char *src);
+    void sendc(char it);
+    void sendln(char *it);
+    void send(char *it);
+    void PlatformPutc(unsigned char OutCh, FILE *Stream);
+    extern int nwatches;
+    void sok();
+    void sendEOF();
+    void send(char *it);
+    extern int RunningProgram;
+    void Ssend(char *it);
+    void sendc(char it);
+    void sendln(char *it);
+    char fileExists(char *fileName);
 }
-
 
 uint32_t getFreeHeapSize(void);
 void setup();

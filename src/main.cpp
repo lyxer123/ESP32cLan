@@ -26,45 +26,44 @@
 // #endif // ESP32
 
 #ifdef ePAPER
-#include <GxEPD.h>
-#include <GxGDEP015OC1/GxGDEP015OC1.h> // 1.54" b/w
-extern GxGDEP015OC1 display;           // 1.54" b/w display; //(io, -1, -1/*RST=D4*/ /*BUSY=D2*/); // default selection of D4(=2), D2(=4)
+  #include <GxEPD.h>
+  #include <GxGDEP015OC1/GxGDEP015OC1.h> // 1.54" b/w
+  extern GxGDEP015OC1 display;           // 1.54" b/w display; //(io, -1, -1/*RST=D4*/ /*BUSY=D2*/); // default selection of D4(=2), D2(=4)
 #endif
 
 #define DBG_OUTPUT_PORT Serial
 #define DEBUGP Serial
 #ifndef ESP32
-#define FS_NO_GLOBALS
-#include <FS.h>
-#include <ESP8266WiFi.h>
+  #define FS_NO_GLOBALS
+  #include <FS.h>
+  #include <ESP8266WiFi.h>
 #else
-// #include "myShield.h"
-// #include <SPIFFS.h>
-#include "LittleFS.h"
-#include <WiFi.h>
+  // #include <SPIFFS.h>
+  #include "LittleFS.h"
+  #include <WiFi.h>
 #endif
+
 #include <WiFiClient.h>
 #include <WiFiServer.h>
 #ifdef ESP32
-#include <HTTPUpdate.h>
+  #include <HTTPUpdate.h>
 #endif
 // #include <WiFiUdp.h>
 #ifdef ESP32
-#include <WebServer.h>
-WebServer server(80);
+  #include <WebServer.h>
+  WebServer server(80);
 #else
-#include <ESP8266WebServer.h>
-ESP8266WebServer server(80);
+  #include <ESP8266WebServer.h>
+  ESP8266WebServer server(80);
 #endif
 char sendChunked = 0;
 #ifdef ESP32
-File fsUploadFile;
+  File fsUploadFile;
 #else
-fs::File fsUploadFile;
+  fs::File fsUploadFile;
 #endif
 #include <Wire.h>
 #include <time.h>
-
 #include "LittleFS.h"
 
 String GetRidOfurlCharacters(String urlChars);
@@ -76,16 +75,18 @@ String GlobalNames[200];
 int GlobalCount = 0;
 extern "C"
 {
-#include "myPicoc.h"
-#include "myInterpreter.h"
+  #include "myPicoc.h"
+  #include "myInterpreter.h"
   extern char listIncludes;
   void IncludeFile(char *FileName);
   void idrop(char *what);
+
   void addGlobal(char *what)
   {
     GlobalNames[GlobalCount++] = what;
     // Serial.printf("Adding %s to global names at %d\n", what, GlobalCount-1);
   }
+
   void DeleteGlobals()
   {
     int i;
@@ -104,6 +105,7 @@ extern "C"
     fout.close();
     GlobalCount = 0;
   }
+
   void espRestart()
   {
     // return;
@@ -111,14 +113,17 @@ extern "C"
     sendContent("<meta http-equiv=\"refresh\" content=\"8; url=./filemng\" />");
     ESP.restart();
   }
+
   void shortEspRestart()
   {
     ESP.restart();
   }
+
   char *getProgramArgs()
   {
     return (char *)programArgs.c_str();
   }
+
   char SingleStep = 0;
   struct ParseState Parser;
   enum ParseResult Ok;
@@ -358,7 +363,6 @@ extern "C"
 
   void sok()
   {
-
     // Serial.println("End Command");//server.sendContent((char *)"");
     if (Prompt != 0)
       sendContent(Prompt);
@@ -443,193 +447,192 @@ void ssend(char *what)
   }
 }
 #ifdef TFT
-#include <TFT_eSPI.h> // Hardware-specific library
-#include <JPEGDecoder.h>
-#include <Hershey.h>
-TFT_eSPI tft = TFT_eSPI();
-#define GFXFF 1
-#define FF18 &FreeMonoBold9pt7b
-#define CF_Y32 &Yellowtail_32
-boolean screenServer(void);
-boolean screenServer(String FileName);
-Hershey HF("serif");
-#define minimum(a, b) (((a) < (b)) ? (a) : (b))
-void jpegInfo()
-{
-  return; // delete return to show jpegInfo on Serial port
-  // Serial.println("===============");
-  // Serial.println("JPEG image info");
-  // Serial.println("===============");
-  // Serial.print  ("Width      :"); //Serial.println(JpegDec.width);
-  // Serial.print  ("Height     :"); //Serial.println(JpegDec.height);
-  // Serial.print  ("Components :"); //Serial.println(JpegDec.comps);
-  // Serial.print  ("MCU / row  :"); //Serial.println(JpegDec.MCUSPerRow);
-  // Serial.print  ("MCU / col  :"); //Serial.println(JpegDec.MCUSPerCol);
-  // Serial.print  ("Scan type  :"); //Serial.println(JpegDec.scanType);
-  // Serial.print  ("MCU width  :"); //Serial.println(JpegDec.MCUWidth);
-  // Serial.print  ("MCU height :"); //Serial.println(JpegDec.MCUHeight);
-  // Serial.println("===============");
-  // Serial.println("");
-}
-//====================================================================================
-//   Opens the image file and prime the Jpeg decoder
-//====================================================================================
-void drawJpeg(char *filename, int xpos, int ypos)
-{
-
-  // Serial.println(F("==========================="));
-  // Serial.print(F("Drawing file: ")); //Serial.println(filename);
-  // Serial.println(F("==========================="));
-
-  // Open the named file (the Jpeg decoder library will close it after rendering image)
-  fs::File jpegFile = LittleFS.open(filename, "r"); // File handle reference for SPIFFS
-  //  File jpegFile = SD.open( filename, FILE_READ);  // or, file handle reference for SD library
-
-  if (!jpegFile)
+  #include <TFT_eSPI.h> // Hardware-specific library
+  #include <JPEGDecoder.h>
+  #include <Hershey.h>
+  TFT_eSPI tft = TFT_eSPI();
+  #define GFXFF 1
+  #define FF18 &FreeMonoBold9pt7b
+  #define CF_Y32 &Yellowtail_32
+  boolean screenServer(void);
+  boolean screenServer(String FileName);
+  Hershey HF("serif");
+  #define minimum(a, b) (((a) < (b)) ? (a) : (b))
+  void jpegInfo()
   {
-    Serial.print(F("ERROR: File \""));
-    Serial.print(filename);
-    Serial.println(F("\" not found!"));
-    strncpy((char *)&buf, filename, BUFSIZE - 1);
-    strncat((char *)&buf, " not found", BUFSIZE - 1);
-    Serial.println((char *)buf);
-    return;
+    return; // delete return to show jpegInfo on Serial port
+    // Serial.println("===============");
+    // Serial.println("JPEG image info");
+    // Serial.println("===============");
+    // Serial.print  ("Width      :"); //Serial.println(JpegDec.width);
+    // Serial.print  ("Height     :"); //Serial.println(JpegDec.height);
+    // Serial.print  ("Components :"); //Serial.println(JpegDec.comps);
+    // Serial.print  ("MCU / row  :"); //Serial.println(JpegDec.MCUSPerRow);
+    // Serial.print  ("MCU / col  :"); //Serial.println(JpegDec.MCUSPerCol);
+    // Serial.print  ("Scan type  :"); //Serial.println(JpegDec.scanType);
+    // Serial.print  ("MCU width  :"); //Serial.println(JpegDec.MCUWidth);
+    // Serial.print  ("MCU height :"); //Serial.println(JpegDec.MCUHeight);
+    // Serial.println("===============");
+    // Serial.println("");
   }
-
-  // Use one of the three following methods to initialise the decoder:
-  // boolean decoded = JpegDec.decodeFsFile(jpegFile); // Pass a SPIFFS file handle to the decoder,
-  // boolean decoded = JpegDec.decodeSdFile(jpegFile); // or pass the SD file handle to the decoder,
-  boolean decoded = JpegDec.decodeFsFile(filename); // or pass the filename (leading / distinguishes SPIFFS files)
-  // Note: the filename can be a String or character array type
-  if (decoded)
-  {
-    // print information about the image to the serial port
-    jpegInfo();
-
-    // render the image onto the screen at given coordinates
-    jpegRender(xpos, ypos);
-  }
-  else
-  {
-    Serial.println(F("Jpeg file format not supported!"));
-  }
-  strncpy((char *)&buf, "Processed ", BUFSIZE - 1);
-  strncat((char *)&buf, filename, BUFSIZE - 1);
-  // Serial.println((char *)&buf);
-}
-
-//====================================================================================
-//   Decode and render the Jpeg image onto the TFT screen
-//====================================================================================
-void jpegRender(int xpos, int ypos)
-{
-
-  // retrieve infomration about the image
-  uint16_t *pImg;
-  uint16_t mcu_w = JpegDec.MCUWidth;
-  uint16_t mcu_h = JpegDec.MCUHeight;
-  uint32_t max_x = JpegDec.width;
-  uint32_t max_y = JpegDec.height;
-
-  // Jpeg images are draw as a set of image block (tiles) called Minimum Coding Units (MCUs)
-  // Typically these MCUs are 16x16 pixel blocks
-  // Determine the width and height of the right and bottom edge image blocks
-  uint32_t min_w = minimum(mcu_w, max_x % mcu_w);
-  uint32_t min_h = minimum(mcu_h, max_y % mcu_h);
-
-  // save the current image block size
-  uint32_t win_w = mcu_w;
-  uint32_t win_h = mcu_h;
-
-  // record the current time so we can measure how long it takes to draw an image
-  uint32_t drawTime = millis();
-
-  // save the coordinate of the right and bottom edges to assist image cropping
-  // to the screen size
-  max_x += xpos;
-  max_y += ypos;
-
-  // read each MCU block until there are no more
-  while (JpegDec.read())
+  //====================================================================================
+  //   Opens the image file and prime the Jpeg decoder
+  //====================================================================================
+  void drawJpeg(char *filename, int xpos, int ypos)
   {
 
-    // save a pointer to the image block
-    pImg = JpegDec.pImage;
+    // Serial.println(F("==========================="));
+    // Serial.print(F("Drawing file: ")); //Serial.println(filename);
+    // Serial.println(F("==========================="));
 
-    // calculate where the image block should be drawn on the screen
-    int mcu_x = JpegDec.MCUx * mcu_w + xpos;
-    int mcu_y = JpegDec.MCUy * mcu_h + ypos;
+    // Open the named file (the Jpeg decoder library will close it after rendering image)
+    fs::File jpegFile = LittleFS.open(filename, "r"); // File handle reference for SPIFFS
+    //  File jpegFile = SD.open( filename, FILE_READ);  // or, file handle reference for SD library
 
-    // check if the image block size needs to be changed for the right and bottom edges
-    if (mcu_x + mcu_w <= max_x)
-      win_w = mcu_w;
-    else
-      win_w = min_w;
-    if (mcu_y + mcu_h <= max_y)
-      win_h = mcu_h;
-    else
-      win_h = min_h;
-
-    // calculate how many pixels must be drawn
-    uint32_t mcu_pixels = win_w * win_h;
-
-    // draw image MCU block only if it will fit on the screen
-    if ((mcu_x + win_w) <= tft.width() && (mcu_y + win_h) <= tft.height())
+    if (!jpegFile)
     {
-      // Now set a MCU bounding window on the TFT to push pixels into (x, y, x + width - 1, y + height - 1)
-      tft.setAddrWindow(mcu_x, mcu_y, mcu_x + win_w - 1, mcu_y + win_h - 1);
-      // Write all MCU pixels to the TFT window
-      while (mcu_pixels--)
-        tft.pushColor(*pImg++);
+      Serial.print(F("ERROR: File \""));
+      Serial.print(filename);
+      Serial.println(F("\" not found!"));
+      strncpy((char *)&buf, filename, BUFSIZE - 1);
+      strncat((char *)&buf, " not found", BUFSIZE - 1);
+      Serial.println((char *)buf);
+      return;
     }
 
-    else if ((mcu_y + win_h) >= tft.height())
-      JpegDec.abort();
+    // Use one of the three following methods to initialise the decoder:
+    // boolean decoded = JpegDec.decodeFsFile(jpegFile); // Pass a SPIFFS file handle to the decoder,
+    // boolean decoded = JpegDec.decodeSdFile(jpegFile); // or pass the SD file handle to the decoder,
+    boolean decoded = JpegDec.decodeFsFile(filename); // or pass the filename (leading / distinguishes SPIFFS files)
+    // Note: the filename can be a String or character array type
+    if (decoded)
+    {
+      // print information about the image to the serial port
+      jpegInfo();
+
+      // render the image onto the screen at given coordinates
+      jpegRender(xpos, ypos);
+    }
+    else
+    {
+      Serial.println(F("Jpeg file format not supported!"));
+    }
+    strncpy((char *)&buf, "Processed ", BUFSIZE - 1);
+    strncat((char *)&buf, filename, BUFSIZE - 1);
+    // Serial.println((char *)&buf);
   }
 
-  // calculate how long it took to draw the image
-  drawTime = millis() - drawTime; // Calculate the time it took
+  //====================================================================================
+  //   Decode and render the Jpeg image onto the TFT screen
+  //====================================================================================
+  void jpegRender(int xpos, int ypos)
+  {
 
-  // print the results to the serial port
-  // Serial.print  (F("Total render time was    : ")); //Serial.print(drawTime); //Serial.println(F(" ms"));
-  // Serial.println("=====================================");
-}
-void myfillScreen(unsigned short color)
-{
-  tft.fillRect(0, 0, 320, 240, color);
-}
-void TFT_setup()
-{
-  tft.begin();
-  // tft.setFreeFont(FF18);                 // Select the font
-  tft.setTextSize(1);
-  HF.setFont("sansbold");
-  tft.setRotation(1);
-  tft.fillScreen(0xffff);      // while fill to TFT
-  tft.setTextColor(0, 0xffff); // black on white text
-}
+    // retrieve infomration about the image
+    uint16_t *pImg;
+    uint16_t mcu_w = JpegDec.MCUWidth;
+    uint16_t mcu_h = JpegDec.MCUHeight;
+    uint32_t max_x = JpegDec.width;
+    uint32_t max_y = JpegDec.height;
+
+    // Jpeg images are draw as a set of image block (tiles) called Minimum Coding Units (MCUs)
+    // Typically these MCUs are 16x16 pixel blocks
+    // Determine the width and height of the right and bottom edge image blocks
+    uint32_t min_w = minimum(mcu_w, max_x % mcu_w);
+    uint32_t min_h = minimum(mcu_h, max_y % mcu_h);
+
+    // save the current image block size
+    uint32_t win_w = mcu_w;
+    uint32_t win_h = mcu_h;
+
+    // record the current time so we can measure how long it takes to draw an image
+    uint32_t drawTime = millis();
+
+    // save the coordinate of the right and bottom edges to assist image cropping
+    // to the screen size
+    max_x += xpos;
+    max_y += ypos;
+
+    // read each MCU block until there are no more
+    while (JpegDec.read())
+    {
+
+      // save a pointer to the image block
+      pImg = JpegDec.pImage;
+
+      // calculate where the image block should be drawn on the screen
+      int mcu_x = JpegDec.MCUx * mcu_w + xpos;
+      int mcu_y = JpegDec.MCUy * mcu_h + ypos;
+
+      // check if the image block size needs to be changed for the right and bottom edges
+      if (mcu_x + mcu_w <= max_x)
+        win_w = mcu_w;
+      else
+        win_w = min_w;
+      if (mcu_y + mcu_h <= max_y)
+        win_h = mcu_h;
+      else
+        win_h = min_h;
+
+      // calculate how many pixels must be drawn
+      uint32_t mcu_pixels = win_w * win_h;
+
+      // draw image MCU block only if it will fit on the screen
+      if ((mcu_x + win_w) <= tft.width() && (mcu_y + win_h) <= tft.height())
+      {
+        // Now set a MCU bounding window on the TFT to push pixels into (x, y, x + width - 1, y + height - 1)
+        tft.setAddrWindow(mcu_x, mcu_y, mcu_x + win_w - 1, mcu_y + win_h - 1);
+        // Write all MCU pixels to the TFT window
+        while (mcu_pixels--)
+          tft.pushColor(*pImg++);
+      }
+
+      else if ((mcu_y + win_h) >= tft.height())
+        JpegDec.abort();
+    }
+
+    // calculate how long it took to draw the image
+    drawTime = millis() - drawTime; // Calculate the time it took
+
+    // print the results to the serial port
+    // Serial.print  (F("Total render time was    : ")); //Serial.print(drawTime); //Serial.println(F(" ms"));
+    // Serial.println("=====================================");
+  }
+  void myfillScreen(unsigned short color)
+  {
+    tft.fillRect(0, 0, 320, 240, color);
+  }
+  void TFT_setup()
+  {
+    tft.begin();
+    // tft.setFreeFont(FF18);                 // Select the font
+    tft.setTextSize(1);
+    HF.setFont("sansbold");
+    tft.setRotation(1);
+    tft.fillScreen(0xffff);      // while fill to TFT
+    tft.setTextColor(0, 0xffff); // black on white text
+  }
 
 #endif // TFT
+
+
 #ifdef OLED
-#include <U8g2lib.h>
-// the OLED used
-// U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 16, /* data=*/ 17);
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8x8(U8G2_R0, /* reset=*/16, /* clock=*/15, /* data=*/4); // for HELTEC
-// U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8x8(U8G2_R0, /* reset=*/ -1,/* clock=*/ 4, /* data=*/ 5 ); // for WEMOS
+  #include <U8g2lib.h>
+  // the OLED used
+  // U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 16, /* data=*/ 17);
+  U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8x8(U8G2_R0, /* reset=*/16, /* clock=*/15, /* data=*/4); // for HELTEC
+  // U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8x8(U8G2_R0, /* reset=*/ -1,/* clock=*/ 4, /* data=*/ 5 ); // for WEMOS
 #endif // OLED
+
 #ifdef SSD1306OLED
-#include "SSD1306Wire.h" // legacy include: `#include "SSD1306.h"`
-// SSD1306Wire display(0x3c, 5/*SDA*/, 4/*SCL*/);  // Wemos
-SSD1306Wire display(0x3c, 4, 15); // HELTEC
-OLEDDISPLAY_COLOR OLEDcolor;
+  #include "SSD1306Wire.h" // legacy include: `#include "SSD1306.h"`
+  // SSD1306Wire display(0x3c, 5/*SDA*/, 4/*SCL*/);  // Wemos
+  SSD1306Wire display(0x3c, 4, 15); // HELTEC
+  OLEDDISPLAY_COLOR OLEDcolor;
 #endif
 #include <Time.h>
 
 PROGMEM const char BasicVersion[] = "<h2>ESP32 picoc version v2.2 beta r C Interpreter</h2>";
-/*   PICOC LICENSE INFO
-      _________________
-*/
-// SPI STUFF
 #include <SPI.h>
 
 // ILI9341 Stuff
@@ -637,7 +640,6 @@ PROGMEM const char BasicVersion[] = "<h2>ESP32 picoc version v2.2 beta r C Inter
 
 // udp client
 // WiFiUDP udp;
-
 WiFiClient client;
 
 // Web Server Variables
@@ -772,85 +774,88 @@ PROGMEM const char DebugBarHtml[] = R"=====(
 <a class="buttong" href="./delbreakpoint">DELETE BREAKPOINT</a>
 <a class="button" href="./quitdebug">QUIT DEBUG</a>
 <hr>)=====";
+
 #ifdef TFT
-PROGMEM const char UploadPage[] = R"=====(
-<form method='POST' action='/edit' enctype='multipart/form-data'>
-<input class="button" type='file' name='Uploads' onclick="javascript:document.getElementById('Upload').type='submit'">
-<input class="buttong" type='hidden' id="Upload" name="Upload" value='Upload'>
-</form>
-<form id="filelist"  method='POST' action='/filemng'>
-<input class="button" type="submit" value="Delete" name="Delete">
-<input class="button" type="submit" value="Edit" name="Edit">
-<input class="buttong" type="submit" value="Run" name="Run">
-<input class="button" type="submit" value="Rename" name="Rename">
- Program Arguments <input type="text" class=\"text3\" name="programArgs" value="*ProgramArgs*">
-<input class="button" type="submit" value="NewFile" name="NewFile"> 
-</form>
-<select name="FileName" id="FileName" onDblClick="javascript:window.open('./edit?FileName='+this.value+'&open=Open','_parent');" size="50" form="filelist">*table*</select>
-)=====";
+  PROGMEM const char UploadPage[] = R"=====(
+  <form method='POST' action='/edit' enctype='multipart/form-data'>
+  <input class="button" type='file' name='Uploads' onclick="javascript:document.getElementById('Upload').type='submit'">
+  <input class="buttong" type='hidden' id="Upload" name="Upload" value='Upload'>
+  </form>
+  <form id="filelist"  method='POST' action='/filemng'>
+  <input class="button" type="submit" value="Delete" name="Delete">
+  <input class="button" type="submit" value="Edit" name="Edit">
+  <input class="buttong" type="submit" value="Run" name="Run">
+  <input class="button" type="submit" value="Rename" name="Rename">
+  Program Arguments <input type="text" class=\"text3\" name="programArgs" value="*ProgramArgs*">
+  <input class="button" type="submit" value="NewFile" name="NewFile"> 
+  </form>
+  <select name="FileName" id="FileName" onDblClick="javascript:window.open('./edit?FileName='+this.value+'&open=Open','_parent');" size="50" form="filelist">*table*</select>
+  )=====";
 
-PROGMEM const char EditorPageHTML[] = R"=====(
-<script>*edit.js*</script>
-<form  id="usrform"  method='POST' action='/edit'>
-<input type="text" id="FileName" class="text3" name="FileName" value="*programName*">
-<input class="button" type="submit" value="Open" name="open">
-<input class="buttong" type="hidden" value="Save" name="saving" id="saving">
-<input class="buttong" type="submit" value="Run" name="run">
- Program Arguments <input class="text3" type="text" value="*ProgramArgs*", name="programArgs">
-<a class="buttong" href="./ResetESP32">Reset ESP32</a>
-<input class="buttong" type="submit" name="ScreenCapture" value="Screen Capture">
-<br>
-)=====";
-PROGMEM const char RunEditorPageHTML[] = R"=====(
-<script>*edit.js*</script>
-<form  id="usrform"  method='POST' action='/edit'>
-<input type="text" id="FileName" class="text3" name="FileName" value="*programName*">
-<input class=button type="submit" value="Open" name="open">
-<input class="buttong" type="submit" value="Run" name="run">
- Program Arguments <input class="text3" type="text" value="*ProgramArgs*", name="programArgs">
-<a class="buttong" href="./ResetESP32">Reset ESP32</a>
-<input class="buttong" type="submit" name="ScreenCapture" value="Screen Capture">
-<br>
-)=====";
+  PROGMEM const char EditorPageHTML[] = R"=====(
+  <script>*edit.js*</script>
+  <form  id="usrform"  method='POST' action='/edit'>
+  <input type="text" id="FileName" class="text3" name="FileName" value="*programName*">
+  <input class="button" type="submit" value="Open" name="open">
+  <input class="buttong" type="hidden" value="Save" name="saving" id="saving">
+  <input class="buttong" type="submit" value="Run" name="run">
+  Program Arguments <input class="text3" type="text" value="*ProgramArgs*", name="programArgs">
+  <a class="buttong" href="./ResetESP32">Reset ESP32</a>
+  <input class="buttong" type="submit" name="ScreenCapture" value="Screen Capture">
+  <br>
+  )=====";
+  PROGMEM const char RunEditorPageHTML[] = R"=====(
+  <script>*edit.js*</script>
+  <form  id="usrform"  method='POST' action='/edit'>
+  <input type="text" id="FileName" class="text3" name="FileName" value="*programName*">
+  <input class=button type="submit" value="Open" name="open">
+  <input class="buttong" type="submit" value="Run" name="run">
+  Program Arguments <input class="text3" type="text" value="*ProgramArgs*", name="programArgs">
+  <a class="buttong" href="./ResetESP32">Reset ESP32</a>
+  <input class="buttong" type="submit" name="ScreenCapture" value="Screen Capture">
+  <br>
+  )=====";
 #else
-PROGMEM const char UploadPage[] = R"=====(
-<form method='POST' action='/filemng' enctype='multipart/form-data'>
-<input class="buttong" type='file' name='Upload' onclick="javascript:document.getElementById('Upload').type='submit'">
-<input class="button" type='hidden' name="Upload" id="Upload" value='Upload'>
-</form>
-<form id="filelist" >
-<input class="button" type="submit" value="Delete" name="Delete">
-<input class="button" type="submit" value="Edit" name="Edit">
-<input class="buttong" type="submit" value="Run" name="Run">
-<input class="button" type="submit" value="Rename" name="Rename">
- Program Arguments <input type="text" class=\"text3\" name="programArgs" value="*ProgramArgs*">
-<input class="button" type="submit" value="NewFile" name="NewFile"> 
-</form>
-<select name="FileName" id="FileName" onDblClick="javascript:window.open('./edit?FileName='+this.value+'&open=Open','_parent');" size="50" form="filelist">*table*</select>
-)=====";
+  PROGMEM const char UploadPage[] = R"=====(
+  <form method='POST' action='/filemng' enctype='multipart/form-data'>
+  <input class="buttong" type='file' name='Upload' onclick="javascript:document.getElementById('Upload').type='submit'">
+  <input class="button" type='hidden' name="Upload" id="Upload" value='Upload'>
+  </form>
+  <form id="filelist" >
+  <input class="button" type="submit" value="Delete" name="Delete">
+  <input class="button" type="submit" value="Edit" name="Edit">
+  <input class="buttong" type="submit" value="Run" name="Run">
+  <input class="button" type="submit" value="Rename" name="Rename">
+  Program Arguments <input type="text" class=\"text3\" name="programArgs" value="*ProgramArgs*">
+  <input class="button" type="submit" value="NewFile" name="NewFile"> 
+  </form>
+  <select name="FileName" id="FileName" onDblClick="javascript:window.open('./edit?FileName='+this.value+'&open=Open','_parent');" size="50" form="filelist">*table*</select>
+  )=====";
 
-PROGMEM const char EditorPageHTML[] = R"=====(
-<script>*edit.js*</script>
-<form  id="usrform" method='POST' action='/edit'>
-<input type="text" id="FileName" class="text3" name="FileName" value="*programName*">
-<input class="button" type="submit" value="Open" name="open">
-<input class="buttong" type="hidden" value="Save" name="saving" id="saving">
-<input class="buttong" type="submit" value="Run" name="run">
- Program Arguments <input class="text3" type="text" value="*ProgramArgs*", name="programArgs">
-<a class="buttong" href="./ResetESP32">Reset ESP32</a>
-<br>
-)=====";
-PROGMEM const char RunEditorPageHTML[] = R"=====(
-<script>*edit.js*</script>
-<form  id="usrform" method='POST' action='/edit'>
-<input type="text" id="FileName" class="text3" name="FileName" value="*programName*">
-<input class=button type="submit" value="Open" name="open">
-<input class="buttong" type="submit" value="Run" name="run">
- Program Arguments <input class="text3" type="text" value="*ProgramArgs*", name="programArgs">
-<a class="buttong" href="./ResetESP32">Reset ESP32</a>
-<br>
-)=====";
+  PROGMEM const char EditorPageHTML[] = R"=====(
+  <script>*edit.js*</script>
+  <form  id="usrform" method='POST' action='/edit'>
+  <input type="text" id="FileName" class="text3" name="FileName" value="*programName*">
+  <input class="button" type="submit" value="Open" name="open">
+  <input class="buttong" type="hidden" value="Save" name="saving" id="saving">
+  <input class="buttong" type="submit" value="Run" name="run">
+  Program Arguments <input class="text3" type="text" value="*ProgramArgs*", name="programArgs">
+  <a class="buttong" href="./ResetESP32">Reset ESP32</a>
+  <br>
+  )=====";
+  PROGMEM const char RunEditorPageHTML[] = R"=====(
+  <script>*edit.js*</script>
+  <form  id="usrform" method='POST' action='/edit'>
+  <input type="text" id="FileName" class="text3" name="FileName" value="*programName*">
+  <input class=button type="submit" value="Open" name="open">
+  <input class="buttong" type="submit" value="Run" name="run">
+  Program Arguments <input class="text3" type="text" value="*ProgramArgs*", name="programArgs">
+  <a class="buttong" href="./ResetESP32">Reset ESP32</a>
+  <br>
+  )=====";
 #endif
+
+
 PROGMEM const char editCodeJavaScript[] = R"=====(
 function changeSaveButtonColor()
 {
@@ -1176,10 +1181,12 @@ void setup()
 #endif
 
   pinMode(26, OUTPUT); // VSPI SS
+
 #ifdef TFT
   TFT_setup();
   drawJpeg("/misLogo.jpg", 0, 0);
 #endif
+
 #ifdef OLED
   u8x8.begin();
   u8x8.clearBuffer();
@@ -1190,8 +1197,8 @@ void setup()
   u8x8.drawStr(0, 10 * oi++, " imagesys.com");
   u8x8.drawStr(4, 10 * oi++, "Running on ip");
 #endif
-#ifdef SSD1306OLED
 
+#ifdef SSD1306OLED
   pinMode(16, OUTPUT); //  HELTEX OLED pin 16 is reset
   digitalWrite(16, 0);
   digitalWrite(16, 1);
@@ -1204,6 +1211,7 @@ void setup()
   display.drawString(0, 30, "Running IP");
   display.display();
 #endif
+
 #ifdef ePAPER
   ePaper_init(0, 0, 0, 0);
   display.setRotation(1);
@@ -1218,6 +1226,7 @@ void setup()
   display.println("microimagesys.com");
   OLEDdidWhen = millis();
 #endif
+
   // gets the listening port
   String listenport = LoadDataFromFile("listenport");
   // listening port - by default goes to 80 -

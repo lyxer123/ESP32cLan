@@ -1,5 +1,4 @@
 /* myStdbool.h - Header file for myStdbool.c */
-
 #ifndef MYSTDBOOL_H
 #define MYSTDBOOL_H
 

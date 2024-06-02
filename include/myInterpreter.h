@@ -17,19 +17,19 @@
 #define USE_MALLOC_HEAP
 /* handy definitions */
 #ifndef TRUE
-#define TRUE 1
-#define FALSE 0
+    #define TRUE 1
+    #define FALSE 0
 #endif
 // #define DEBUG_EXPRESSIONS
 // #define DEBUG_LEXER
 // #define DEBUG_HEAP
 
 #ifndef NULL
-#define NULL 0
+    #define NULL 0
 #endif
 
 #ifndef min
-#define min(x, y) (((x) < (y)) ? (x) : (y))
+    #define min(x, y) (((x) < (y)) ? (x) : (y))
 #endif
 extern char buf[BUFSIZE];
 #define MEM_ALIGN(x) (((x) + sizeof(ALIGN_TYPE) - 1) & ~(sizeof(ALIGN_TYPE) - 1))
@@ -38,18 +38,18 @@ extern char buf[BUFSIZE];
 
 /* small processors use a simplified FILE * for stdio, otherwise use the system FILE * */
 #ifdef BUILTIN_MINI_STDLIB
-typedef struct OutputStream IOFILE;
+    typedef struct OutputStream IOFILE;
 #else
-typedef FILE IOFILE;
+    typedef FILE IOFILE;
 #endif
 
 /* coercion of numeric types to other numeric types */
 #ifndef NO_FP
-#define IS_FP(v) ((v)->Typ->Base == TypeFP)
-#define FP_VAL(v) ((v)->Val->FP)
+    #define IS_FP(v) ((v)->Typ->Base == TypeFP)
+    #define FP_VAL(v) ((v)->Val->FP)
 #else
-#define IS_FP(v) 0
-#define FP_VAL(v) 0
+    #define IS_FP(v) 0
+    #define FP_VAL(v) 0
 #endif
 
 #define IS_POINTER_COERCIBLE(v, ap) ((ap) ? ((v)->Typ->Base == TypePointer) : 0)
@@ -312,7 +312,7 @@ extern struct ValueType UberType;
 extern struct ValueType IntType;
 extern struct ValueType CharType;
 #ifndef NO_FP
-extern struct ValueType FPType;
+    extern struct ValueType FPType;
 #endif
 extern struct ValueType VoidType;
 extern struct ValueType TypeType;

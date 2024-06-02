@@ -37,7 +37,7 @@ void *HeapAllocMem(int Size);
 void HeapFreeMem(void *Mem);
 
 #ifdef DEBUG_HEAP
-void ShowBigList();
+    void ShowBigList();
 #endif
 
 #endif /* HEAP_H */

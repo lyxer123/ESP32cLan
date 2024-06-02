@@ -16,9 +16,9 @@
 
 #define LARGE_INT_POWER_OF_TEN 1000000000   /* the largest power of ten which fits in an int on this architecture */
 #if defined(__hppa__) || defined(__sparc__)
-#define ALIGN_TYPE double                   /* the default data type to use for alignment */
+    #define ALIGN_TYPE double                   /* the default data type to use for alignment */
 #else
-#define ALIGN_TYPE void *                   /* the default data type to use for alignment */
+    #define ALIGN_TYPE void *                   /* the default data type to use for alignment */
 #endif
 
 #define GLOBAL_TABLE_SIZE 47                /* global variable table   47s were 97s */
@@ -35,17 +35,17 @@
 #define UNIX_HOST
 /* host platform includes */
 #if defined(WIN32)
-#include "platform\platform_win32.h"
+    #include "platform\platform_win32.h"
 #elif defined(UNIX_HOST)
-#include "myPlatform_unix.h"
+    #include "myPlatform_unix.h"
 #elif defined(FLYINGFOX_HOST)
-#include "platform\platform_ffox.h"
+    #include "platform\platform_ffox.h"
 #elif defined(SURVEYOR_HOST)
-#include "platform\platform_servey.h"
+    #include "platform\platform_servey.h"
 #elif defined(UMON_HOST)
-#include "platform\platform_umon.h"
+    #include "platform\platform_umon.h"
 #else
-#error "No platform has been defined"
+    #error "No platform has been defined"
 #endif
 
 //extern int ExitBuf[];

@@ -25,11 +25,11 @@
 extern const char myFont[][8] PROGMEM;
 
 #ifdef ESP32
-#ifdef SSD1306OLED
-#define BUILTIN_LED 25
-#else
-#define BUILTIN_LED 2
-#endif
+    #ifdef SSD1306OLED
+        #define BUILTIN_LED 25
+    #else
+        #define BUILTIN_LED 2
+    #endif
 #endif // ESP32
 
 // String getValue(String data, char separator, int index);

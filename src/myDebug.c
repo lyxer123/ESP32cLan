@@ -20,7 +20,6 @@ int DebugManualBreak = FALSE;
 
 int DebugStep(struct ParseState * Parser);
 
-
 /* initialise the debugger by clearing the breakpoint table */
 void DebugInit()
 {

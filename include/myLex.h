@@ -5,10 +5,10 @@
 #include "myInterpreter.h"
 
 #ifdef NO_CTYPE
-#define isalpha(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z'))
-#define isdigit(c) ((c) >= '0' && (c) <= '9')
-#define isalnum(c) (isalpha(c) || isdigit(c))
-#define isspace(c) ((c) == ' ' || (c) == '\t' || (c) == '\r' || (c) == '\n')
+    #define isalpha(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z'))
+    #define isdigit(c) ((c) >= '0' && (c) <= '9')
+    #define isalnum(c) (isalpha(c) || isdigit(c))
+    #define isspace(c) ((c) == ' ' || (c) == '\t' || (c) == '\r' || (c) == '\n')
 #endif
 
 #define isCidstart(c) (isalpha(c) || (c)=='_' || (c)=='#')

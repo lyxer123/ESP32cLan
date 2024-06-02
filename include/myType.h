@@ -14,7 +14,7 @@ extern struct ValueType UnsignedIntType;
 extern struct ValueType UnsignedShortType;
 extern struct ValueType UnsignedLongType;
 #ifndef NO_FP
-extern struct ValueType FPType;
+    extern struct ValueType FPType;
 #endif
 extern struct ValueType VoidType;
 extern struct ValueType TypeType;

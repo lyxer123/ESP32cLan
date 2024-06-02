@@ -12,9 +12,9 @@
 
 /* picoc version number */
 #ifdef VER
-#define PICOC_VERSION "v2.2 beta r" VER         /* VER is the subversion version number, obtained via the Makefile */
+    #define PICOC_VERSION "v2.2 beta r" VER         /* VER is the subversion version number, obtained via the Makefile */
 #else
-#define PICOC_VERSION "v2.2"
+    #define PICOC_VERSION "v2.2"
 #endif
 #define BUFSIZE 12000
 #define HEAP_SIZE 45000
@@ -26,28 +26,27 @@ extern void sprint(char * what);
 
 /* handy definitions */
 #ifndef TRUE
-#define TRUE 1
-#define FALSE 0
+    #define TRUE 1
+    #define FALSE 0
 #endif
 #define UNIX_HOST
 #ifdef WIN32
-#include <setjmp.h>
-/* mark where to end the program for platforms which require this */
-extern jmp_buf PicocExitBuf;
-/* this has to be a macro, otherwise errors will occur due to the stack being corrupt */
-#define PicocPlatformSetExitPoint() setjmp(PicocExitBuf)
+    #include <setjmp.h>
+    /* mark where to end the program for platforms which require this */
+    extern jmp_buf PicocExitBuf;
+    /* this has to be a macro, otherwise errors will occur due to the stack being corrupt */
+    #define PicocPlatformSetExitPoint() setjmp(PicocExitBuf)
 #endif
 
 #ifdef UNIX_HOST
+    #define PICOC_STACK_SIZE 45000      //定义堆栈大小，默认是512K
+    #include <setjmp.h>
+    #define BUILTIN_MINI_STDLIB
+    /* mark where to end the program for platforms which require this */
+    extern jmp_buf PicocExitBuf;
 
-#define PICOC_STACK_SIZE 45000      //定义堆栈大小，默认是512K
-#include <setjmp.h>
-#define BUILTIN_MINI_STDLIB
-/* mark where to end the program for platforms which require this */
-extern jmp_buf PicocExitBuf;
-
-/* this has to be a macro, otherwise errors will occur due to the stack being corrupt */
-#define PicocPlatformSetExitPoint() setjmp(PicocExitBuf)
+    /* this has to be a macro, otherwise errors will occur due to the stack being corrupt */
+    #define PicocPlatformSetExitPoint() setjmp(PicocExitBuf)
 #endif
 
 /* parse.c */

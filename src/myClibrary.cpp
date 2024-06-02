@@ -109,98 +109,98 @@ const char myFont[][8] PROGMEM = {
 };
 
 #ifdef ESP32
-// #include <SPIFFS.h>
-#include "LittleFS.h"
-#include <ESP32Servo.h>
+  // #include <SPIFFS.h>
+  #include "LittleFS.h"
+  #include <ESP32Servo.h>
 #endif
 
 #ifdef BME280
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
-Adafruit_BME280 bme; // I2C
+  #include <Adafruit_Sensor.h>
+  #include <Adafruit_BME280.h>
+  Adafruit_BME280 bme; // I2C
 #endif
 
 #ifdef ePAPER
-#include <GxEPD.h>
-#include <GxGDEP015OC1/GxGDEP015OC1.cpp> // 1.54" b/w
+  #include <GxEPD.h>
+  #include <GxGDEP015OC1/GxGDEP015OC1.cpp> // 1.54" b/w
 
-// FreeFonts from Adafruit_GFX
-#include <Fonts/FreeMonoBold9pt7b.h>
-#include <Fonts/FreeMonoBold12pt7b.h>
-#include <Fonts/FreeMonoBold18pt7b.h>
-#include <Fonts/FreeMonoBold24pt7b.h>
+  // FreeFonts from Adafruit_GFX
+  #include <Fonts/FreeMonoBold9pt7b.h>
+  #include <Fonts/FreeMonoBold12pt7b.h>
+  #include <Fonts/FreeMonoBold18pt7b.h>
+  #include <Fonts/FreeMonoBold24pt7b.h>
 
-#include <GxIO/GxIO_SPI/GxIO_SPI.cpp>
-#include <GxIO/GxIO.cpp>
+  #include <GxIO/GxIO_SPI/GxIO_SPI.cpp>
+  #include <GxIO/GxIO.cpp>
 
-GxIO_Class io(SPI, /*CS=D3*/ 17, /*DC=D4*/ 16, /*RST=D4*/ -1); // arbitrary selection of D3(=0), D4(=2), selected for default of GxEPD_Class
-GxEPD_Class display(io, -1, -1 /*RST=D4*/ /*BUSY=D2*/);        // default selection of D4(=2), D2(=4)
-int didEpaperInit = 0;
+  GxIO_Class io(SPI, /*CS=D3*/ 17, /*DC=D4*/ 16, /*RST=D4*/ -1); // arbitrary selection of D3(=0), D4(=2), selected for default of GxEPD_Class
+  GxEPD_Class display(io, -1, -1 /*RST=D4*/ /*BUSY=D2*/);        // default selection of D4(=2), D2(=4)
+  int didEpaperInit = 0;
 
-void ePaper_init(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  if (didEpaperInit != 0)
-    return;
-  display.init(74880);
-  display.setRotation(1);
-  display.fillScreen(GxEPD_WHITE);
-  display.setTextColor(GxEPD_BLACK);
-  display.setFont(&FreeMonoBold9pt7b);
-  display.update();
-  display.setCursor(0, 20);
-  didEpaperInit = 1;
-}
-void ePaper_powerDown(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  display.powerDown();
-}
-void ePaper_setCursor(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  int x = Param[0]->Val->Integer;
-  int y = Param[1]->Val->Integer;
-  display.setCursor(x, y);
-}
-void ePaper_setTextColor(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  int color = Param[0]->Val->Integer;
-  display.setTextColor(color);
-}
-void ePaper_println(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  char *buf = (char *)Param[0]->Val->Pointer;
-  display.println(buf);
-}
-void ePaper_update(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  display.update();
-}
-void ePaper_drawRect(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  int x = Param[0]->Val->Integer;
-  int y = Param[1]->Val->Integer;
-  int width = Param[2]->Val->Integer;
-  int height = Param[3]->Val->Integer;
-  int color = Param[4]->Val->Integer;
-  display.drawRect(x, y, width, height, color);
-}
-void ePaper_fillRect(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  int x = Param[0]->Val->Integer;
-  int y = Param[1]->Val->Integer;
-  int width = Param[2]->Val->Integer;
-  int height = Param[3]->Val->Integer;
-  int color = Param[4]->Val->Integer;
-  display.fillRect(x, y, width, height, color);
-}
-void ePaper_drawLine(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  int x1 = Param[0]->Val->Integer;
-  int y1 = Param[1]->Val->Integer;
-  int x2 = Param[2]->Val->Integer;
-  int y2 = Param[3]->Val->Integer;
-  int color = Param[4]->Val->Integer;
-  display.drawLine(x1, y1, x2, y2, color);
-}
+  void ePaper_init(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    if (didEpaperInit != 0)
+      return;
+    display.init(74880);
+    display.setRotation(1);
+    display.fillScreen(GxEPD_WHITE);
+    display.setTextColor(GxEPD_BLACK);
+    display.setFont(&FreeMonoBold9pt7b);
+    display.update();
+    display.setCursor(0, 20);
+    didEpaperInit = 1;
+  }
+  void ePaper_powerDown(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    display.powerDown();
+  }
+  void ePaper_setCursor(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    int x = Param[0]->Val->Integer;
+    int y = Param[1]->Val->Integer;
+    display.setCursor(x, y);
+  }
+  void ePaper_setTextColor(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    int color = Param[0]->Val->Integer;
+    display.setTextColor(color);
+  }
+  void ePaper_println(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    char *buf = (char *)Param[0]->Val->Pointer;
+    display.println(buf);
+  }
+  void ePaper_update(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    display.update();
+  }
+  void ePaper_drawRect(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    int x = Param[0]->Val->Integer;
+    int y = Param[1]->Val->Integer;
+    int width = Param[2]->Val->Integer;
+    int height = Param[3]->Val->Integer;
+    int color = Param[4]->Val->Integer;
+    display.drawRect(x, y, width, height, color);
+  }
+  void ePaper_fillRect(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    int x = Param[0]->Val->Integer;
+    int y = Param[1]->Val->Integer;
+    int width = Param[2]->Val->Integer;
+    int height = Param[3]->Val->Integer;
+    int color = Param[4]->Val->Integer;
+    display.fillRect(x, y, width, height, color);
+  }
+  void ePaper_drawLine(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    int x1 = Param[0]->Val->Integer;
+    int y1 = Param[1]->Val->Integer;
+    int x2 = Param[2]->Val->Integer;
+    int y2 = Param[3]->Val->Integer;
+    int color = Param[4]->Val->Integer;
+    display.drawLine(x1, y1, x2, y2, color);
+  }
 #endif
 
 void loop();
@@ -219,159 +219,159 @@ void doLoop(struct ParseState *Parser, struct Value *ReturnValue, struct Value *
 }
 
 #ifdef NEO_PIXEL
-#include <Adafruit_NeoPixel.h>
-Adafruit_NeoPixel *neoPixel;
-void NEO_begin_init(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  int pin = Param[1]->Val->Integer;
-  int count = Param[0]->Val->Integer;
-  neoPixel = new Adafruit_NeoPixel(count, pin, NEO_GRB + NEO_KHZ800);
-}
-void NEO_setup(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  int brightness = Param[0]->Val->Integer;
-  neoPixel->begin();
-  neoPixel->show();
-  neoPixel->setBrightness(brightness);
-}
-void NEO_setPixelColorRGB(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  //(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
-  int n = Param[0]->Val->Integer;
-  int r = Param[1]->Val->Integer;
-  int g = Param[2]->Val->Integer;
-  int b = Param[3]->Val->Integer;
-  neoPixel->setPixelColor((uint16_t)n, (uint8_t)r, (uint8_t)g, (uint8_t)b);
-}
-void NEO_setPixelColorRGBW(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  //(uint16_t n, uint8_t r, uint8_t g, uint8_t b, uint8_t w);
-  int n = Param[0]->Val->Integer;
-  int r = Param[1]->Val->Integer;
-  int g = Param[2]->Val->Integer;
-  int b = Param[3]->Val->Integer;
-  int w = Param[4]->Val->Integer;
-  neoPixel->setPixelColor((uint16_t)n, (uint8_t)r, (uint8_t)g, (uint8_t)b, (uint8_t)w);
-}
-void NEO_setPixelColor32(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  //(uint16_t n, uint32_t c);
-  int n = Param[0]->Val->Integer;
-  int c = Param[1]->Val->Integer;
-  neoPixel->setPixelColor((uint16_t)n, c);
-}
-void NEO_fill(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  //(uint32_t c=0, uint16_t first=0, uint16_t count=0);
-  int c = Param[0]->Val->Integer;
-  int first = Param[1]->Val->Integer;
-  int count = Param[2]->Val->Integer;
-  neoPixel->fill(c, (uint16_t)first, (uint16_t)count);
-}
-void NEO_setBrightness(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  //(uint8_t);
-  int brightness = Param[0]->Val->Integer;
-  neoPixel->setBrightness((uint8_t)brightness);
-}
-// Fill strip pixels one after another with a color. Strip is NOT cleared
-// first; anything there will be covered pixel by pixel. Pass in color
-// (as a single 'packed' 32-bit value, which you can get by calling
-// neoPixel->Color(red, green, blue) as shown in the loop() function above),
-// and a delay time (in milliseconds) between pixels.
-void NEO_colorWipe(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  // uint32_t color, int wait) {
-  int color = Param[0]->Val->Integer;
-  int wait = Param[1]->Val->Integer;
-  for (int i = 0; i < neoPixel->numPixels(); i++)
-  {                                    // For each pixel in strip...
-    neoPixel->setPixelColor(i, color); //  Set pixel's color (in RAM)
-    neoPixel->show();                  //  Update strip to match
-    delay(wait);                       //  Pause for a moment
+  #include <Adafruit_NeoPixel.h>
+  Adafruit_NeoPixel *neoPixel;
+  void NEO_begin_init(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    int pin = Param[1]->Val->Integer;
+    int count = Param[0]->Val->Integer;
+    neoPixel = new Adafruit_NeoPixel(count, pin, NEO_GRB + NEO_KHZ800);
   }
-}
+  void NEO_setup(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    int brightness = Param[0]->Val->Integer;
+    neoPixel->begin();
+    neoPixel->show();
+    neoPixel->setBrightness(brightness);
+  }
+  void NEO_setPixelColorRGB(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    //(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
+    int n = Param[0]->Val->Integer;
+    int r = Param[1]->Val->Integer;
+    int g = Param[2]->Val->Integer;
+    int b = Param[3]->Val->Integer;
+    neoPixel->setPixelColor((uint16_t)n, (uint8_t)r, (uint8_t)g, (uint8_t)b);
+  }
+  void NEO_setPixelColorRGBW(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    //(uint16_t n, uint8_t r, uint8_t g, uint8_t b, uint8_t w);
+    int n = Param[0]->Val->Integer;
+    int r = Param[1]->Val->Integer;
+    int g = Param[2]->Val->Integer;
+    int b = Param[3]->Val->Integer;
+    int w = Param[4]->Val->Integer;
+    neoPixel->setPixelColor((uint16_t)n, (uint8_t)r, (uint8_t)g, (uint8_t)b, (uint8_t)w);
+  }
+  void NEO_setPixelColor32(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    //(uint16_t n, uint32_t c);
+    int n = Param[0]->Val->Integer;
+    int c = Param[1]->Val->Integer;
+    neoPixel->setPixelColor((uint16_t)n, c);
+  }
+  void NEO_fill(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    //(uint32_t c=0, uint16_t first=0, uint16_t count=0);
+    int c = Param[0]->Val->Integer;
+    int first = Param[1]->Val->Integer;
+    int count = Param[2]->Val->Integer;
+    neoPixel->fill(c, (uint16_t)first, (uint16_t)count);
+  }
+  void NEO_setBrightness(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    //(uint8_t);
+    int brightness = Param[0]->Val->Integer;
+    neoPixel->setBrightness((uint8_t)brightness);
+  }
+  // Fill strip pixels one after another with a color. Strip is NOT cleared
+  // first; anything there will be covered pixel by pixel. Pass in color
+  // (as a single 'packed' 32-bit value, which you can get by calling
+  // neoPixel->Color(red, green, blue) as shown in the loop() function above),
+  // and a delay time (in milliseconds) between pixels.
+  void NEO_colorWipe(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    // uint32_t color, int wait) {
+    int color = Param[0]->Val->Integer;
+    int wait = Param[1]->Val->Integer;
+    for (int i = 0; i < neoPixel->numPixels(); i++)
+    {                                    // For each pixel in strip...
+      neoPixel->setPixelColor(i, color); //  Set pixel's color (in RAM)
+      neoPixel->show();                  //  Update strip to match
+      delay(wait);                       //  Pause for a moment
+    }
+  }
 
-// Theater-marquee-style chasing lights. Pass in a color (32-bit value,
-// a la neoPixel->Color(r,g,b) as mentioned above), and a delay time (in ms)
-// between frames.
-void NEO_theaterChase(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  // uint32_t color, int wait) {
-  int color = Param[0]->Val->Integer;
-  int wait = Param[1]->Val->Integer;
-  for (int a = 0; a < 10; a++)
-  { // Repeat 10 times...
-    for (int b = 0; b < 3; b++)
-    {                    //  'b' counts from 0 to 2...
-      neoPixel->clear(); //   Set all pixels in RAM to 0 (off)
-      // 'c' counts up from 'b' to end of strip in steps of 3...
-      for (int c = b; c < neoPixel->numPixels(); c += 3)
-      {
-        neoPixel->setPixelColor(c, color); // Set pixel 'c' to value 'color'
+  // Theater-marquee-style chasing lights. Pass in a color (32-bit value,
+  // a la neoPixel->Color(r,g,b) as mentioned above), and a delay time (in ms)
+  // between frames.
+  void NEO_theaterChase(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    // uint32_t color, int wait) {
+    int color = Param[0]->Val->Integer;
+    int wait = Param[1]->Val->Integer;
+    for (int a = 0; a < 10; a++)
+    { // Repeat 10 times...
+      for (int b = 0; b < 3; b++)
+      {                    //  'b' counts from 0 to 2...
+        neoPixel->clear(); //   Set all pixels in RAM to 0 (off)
+        // 'c' counts up from 'b' to end of strip in steps of 3...
+        for (int c = b; c < neoPixel->numPixels(); c += 3)
+        {
+          neoPixel->setPixelColor(c, color); // Set pixel 'c' to value 'color'
+        }
+        neoPixel->show(); // Update strip with new contents
+        delay(wait);      // Pause for a moment
+      }
+    }
+  }
+
+  // Rainbow cycle along whole strip. Pass delay time (in ms) between frames.
+  void NEO_rainbow(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    // int wait) {
+    int wait = Param[0]->Val->Integer;
+    // Hue of first pixel runs 5 complete loops through the color wheel.
+    // Color wheel has a range of 65536 but it's OK if we roll over, so
+    // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
+    // means we'll make 5*65536/256 = 1280 passes through this outer loop:
+    for (long firstPixelHue = 0; firstPixelHue < 5 * 65536; firstPixelHue += 256)
+    {
+      for (int i = 0; i < neoPixel->numPixels(); i++)
+      { // For each pixel in strip...
+        // Offset pixel hue by an amount to make one full revolution of the
+        // color wheel (range of 65536) along the length of the strip
+        // (strip.numPixels() steps):
+        int pixelHue = firstPixelHue + (i * 65536L / neoPixel->numPixels());
+        // strip.ColorHSV() can take 1 or 3 arguments: a hue (0 to 65535) or
+        // optionally add saturation and value (brightness) (each 0 to 255).
+        // Here we're using just the single-argument hue variant. The result
+        // is passed through strip.gamma32() to provide 'truer' colors
+        // before assigning to each pixel:
+        neoPixel->setPixelColor(i, neoPixel->gamma32(neoPixel->ColorHSV(pixelHue)));
       }
       neoPixel->show(); // Update strip with new contents
       delay(wait);      // Pause for a moment
     }
   }
-}
 
-// Rainbow cycle along whole strip. Pass delay time (in ms) between frames.
-void NEO_rainbow(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  // int wait) {
-  int wait = Param[0]->Val->Integer;
-  // Hue of first pixel runs 5 complete loops through the color wheel.
-  // Color wheel has a range of 65536 but it's OK if we roll over, so
-  // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
-  // means we'll make 5*65536/256 = 1280 passes through this outer loop:
-  for (long firstPixelHue = 0; firstPixelHue < 5 * 65536; firstPixelHue += 256)
+  // Rainbow-enhanced theater marquee. Pass delay time (in ms) between frames.
+  void NEO_theaterChaseRainbow(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
   {
-    for (int i = 0; i < neoPixel->numPixels(); i++)
-    { // For each pixel in strip...
-      // Offset pixel hue by an amount to make one full revolution of the
-      // color wheel (range of 65536) along the length of the strip
-      // (strip.numPixels() steps):
-      int pixelHue = firstPixelHue + (i * 65536L / neoPixel->numPixels());
-      // strip.ColorHSV() can take 1 or 3 arguments: a hue (0 to 65535) or
-      // optionally add saturation and value (brightness) (each 0 to 255).
-      // Here we're using just the single-argument hue variant. The result
-      // is passed through strip.gamma32() to provide 'truer' colors
-      // before assigning to each pixel:
-      neoPixel->setPixelColor(i, neoPixel->gamma32(neoPixel->ColorHSV(pixelHue)));
-    }
-    neoPixel->show(); // Update strip with new contents
-    delay(wait);      // Pause for a moment
-  }
-}
-
-// Rainbow-enhanced theater marquee. Pass delay time (in ms) between frames.
-void NEO_theaterChaseRainbow(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  // int wait) {
-  int wait = Param[0]->Val->Integer;
-  int firstPixelHue = 0; // First pixel starts at red (hue 0)
-  for (int a = 0; a < 30; a++)
-  { // Repeat 30 times...
-    for (int b = 0; b < 3; b++)
-    {                    //  'b' counts from 0 to 2...
-      neoPixel->clear(); //   Set all pixels in RAM to 0 (off)
-      // 'c' counts up from 'b' to end of strip in increments of 3...
-      for (int c = b; c < neoPixel->numPixels(); c += 3)
-      {
-        // hue of pixel 'c' is offset by an amount to make one full
-        // revolution of the color wheel (range 65536) along the length
-        // of the strip (neoPixel->numPixels() steps):
-        int hue = firstPixelHue + c * 65536L / neoPixel->numPixels();
-        uint32_t color = neoPixel->gamma32(neoPixel->ColorHSV(hue)); // hue -> RGB
-        neoPixel->setPixelColor(c, color);                           // Set pixel 'c' to value 'color'
+    // int wait) {
+    int wait = Param[0]->Val->Integer;
+    int firstPixelHue = 0; // First pixel starts at red (hue 0)
+    for (int a = 0; a < 30; a++)
+    { // Repeat 30 times...
+      for (int b = 0; b < 3; b++)
+      {                    //  'b' counts from 0 to 2...
+        neoPixel->clear(); //   Set all pixels in RAM to 0 (off)
+        // 'c' counts up from 'b' to end of strip in increments of 3...
+        for (int c = b; c < neoPixel->numPixels(); c += 3)
+        {
+          // hue of pixel 'c' is offset by an amount to make one full
+          // revolution of the color wheel (range 65536) along the length
+          // of the strip (neoPixel->numPixels() steps):
+          int hue = firstPixelHue + c * 65536L / neoPixel->numPixels();
+          uint32_t color = neoPixel->gamma32(neoPixel->ColorHSV(hue)); // hue -> RGB
+          neoPixel->setPixelColor(c, color);                           // Set pixel 'c' to value 'color'
+        }
+        neoPixel->show();            // Update strip with new contents
+        delay(wait);                 // Pause for a moment
+        firstPixelHue += 65536 / 90; // One cycle of color wheel over 90 frames
       }
-      neoPixel->show();            // Update strip with new contents
-      delay(wait);                 // Pause for a moment
-      firstPixelHue += 65536 / 90; // One cycle of color wheel over 90 frames
     }
   }
-}
 #endif
 
 #ifdef ESP32
@@ -394,54 +394,55 @@ extern "C"
   extern char literal;
 }
 #ifdef OLED
-#include <U8g2lib.h>
-extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8x8;
-extern int oi;
+  #include <U8g2lib.h>
+  extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8x8;
+  extern int oi;
 #endif // OLED
 
 #ifdef SSD1306OLED
-#include "SSD1306Wire.h"
-extern SSD1306Wire display;
-extern OLEDDISPLAY_COLOR OLEDcolor;
+  #include "SSD1306Wire.h"
+  extern SSD1306Wire display;
+  extern OLEDDISPLAY_COLOR OLEDcolor;
 #endif
 
 #ifdef BME280
-float temp, pressure, rh;
-void BME_init(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  bool status = bme.begin(0x76);
-  if (!status)
-    sendContent("Could not find a valid BME280 sensor, check wiring!");
-  delay(200);
-  bme.readTemperature();
-  bme.readPressure();
-  bme.readHumidity();
-}
-void BME_readTemp(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  temp = bme.readTemperature() * 9 / 5 + 32; // *F
-  ReturnValue->Val->FP = temp;
-}
-void BME_readPressure(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  pressure = bme.readPressure() * 29.53 / 100000; // in Hg
-  ReturnValue->Val->FP = pressure;
-}
-void BME_readRH(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-  rh = bme.readHumidity();
-  ReturnValue->Val->FP = rh;
-}
+  float temp, pressure, rh;
+  void BME_init(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    bool status = bme.begin(0x76);
+    if (!status)
+      sendContent("Could not find a valid BME280 sensor, check wiring!");
+    delay(200);
+    bme.readTemperature();
+    bme.readPressure();
+    bme.readHumidity();
+  }
+  void BME_readTemp(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    temp = bme.readTemperature() * 9 / 5 + 32; // *F
+    ReturnValue->Val->FP = temp;
+  }
+  void BME_readPressure(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    pressure = bme.readPressure() * 29.53 / 100000; // in Hg
+    ReturnValue->Val->FP = pressure;
+  }
+  void BME_readRH(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+  {
+    rh = bme.readHumidity();
+    ReturnValue->Val->FP = rh;
+  }
 #endif BME280
 
 #ifdef TFT
-#include <TftGauge.h>
-#include <Hershey.h>
-extern TFT_eSPI tft;
-void drawJpeg(char *filename, int xpos, int ypos);
-void FontShow();
-extern Hershey HF;
+  #include <TftGauge.h>
+  #include <Hershey.h>
+  extern TFT_eSPI tft;
+  void drawJpeg(char *filename, int xpos, int ypos);
+  void FontShow();
+  extern Hershey HF;
 #endif // TFT
+
 void setFont(char *font);
 #ifdef TFT
 int nGauges = 0;
@@ -3055,7 +3056,7 @@ extern "C"
     fin.read((uint8_t *)&buf, BUFSIZE - 1);
     fin.close();
   }
-  
+
   char buff[8];
   char *item = 0;
 #ifndef ESP32
@@ -3148,10 +3149,7 @@ extern "C"
           {TFT_drawCircle, "void TFT_drawCircle(int,int,int,int);"},                 // xc,yc,radius,color
           {TFT_drawRoundRect, "void TFT_drawRoundRect(int,int,int,int,int,int);"},   // x,y,width,height,radius,color
           {TFT_fillRoundRect, "void TFT_fillRoundRect(int,int,int,int,int,int);"},   // x,y,width,height,radius,color
-          {
-              TFT_invertDisplay,
-              "void TFT_invertDisplay(int);",
-          },                                                                         // pass 0 for nurmal 1 for inverse
+          {TFT_invertDisplay, "void TFT_invertDisplay(int);",},                      // pass 0 for nurmal 1 for inverse
           {TFT_drawEllipse, "void TFT_drawEllipse(short,short,short,short,short);"}, // xc,yc,radiusx,radiusy,color
           {TFT_fillEllipse, "void TFT_fillEllipse(short,short,short,short,short);"}, // xc,yc,radiusx,radiusy,color
           {TFT_readRect, "void TFT_readRect(int,int,int,int,short *);"},             // startx,starty,width,height
