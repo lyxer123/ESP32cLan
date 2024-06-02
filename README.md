@@ -17,10 +17,10 @@
 
 ## 原版picoc-arduino与本项目代码差异
 * 如下文件基本保持一致  
-* * platform.h 是您选择平台类型并指定包含的内容的地方等等，适用于您的平台。   
-* * platform_XXX.c 包含支持函数，以便编译器可以您的平台，例如如何将字符写入控制台等。   
-* * platform_library.c 包含您想要创建的函数库可供用户程序使用。   
-* * 还有一个 clibrary.c，其中包含用户库函数，例如printf() 与平台无关。   
+platform.h 是您选择平台类型并指定包含的内容的地方等等，适用于您的平台。   
+platform_XXX.c 包含支持函数，以便编译器可以您的平台，例如如何将字符写入控制台等。   
+platform_library.c 包含您想要创建的函数库可供用户程序使用。   
+还有一个 clibrary.c，其中包含用户库函数，例如printf() 与平台无关。   
 
 * 移植系统将涉及设置适当的包含和定义   
 在 platform.h 中，在 platform_XXX.c 中编写一些 I/O 例程，将在 platform_library.c 中你想要的任何用户功能然后更改picoc.c 中的主程序，用于获取程序所需的任何操作进入系统。   
