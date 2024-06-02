@@ -979,6 +979,11 @@ int oi = 1;
 char GlobalScope = 0;
 char didPlines = 0;
 
+uint32_t getFreeHeapSize(void)
+{
+  return ESP.getFreeHeap();
+}
+
 void runProgram()
 {
   String WebOut = AdminBarHTML;

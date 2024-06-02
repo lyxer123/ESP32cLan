@@ -121,6 +121,8 @@ void sendln(char *it);
 char fileExists(char *fileName);
 }
 
+
+uint32_t getFreeHeapSize(void);
 void setup();
 void loop();
 void runProgram();

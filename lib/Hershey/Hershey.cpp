@@ -1,8 +1,7 @@
 /* Hershey Fonts Render library
 
 MIT license
-written by Rick Lunglhofer
-for Micro Image Systems
+written by Rick Lunglhofer for Micro Image Systems
 
 */
 
@@ -10,7 +9,8 @@ for Micro Image Systems
 #include <FS.h>
 #include <math.h>
 #ifndef ESP32
-#include <TFT_eSPI.h> // Hardware-specific library#else
+#include <TFT_eSPI.h> // Hardware-specific library
+#else
 #include <TFT_eSPI.h> // Hardware-specific library
 #endif
 extern TFT_eSPI tft;

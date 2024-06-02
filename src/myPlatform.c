@@ -9,6 +9,7 @@
 #include "myInterpreter.h"
 #include "myPlatform.h"
 #include "globals.h"
+// #include "main.h"
 // #include "myClibrary.h"
 
 /* the value passed to exit() */
@@ -57,9 +58,9 @@ void sPrintln(char *what);
 void PicocCleanup()
 {
 
-    // int free = ESP.getFreeHeap();
+    // int free = getFreeHeapSize();
     char fm[] = "In PicocCleanup freeMemory=";
-    // Ssend((char *)&fm);
+    Ssend((char *)&fm);
     // DebugPrintInt(free);
     DebugCleanup();
     Ssend("Done DebugCleanup\n");
