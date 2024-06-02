@@ -35,7 +35,6 @@ static FILE *stderrValue;
 
 struct ValueType *FilePtrType = NULL;
 
-
 /* our own internal output stream which can output to FILE * or strings */
 typedef struct StdOutStreamStruct
 {
