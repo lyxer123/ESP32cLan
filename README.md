@@ -1,3 +1,12 @@
+## 需要库文件
+* ESP32Servo 1.2.1版本可用于arduino ESP的2.x版本，用于3.0.0版本的时候修改
+https://github.com/espressif/arduino-esp32/blob/master/docs/en/migration_guides/2.x_to_3.0.rst#ledc
+* TFT_eSPI版本采用2.5.43版本，里面的SPIFFS需要修改为LittleFS
+* JPEGDecoder本部需要将SPIFFS需要修改为LittleFS
+
+
+
+
 ## ESP32cLan（学习成本较低）
 * PicoC 是一款非常小的 C 脚本解释器。它最初是作为无人机机载飞行系统的脚本语言。它也非常适用于其他机器人、嵌入式和非嵌入式应用。  
 * 核心 C 源代码大约有 3500 行。它不打算ISO C 的完整实现，但已包含所有基本功能。  
