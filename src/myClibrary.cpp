@@ -866,7 +866,7 @@ void HFsetFont(struct ParseState *Parser, struct Value *ReturnValue, struct Valu
 #endif
 // extern struct StackFrame *TopStackFrame;
 
-const char *Ident;
+// const char *Ident;
 extern void sendContent(char *it);
 extern void send(char *it);
 extern void sendc(char it);
@@ -3202,12 +3202,12 @@ extern "C"
 #ifndef ESP32
           {heap, "void heap();"},
 #endif
+
 #ifdef BME280
           {BME_init, "void BME_init();"},
           {BME_readTemp, "float BME_readTemp();"},
           {BME_readPressure, "float BME_readPressure();"},
           {BME_readRH, "float BME_readRH();"},
-
 #endif // BME280
 
 #ifdef NEO_PIXEL
@@ -3223,6 +3223,7 @@ extern "C"
           {NEO_rainbow, "void NEO_rainbow(int);"},
           {NEO_theaterChaseRainbow, "void NEO_theaterChaseRainbow(int);"},
 #endif
+
 #ifdef ePAPER
           {ePaper_init, "void ePaper_init();"},
           {ePaper_setCursor, "void ePaper_setCursor(int,int);"},
@@ -3242,6 +3243,7 @@ extern "C"
           {LibGetc, "int getchar();"},
           {LibExit, "void exit(int);"},
 #ifdef PICOC_LIBRARY
+
 #ifndef NO_FP
           {StdlibAtof, "float atof(char *);"},
 #endif // NO_FP

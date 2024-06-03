@@ -57,7 +57,6 @@ void sPrintln(char *what);
 /* free memory */
 void PicocCleanup()
 {
-
     // int free = getFreeHeapSize();
     char fm[] = "In PicocCleanup freeMemory=";
     Ssend((char *)&fm);
@@ -109,7 +108,6 @@ void PicocCleanup()
 }
 
 /* platform-dependent code for running programs */
-
 #define CALL_MAIN_NO_ARGS_RETURN_VOID "main();"
 #define CALL_MAIN_WITH_ARGS_RETURN_VOID "main(__argc,__argv);"
 #define CALL_MAIN_NO_ARGS_RETURN_INT "__exit_value = main();"

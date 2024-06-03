@@ -309,14 +309,14 @@ int JPEGDecoder::decodeFile(const String& pFilename){
 // Call specific to SPIFFS
 int JPEGDecoder::decodeFsFile(const char *pFilename) {
 
-	fs::File pInFile = SPIFFS.open( pFilename, "r");
+	fs::File pInFile = LittleFS.open( pFilename, "r");
 
 	return decodeFsFile(pInFile);
 }
 
 int JPEGDecoder::decodeFsFile(const String& pFilename) {
 
-	fs::File pInFile = SPIFFS.open( pFilename, "r");
+	fs::File pInFile = LittleFS.open( pFilename, "r");
 
 	return decodeFsFile(pInFile);
 }

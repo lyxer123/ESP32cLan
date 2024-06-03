@@ -41,6 +41,7 @@ extern "C"
 #endif
 
     struct StackFrame;  // 前向声明
+    extern char * Ident;
     extern struct StackFrame *TopStackFrame;
 
     void sendln(char *it);

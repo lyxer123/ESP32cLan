@@ -142,7 +142,7 @@ void DebugCheckStatement(struct ParseState *Parser)
 }
 
 // extern struct StackFrame* TopStackFrame;
-const char * Ident;
+// const char * Ident;
 
 void PrintValue(struct Value * Var)
 {

@@ -41,7 +41,7 @@ https://github.com/Bodmer/JPEGDecoder
 		#include <FS.h>
 
 		#ifdef ESP32
-			#include "SPIFFS.h" // ESP32 only
+			#include "LittleFS.h" // ESP32 only
 		#endif
 
 	#endif
