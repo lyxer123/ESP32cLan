@@ -22,7 +22,7 @@ https://github.com/espressif/arduino-esp32/blob/master/docs/en/migration_guides/
 * 4.esp32的c语言：https://www.codeproject.com/Articles/5061494/Run-a-C-Language-Interpreter-on-Your-ESP32
 * 5.picoc的arduino版本：https://github.com/rhelmus/picoc-arduino
 
-编译通过
+编译通过，在esp32板子上可运行，而在esp32-s3板子上全跑飞
 
 ## 原版picoc-arduino与本项目代码差异
 ### 如下文件基本保持一致  

@@ -1563,7 +1563,6 @@ void setup()
 
   /*
     server.on(F("/codein"), []() {
-
       if (server.arg(F("SaveTheCode")) == F("start"))
       {
         inData = "end";
@@ -1598,15 +1597,12 @@ void setup()
       }
       server.send(200, F("text/html"), F("good"));
     });
-
-
   */
 
   server.on(F("/msg"), []()
             {
 
     MsgBranchRetrnData = F("No MSG Branch Defined");
-
     if (msgbranch != "")
     {
       inData = String(" goto " + msgbranch + " ");
@@ -2146,7 +2142,6 @@ String FetchWebUrl(String URLtoGet, int PortNoForPage)
 
 void serialFlush()
 {
-
   while (Serial.available() > 0)
   {
     delay(0);

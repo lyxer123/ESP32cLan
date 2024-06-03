@@ -4,7 +4,6 @@
 #include "myWeb_GUI_Stuff.h"
 #include "globals.h"
 
-
 String GetRidOfurlCharacters(String urlChars)
 {
   int i;
@@ -37,8 +36,7 @@ String GetRidOfurlCharacters(String urlChars)
     }
   }
 
-  return result;
-  
+  return result;  
 }
 
 
@@ -50,8 +48,6 @@ String RunningProgramGui()
   String WebOut = String(MobileFreindlyWidth) + String(F("<form action='input'>"))  + HTMLout + String(F("</form>"));
   return WebOut;
 }
-
-
 
 void PrintAndWebOut(String itemToBePrinted)
 {
