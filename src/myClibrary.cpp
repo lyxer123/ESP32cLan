@@ -1071,9 +1071,7 @@ extern "C"
 #ifdef BUILTIN_MINI_STDLIB
 
   /*
-   * This is a simplified standard library for small embedded systems. It doesn't require
-   * a system stdio library to operate.
-   *
+   * This is a simplified standard library for small embedded systems. It doesn't require a system stdio library to operate.
    * A more complete standard library for larger computers is in the library_XXX.c files.
    */
 
