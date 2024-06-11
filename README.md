@@ -1,10 +1,9 @@
 ## 需要库文件
-* ESP32Servo 1.2.1版本可用于arduino ESP的2.x版本，用于3.0.0版本的时候修改
+* ESP32Servo 1.2.1版本可用于arduino ESP的2.x版本，暂时不要使用3.0.0版本（不稳定，跑飞）。  
+3.0.0版本的修改如下
 https://github.com/espressif/arduino-esp32/blob/master/docs/en/migration_guides/2.x_to_3.0.rst#ledc
 * TFT_eSPI版本采用2.5.43版本，里面的SPIFFS需要修改为LittleFS
 * JPEGDecoder本部需要将SPIFFS需要修改为LittleFS
-
-
 
 
 ## ESP32cLan（学习成本较低）
@@ -22,7 +21,7 @@ https://github.com/espressif/arduino-esp32/blob/master/docs/en/migration_guides/
 * 4.esp32的c语言：https://www.codeproject.com/Articles/5061494/Run-a-C-Language-Interpreter-on-Your-ESP32
 * 5.picoc的arduino版本：https://github.com/rhelmus/picoc-arduino
 
-编译通过
+编译通过，在esp32板子上可运行，而在esp32-s3板子上全跑飞
 
 ## 原版picoc-arduino与本项目代码差异
 ### 如下文件基本保持一致  

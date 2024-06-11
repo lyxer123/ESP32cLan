@@ -194,8 +194,6 @@ void graphWeather()
      tft.setTextSize(2);
 }
 
-
-
 void TFTFileDemo()
 {
 	  tft.fillScreen(0xffff);

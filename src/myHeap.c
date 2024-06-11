@@ -17,7 +17,7 @@ static void *StackFrame = NULL;                     /* the current stack frame *
 void *HeapStackTop = NULL;                          /* the top of the stack */
 #else
 static unsigned char HeapMemory[HEAP_SIZE];         /* all memory - stack and heap */
-static void *HeapBottom = &HeapMemory[HEAP_SIZE];   /* the bottom of the (downward-growing) heap */
+static void *HeapBottom = &HeapMemory[HEAP];   /* the bottom of the (downward-growing) heap */
 static void *StackFrame = &HeapMemory[0];           /* the current stack frame */
 void *HeapStackTop = &HeapMemory[0];                /* the top of the stack */
 # endif

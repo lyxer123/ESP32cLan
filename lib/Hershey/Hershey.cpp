@@ -29,8 +29,8 @@ void Hershey::setStrokeDelay(int delay)
 void Hershey::loadfile(char * fname)
 {
 	int i;	
-	if (!LittleFS.exists(fname)) {Serial.print(fname);Serial.println(" Does not exist");}
-    fs::File fin=LittleFS.open(fname,"r");
+	if (!SPIFFS.exists(fname)) {Serial.print(fname);Serial.println(" Does not exist");}
+    fs::File fin=SPIFFS.open(fname,"r");
 	int cc=0;
 	for (i=0;i<96;i++)
 	{
@@ -62,7 +62,7 @@ void Hershey::setFont(char * font)
     if (strstr(font,"serif")!=0) // Serif Font
 	{
 		if (strcmp((char *)&fontFile,"/ltr.hrsh")==0) return;
-		if (!LittleFS.exists("/ltr.hrsh")) { Serial.println("File missing");return;}
+		if (!SPIFFS.exists("/ltr.hrsh")) { Serial.println("File missing");return;}
 	  loadfile("/ltr.hrsh");
 //	Serial.println("Leaving setFont with serif");
 	  return;
@@ -70,7 +70,7 @@ void Hershey::setFont(char * font)
     if (strstr(font,"sansbold")!=0) // Sans Font Bold
 	{
 		if (strcmp((char *)&fontFile,"/futuram.hrsh")==0) return;
-		if (!LittleFS.exists("/futuram.hrsh")) { Serial.println("File missing");return;}
+		if (!SPIFFS.exists("/futuram.hrsh")) { Serial.println("File missing");return;}
 	  loadfile("/futuram.hrsh");
 	//Serial.println("Leaving setFont with sansbold");
 	  return;
@@ -78,7 +78,7 @@ void Hershey::setFont(char * font)
     if (strstr(font,"sans")!=0) // Sans Font
     {
 		if (strcmp((char *)&fontFile,"/futural.hrsh")==0) return;
-		if (!LittleFS.exists("/futural.hrsh")) { Serial.println("File missing");return;}
+		if (!SPIFFS.exists("/futural.hrsh")) { Serial.println("File missing");return;}
 	  loadfile("/futural.hrsh");
 	//Serial.println("Leaving setFont with sans");
 		return;
@@ -86,7 +86,7 @@ void Hershey::setFont(char * font)
     if (strstr(font,"greek")!=0) // Greek Font
     {
 		if (strcmp((char *)&fontFile,"/greek.hrsh")==0) return;
-		if (!LittleFS.exists("/greek.hrsh")) { Serial.println("File missing");return;}
+		if (!SPIFFS.exists("/greek.hrsh")) { Serial.println("File missing");return;}
 	  loadfile("/greek.hrsh");
 	//Serial.println("Leaving setFont with greek");
 		return;
@@ -94,7 +94,7 @@ void Hershey::setFont(char * font)
     if (strstr(font,"cursive")!=0) // Cursive Font
     {
 		if (strcmp((char *)&fontFile,"/cursive.hrsh")==0) return;
-		if (!LittleFS.exists("/cursive.hrsh")) { Serial.println("File missing");return;}
+		if (!SPIFFS.exists("/cursive.hrsh")) { Serial.println("File missing");return;}
 	  loadfile("/cursive.hrsh");
 	//Serial.println("Leaving setFont with cursive");
 		return;
@@ -164,7 +164,7 @@ int Hershey::getSize(char * it,float scale)
 
    float w=0;
    char ch=*it - ' ';
-   fs::File fin=LittleFS.open(fontFile,"r");
+   fs::File fin=SPIFFS.open(fontFile,"r");
    char l,r;
    fin.seek(hFont[ch]+2,(fs::SeekMode)0);
    fin.readBytes(&l,1);
@@ -205,7 +205,7 @@ void Hershey::draw(char chr,float scale,int color)
    //sprintf((char *)&buf,"%c %c %c %c",*ch++,*ch++,*ch++,*ch++);
    ////Serial.println((char *)&buf);
    ch=chr-' ';
-   fs::File fin=LittleFS.open((char *)&fontFile,"r");
+   fs::File fin=SPIFFS.open((char *)&fontFile,"r");
    if (fin!=0) //Serial.printf("draw opened %s\n",&fontFile);
    ////Serial.print(*ch);//Serial.println(*(ch+1));
    fin.seek(hFont[ch],(fs::SeekMode)0); // seek to character to be drawn
@@ -272,7 +272,7 @@ void Hershey::drawRotated(int xc,int yc,char chr,float scale,int color,float ang
    //sprintf((char *)&buf,"%c %c %c %c",*ch++,*ch++,*ch++,*ch++);
    ////Serial.println((char *)&buf);
    ch=chr-' ';
-   fs::File fin=LittleFS.open((char *)&fontFile,"r");
+   fs::File fin=SPIFFS.open((char *)&fontFile,"r");
    fin.seek(hFont[ch],(fs::SeekMode)0); // seek to character to be drawn
    int np;
    fin.readBytes((char *)&buf,2);buf[2]=0;np=atoi((char *)&buf);

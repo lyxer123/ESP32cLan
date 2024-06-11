@@ -8,7 +8,7 @@
 //#define USE_MALLOC_STACK
 
 /* Adjust these parameters as needed */
-#define HEAP_SIZE 1024
+#define HEAP_SIZE 4096    //liuyongxiang
 #define ALIGN_TYPE double
 
 /* Alignment macros */

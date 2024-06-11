@@ -7,7 +7,8 @@
 #include <FS.h>
 
 #ifdef ESP32
-#include "LittleFS.h"
+// #include "SPIFFS.h"
+#include "SPIFFS.h"
 #include <ESP32Servo.h>
 #endif
 

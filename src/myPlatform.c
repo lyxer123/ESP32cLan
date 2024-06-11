@@ -57,10 +57,10 @@ void sPrintln(char *what);
 /* free memory */
 void PicocCleanup()
 {
-    // int free = getFreeHeapSize();
+    int free = system_get_free_heap_size();
     char fm[] = "In PicocCleanup freeMemory=";
     Ssend((char *)&fm);
-    // DebugPrintInt(free);
+    DebugPrintInt(free);
     DebugCleanup();
     Ssend("Done DebugCleanup\n");
 #ifndef NO_HASH_INCLUDE
@@ -70,41 +70,41 @@ void PicocCleanup()
     Ssend("Doing ParseCleanup\n");
     ParseCleanup();
     Ssend("Done ParseCleanup\n");
-    // free = ESP.getFreeHeap();
+    free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    // sPrintInt(free);
+    sPrintInt(free);
     Ssend("Doing LexCleanup\n");
     LexCleanup();
     Ssend("Done LexCleanup\n");
-    // free = ESP.getFreeHeap();
+    free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    // sPrintInt(free);
+    sPrintInt(free);
     Ssend("Doing VariableCleanup\n");
     VariableCleanup();
     Ssend("Done VariableCleanup\n");
-    // free = ESP.getFreeHeap();
+    free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    // sPrintInt(free);
+    sPrintInt(free);
     TypeCleanup();
     Ssend("Done TypeCleanup\n");
-    // free = ESP.getFreeHeap();
+    free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    // sPrintInt(free);
+    sPrintInt(free);
     TableStrFree();
     Ssend("Done TableStrFree\n");
-    // free = ESP.getFreeHeap();
+    free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    // sPrintInt(free);
+    sPrintInt(free);
     HeapCleanup();
     Ssend("Done HeapCleanup\n");
-    // free = ESP.getFreeHeap();
+    free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    // sPrintInt(free);
+    sPrintInt(free);
     PlatformCleanup();
     Ssend("Done PlatformCleanup\n");
-    // free = ESP.getFreeHeap();
+    free = system_get_free_heap_size();
     sPrintln((char *)fm);
-    // sPrintInt(free);
+    sPrintInt(free);
 }
 
 /* platform-dependent code for running programs */

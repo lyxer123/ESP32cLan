@@ -38,8 +38,8 @@
   #include <FS.h>
   #include <ESP8266WiFi.h>
 #else
-  // #include <SPIFFS.h>
-  #include "LittleFS.h"
+  #include <SPIFFS.h>
+  // #include "SPIFFS.h"
   #include <WiFi.h>
 #endif
 
@@ -64,7 +64,8 @@ char sendChunked = 0;
 #endif
 #include <Wire.h>
 #include <time.h>
-#include "LittleFS.h"
+// #include "SPIFFS.h"
+#include "SPIFFS.h"
 
 String GetRidOfurlCharacters(String urlChars);
 void LoadBasicProgramFromFlash(String fileNameForRead);
@@ -73,6 +74,10 @@ String programArgs;
 String ProgramName;
 String GlobalNames[200];
 int GlobalCount = 0;
+
+
+// #define  system_get_free_heap_size()   system_get_free_heap_size()
+
 extern "C"
 {
   #include "myPicoc.h"
@@ -92,9 +97,9 @@ extern "C"
     int i;
     char buf[66];
 #ifdef ESP32
-    File fout = LittleFS.open("/dropGlobals.h", "w");
+    File fout = SPIFFS.open("/dropGlobals.h", "w");
 #else
-    fs::File fout = LittleFS.open("/dropGlobals.h", "w");
+    fs::File fout = SPIFFS.open("/dropGlobals.h", "w");
 #endif
     for (i = 0; i < GlobalCount; i++)
     {
@@ -314,7 +319,7 @@ extern "C"
     else
       snprintf((char *)&fbuf, 32, "/%s", FileName);
     // Serial.print(F("opening file "));Serial.println((char *)&fbuf);
-    if (!LittleFS.exists((char *)&fbuf))
+    if (!SPIFFS.exists((char *)&fbuf))
     {
       Serial.print(F("File "));
       Serial.print((char *)&fbuf);
@@ -322,9 +327,9 @@ extern "C"
       return (char *)&buf;
     }
 #ifdef ESP32
-    File fin = LittleFS.open((char *)&fbuf, "r");
+    File fin = SPIFFS.open((char *)&fbuf, "r");
 #else
-    fs::File fin = LittleFS.open((char *)&fbuf, "r");
+    fs::File fin = SPIFFS.open((char *)&fbuf, "r");
 #endif
     if (!fin)
     {
@@ -413,9 +418,9 @@ extern "C"
     else
       strncpy((char *)&fname, fileName, 33);
 #ifdef ESP32
-    File f = LittleFS.open((char *)&fname, "r");
+    File f = SPIFFS.open((char *)&fname, "r");
 #else
-    fs::File f = LittleFS.open((char *)&fname, "r");
+    fs::File f = SPIFFS.open((char *)&fname, "r");
 #endif
     if (f > 0)
     {
@@ -486,7 +491,7 @@ void ssend(char *what)
     // Serial.println(F("==========================="));
 
     // Open the named file (the Jpeg decoder library will close it after rendering image)
-    fs::File jpegFile = LittleFS.open(filename, "r"); // File handle reference for SPIFFS
+    fs::File jpegFile = SPIFFS.open(filename, "r"); // File handle reference for SPIFFS
     //  File jpegFile = SD.open( filename, FILE_READ);  // or, file handle reference for SD library
 
     if (!jpegFile)
@@ -986,7 +991,7 @@ char didPlines = 0;
 
 uint32_t getFreeHeapSize(void)
 {
-  return ESP.getFreeHeap();
+  return system_get_free_heap_size();
 }
 
 void runProgram()
@@ -1017,7 +1022,7 @@ void runProgram()
   server.sendContent(String(WebOut) + CRLF);
   //  Serial.print(F("freeMemory prior to PicocInitialize ="));
 
-  uint32_t free = ESP.getFreeHeap();
+  uint32_t free = system_get_free_heap_size();
   Serial.println(free);
   //  Serial.println(F("Starting PicocInitialize"));
   GlobalScope = 1;
@@ -1027,7 +1032,7 @@ void runProgram()
 
     Serial.print(F("After Initialize, freeMemory="));
 
-    size_t free1 = ESP.getFreeHeap();
+    size_t free1 = system_get_free_heap_size();
     Serial.println(free1);
 
     //   Serial.println(F("Doing  PicocIncludeAllSystemHeaders"));
@@ -1107,7 +1112,7 @@ void runProgram()
 
   char buf[200];
 
-  free = ESP.getFreeHeap();
+  free = system_get_free_heap_size();
   sprintf((char *)&buf, "</table><hr>Program returned %d, free memory is %d<hr>", PicocExitValue, free);
   sendContent((char *)&buf);
   Serial.print(F("freeMemory="));
@@ -1116,7 +1121,7 @@ void runProgram()
   server.sendContent(F("0\r\n\r\n"));
   sendChunked = 0;
   PicocCleanup();
-  free = ESP.getFreeHeap();
+  free = system_get_free_heap_size();
   Serial.print(F("freeMemory="));
   Serial.println(free);
 #ifdef ESP32
@@ -1173,9 +1178,9 @@ char doScreenCapture = 0;
 void ePaper_init(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs);
 void setup()
 {
-  LittleFS.begin();
+  SPIFFS.begin();
 #ifndef ePAPER
-  Serial.begin(500000);
+  Serial.begin(115200);
 #else
   Serial.begin(74880);
 #endif
@@ -1263,7 +1268,7 @@ void setup()
     //Serial.println("codetmpl");
     String FileNameToView = "/default1.c";
     int i = 2;
-    while (LittleFS.exists(FileNameToView.c_str()))
+    while (SPIFFS.exists(FileNameToView.c_str()))
     {
       char buf[33];
       sprintf((char *)&buf, "/default%d.c", i++);
@@ -1271,9 +1276,9 @@ void setup()
     }
     // Serial.println(FileNameToView);
 #ifdef ESP32
-    File f = LittleFS.open(FileNameToView, "w");
+    File f = SPIFFS.open(FileNameToView, "w");
 #else
-    fs::File f = LittleFS.open(FileNameToView, "w");
+    fs::File f = SPIFFS.open(FileNameToView, "w");
 #endif
     f.println("void setup();\nvoid loop();");
     f.println("int main(int argc,char ** argv)\n{");
@@ -1325,9 +1330,9 @@ void setup()
                 return;
               }
 #ifdef ESP32
-              File fin = LittleFS.open("/defs.txt", "r");
+              File fin = SPIFFS.open("/defs.txt", "r");
 #else
-              fs::File fin = LittleFS.open("/defs.txt", "r");
+              fs::File fin = SPIFFS.open("/defs.txt", "r");
 #endif
               int fread = fin.read((uint8_t *)&buf, BUFSIZE);
               fin.close();
@@ -1433,9 +1438,9 @@ void setup()
                 ProgramName = server.arg("FileName");
                 ProgramName = MakeSureFileNameStartsWithSlash(ProgramName);
 #ifdef ESP32
-                File fout = LittleFS.open((char *)ProgramName.c_str(), "w");
+                File fout = SPIFFS.open((char *)ProgramName.c_str(), "w");
 #else
-                fs::File fout = LittleFS.open((char *)ProgramName.c_str(), "w");
+                fs::File fout = SPIFFS.open((char *)ProgramName.c_str(), "w");
 #endif
                 // Serial.printf("fout = %x\n",fout);
                 String code = server.arg("code");
@@ -1469,7 +1474,7 @@ void setup()
               server.sendContent(WebOut + CRLF);
               int iii;
               int i;
-              fs::File theCode = LittleFS.open((char *)ProgramName.c_str(), "r");
+              fs::File theCode = SPIFFS.open((char *)ProgramName.c_str(), "r");
               TextboxProgramBeingEdited = theCode.readStringUntil('\n');
               int doit = 1;
               String codeAccummulator = TextboxProgramBeingEdited;
@@ -1494,9 +1499,9 @@ void setup()
               }
     // Serial.println("Doing save to /backup");
 #ifdef ESP32
-              File fout = LittleFS.open("/backup", "w");
+              File fout = SPIFFS.open("/backup", "w");
 #else
-              fs::File fout = LittleFS.open("/backup", "w");
+              fs::File fout = SPIFFS.open("/backup", "w");
 #endif
               fout.print(codeAccummulator);
               fout.close();
@@ -1539,7 +1544,7 @@ void setup()
               String ret = "";
               String fn;
 #ifdef ESP32
-              File root = LittleFS.open((char *)"/");
+              File root = SPIFFS.open((char *)"/");
               File file = root.openNextFile();
               while (file)
               {
@@ -1556,14 +1561,13 @@ void setup()
               server.send(200, F("text/html"), ret);
 
 #else
-              fs::File root = LittleFS.open((char *)"/", "r");
+              fs::File root = SPIFFS.open((char *)"/", "r");
     //   fs::File file = root.openNextFile();
 #endif
             });
 
   /*
     server.on(F("/codein"), []() {
-
       if (server.arg(F("SaveTheCode")) == F("start"))
       {
         inData = "end";
@@ -1598,15 +1602,12 @@ void setup()
       }
       server.send(200, F("text/html"), F("good"));
     });
-
-
   */
 
   server.on(F("/msg"), []()
             {
 
     MsgBranchRetrnData = F("No MSG Branch Defined");
-
     if (msgbranch != "")
     {
       inData = String(" goto " + msgbranch + " ");
@@ -1629,7 +1630,7 @@ void setup()
     if (fileNameToServeUp.length() == 0) fileNameToServeUp = msg;
    Serial.printf("onNotfound for %s\n",(char *)fileNameToServeUp.c_str());
    Serial.print(F("freeMemory="));
-   uint32_t free = ESP.getHeapSize();
+   uint32_t free = system_get_free_heap_size();
    Serial.println(free);
     if (fileNameToServeUp.length() == 0) {
       server.send(200, F("text/html"), RunningProgramGui());
@@ -1639,7 +1640,7 @@ void setup()
   //  Serial.printf("File Name -> %s\n",fileNameToServeUp.c_str());
     String doFile = "/" + fileNameToServeUp;
     //Serial.printf("file to open -> %s\n",(char *)doFile.c_str());
-    fs::File mySuperFile = LittleFS.open(doFile.c_str(), "r");
+    fs::File mySuperFile = SPIFFS.open(doFile.c_str(), "r");
     if (mySuperFile)
     {
       //Serial.printf("In mySuperFile with content type = %s\n",getContentType(fileNameToServeUp).c_str());
@@ -1671,7 +1672,7 @@ void setup()
 
   server.begin();
   Serial.print("freeMemory=");
-  uint32_t free = ESP.getFreeHeap();
+  uint32_t free = system_get_free_heap_size();
   Serial.println(free);
 }
 
@@ -1764,7 +1765,7 @@ String SettingsPageHandeler()
     {
       // BasicFileOpened.close();
       Serial.println(F("Formating "));
-      Serial.print(LittleFS.format());
+      Serial.print(SPIFFS.format());
     }
 
     WebOut.replace(F("*sta name*"), staName);
@@ -1850,11 +1851,11 @@ void DoSomeFileManagerCode()
       String FIleNameForDelete = server.arg("FileName");
       FIleNameForDelete = GetRidOfurlCharacters(FIleNameForDelete);
       // Serial.println(FIleNameForDelete);
-      LittleFS.remove(FIleNameForDelete);
-      // Serial.println(LittleFS.remove("uploads/settings.png"));
+      SPIFFS.remove(FIleNameForDelete);
+      // Serial.println(SPIFFS.remove("uploads/settings.png"));
     }
 #ifdef ESP32
-    File root = LittleFS.open((char *)"/");
+    File root = SPIFFS.open((char *)"/");
     File file = root.openNextFile();
     while (file)
     {
@@ -1865,7 +1866,7 @@ void DoSomeFileManagerCode()
     }
 
 #else
-    fs::File root = LittleFS.open((char *)"/", "r");
+    fs::File root = SPIFFS.open((char *)"/", "r");
 //    fs::File file = root.openNextFile();
 #endif
     // Serial.println(FileListForPage);
@@ -1906,7 +1907,7 @@ void DoSomeFileManagerCode()
       programArgs = server.arg("programArgs");
       String FileNameToView = "/newfile1.txt";
       int i = 2;
-      while (LittleFS.exists(FileNameToView.c_str()))
+      while (SPIFFS.exists(FileNameToView.c_str()))
       {
         char buf[33];
         sprintf((char *)&buf, "/newfile%d.txt", i++);
@@ -1930,7 +1931,7 @@ void DoSomeFileManagerCode()
       {
         newfileName = MakeSureFileNameStartsWithSlash(newfileName);
         WholeUploadPage = F(R"=====(  <meta http-equiv="refresh" content="0; url=./filemng" />)=====");
-        LittleFS.rename(FileNameToView, newfileName);
+        SPIFFS.rename(FileNameToView, newfileName);
       }
     }
   }
@@ -1948,7 +1949,7 @@ void handleFileUpdate()
     ProgramName = String("/uploads/") + filename;
     DBG_OUTPUT_PORT.print("Upload Name: ");
     DBG_OUTPUT_PORT.println(filename);
-    fsUploadFile = LittleFS.open(String("/uploads/" + filename), "w");
+    fsUploadFile = SPIFFS.open(String("/uploads/" + filename), "w");
     filename = String();
   }
   else if (upload.status == 1)
@@ -2014,7 +2015,7 @@ void loop()
   delay(5);
   if (lCount++ % (12000) == 0)
   {
-    uint32_t free = ESP.getFreeHeap();
+    uint32_t free = system_get_free_heap_size();
     Serial.printf("free heap is %d\n", free);
   }
 }
@@ -2146,7 +2147,6 @@ String FetchWebUrl(String URLtoGet, int PortNoForPage)
 
 void serialFlush()
 {
-
   while (Serial.available() > 0)
   {
     delay(0);

@@ -17,7 +17,9 @@ extern GxGDEP015OC1 display;           // 1.54" b/w display
 #include <FS.h>
 #include <ESP8266WiFi.h>
 #else
-#include "LittleFS.h"
+// #include "SPIFFS.h"
+
+#include "SPIFFS.h"
 #include <WiFi.h>
 #endif
 #include <WiFiClient.h>

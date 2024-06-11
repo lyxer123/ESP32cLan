@@ -16,8 +16,8 @@
 #else
     #define PICOC_VERSION "v2.2"
 #endif
-#define BUFSIZE 12000
-#define HEAP_SIZE 45000
+#define BUFSIZE 18000                           //刘永相
+#define HEAP_SIZE 65000                         //刘永相
 void sendContent(char *it); 
 extern void send(char *it);
 extern void sendc(char it);
@@ -39,7 +39,7 @@ extern void sprint(char * what);
 #endif
 
 #ifdef UNIX_HOST
-    #define PICOC_STACK_SIZE 45000      //定义堆栈大小，默认是512K
+    #define PICOC_STACK_SIZE 65000      //定义堆栈大小，默认是512K
     #include <setjmp.h>
     #define BUILTIN_MINI_STDLIB
     /* mark where to end the program for platforms which require this */

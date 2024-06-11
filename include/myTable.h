@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "myInterpreter.h"
 
-#define STRING_TABLE_SIZE 1024  // Adjust as necessary
+#define STRING_TABLE_SIZE 4096  // Adjust as necessary，刘永相
 
 struct Table
 {

@@ -109,8 +109,8 @@ const char myFont[][8] PROGMEM = {
 };
 
 #ifdef ESP32
-  // #include <SPIFFS.h>
-  #include "LittleFS.h"
+  #include <SPIFFS.h>
+  // #include "SPIFFS.h"
   #include <ESP32Servo.h>
 #endif
 
@@ -1071,9 +1071,7 @@ extern "C"
 #ifdef BUILTIN_MINI_STDLIB
 
   /*
-   * This is a simplified standard library for small embedded systems. It doesn't require
-   * a system stdio library to operate.
-   *
+   * This is a simplified standard library for small embedded systems. It doesn't require a system stdio library to operate.
    * A more complete standard library for larger computers is in the library_XXX.c files.
    */
 
@@ -1251,20 +1249,24 @@ extern "C"
     PrintAndWebOut((char *)&Bf);
     return;
   }
+
   /* intrinsic functions made available to the language */
   void GenericPrintf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
   {
-    ////DebugP.println("Entered GenericPrintf");
-    literal = 1;
+    // DebugP.println("Entered GenericPrintf");
+    // literal = 1;
     sendContent("<tr><td colspan=\"2\" style=\"FONT-SIZE:14px; COLOR:#000000; LINE-HEIGHT:10px; FONT-FAMILY:Courier\">-> ");
     literal = 0;
+
     char Bf[501], Buf[501];
     char *FPos;
     struct Value *NextArg = Param[0];
     struct ValueType *FormatType;
     int ArgCount = 1;
+
     char *Format = (char *)Param[0]->Val->Pointer;
     int ip = 0;
+
     for (FPos = Format; *FPos != '\0'; FPos++)
     {
       while (*FPos != '%' && *FPos != 0)
@@ -1364,12 +1366,12 @@ extern "C"
                   sendContent("NULL");
                 else
                   snprintf((char *)&Bf, 200, (char *)&Buf, Str);
-                // Serial.printf("string expansion for format %s is %s\n",(char *)&Buf,(char *)&Bf);
+                Serial.printf("string expansion for format %s is %s\n",(char *)&Buf,(char *)&Bf);
                 sendContent((char *)&Bf);
                 break;
               }
               case 'd':
-                //  printf("doing int with format %s and num %d\n",(char *)&Buf,ExpressionCoerceInteger(NextArg));
+                printf("doing int with format %s and num %d\n",(char *)&Buf,ExpressionCoerceInteger(NextArg));
                 snprintf((char *)&Bf, 200, (char *)&Buf, ExpressionCoerceInteger(NextArg));
                 sendContent((char *)&Bf);
                 break;
@@ -1423,8 +1425,8 @@ extern "C"
             ip = 0;
           }
         }
-        //  else
-        //  PrintCh(*FPos, Stream);
+        // else
+        // PrintCh(*FPos, Stream);
       }
     }
     sendContent("</td></tr>");
@@ -1448,18 +1450,20 @@ extern "C"
   /* sprintf(): print to a string */
   void LibSPrintf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
   {
+    // Serial.println("In LibSPrintf");
     char Bf[501], Buf[501];
     char *FPos;
     struct Value *NextArg = Param[1];
     struct ValueType *FormatType;
     int ArgCount = 1;
-    // Serial.println("In LibSPrintf");
+    
     char *oBuf = (char *)Param[0]->Val->Pointer;
     strcpy((char *)oBuf, "");
     char *Format = (char *)Param[1]->Val->Pointer;
     int ip = 0;
     //  Serial.println("Got to ip=0;");
     //  Serial.println(Format);
+
     for (FPos = Format; *FPos != '\0'; FPos++)
     {
       while (*FPos != '%' && *FPos != 0)
@@ -2341,7 +2345,6 @@ extern "C"
 
 #endif // TFT
 
-
   // library additions for Arduino compatibility
   void printLines(char *src);
   void listSrc(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
@@ -2369,7 +2372,7 @@ extern "C"
     literal = 1;
     char th = toConsole;
 #ifdef ESP32
-    File root = LittleFS.open((char *)"/");
+    File root = SPIFFS.open((char *)"/");
     File file = root.openNextFile();
     toConsole = 0;
     sendContent("<tr><td colspan=\"2\" style=\"FONT-SIZE:14px; COLOR:#000000; LINE-HEIGHT:10px; FONT-FAMILY:Courier\">");
@@ -2412,7 +2415,7 @@ extern "C"
       toConsole = th;
     }
 #else
-    fs::File root = LittleFS.open((char *)"/", "r");
+    fs::File root = SPIFFS.open((char *)"/", "r");
     // fs::File file = root.openNextFile();
 #endif
     sendContent((char *)"\n");
@@ -2443,11 +2446,11 @@ extern "C"
     sendContent("\", ...)\n");
     showNums = Param[1]->Val->Integer;
 #ifdef ESP32
-    File fin = LittleFS.open((char *)&fname, "r");
+    File fin = SPIFFS.open((char *)&fname, "r");
     if (!fin)
     {
 #else
-    fs::File fin = LittleFS.open((char *)&fname, "r");
+    fs::File fin = SPIFFS.open((char *)&fname, "r");
     if (!fin)
     {
 #endif
@@ -2478,9 +2481,9 @@ extern "C"
     if (*FileName != '/')
       sprintf((char *)&fname, "/%s", FileName);
 #ifdef ESP32
-    File fin = LittleFS.open((char *)&fname, "r");
+    File fin = SPIFFS.open((char *)&fname, "r");
 #else
-    fs::File fin = LittleFS.open((char *)&fname, "r");
+    fs::File fin = SPIFFS.open((char *)&fname, "r");
 #endif
     if (!fin)
     {
@@ -2508,7 +2511,6 @@ extern "C"
     }
     ReturnValue->Val->Integer = 1234;
   }
-
 
   void printLines(char *src)
   {
@@ -2948,7 +2950,7 @@ extern "C"
   {
     sendContent("\nfree heap size = ");
     char lbuf[20];
-    sprintf((char *)&lbuf, "%d\n", ESP.getFreeHeap());
+    sprintf((char *)&lbuf, "%d\n", ());
     sendContent((char *)&lbuf);
   }
 #endif
@@ -3046,7 +3048,7 @@ extern "C"
     if (*FileName != '/')
       sprintf((char *)&fname, "/%s", FileName);
     // send("Opening file ");sendln(((char *)&fname);
-    fs::File fin = LittleFS.open((char *)&fname, "r");
+    fs::File fin = SPIFFS.open((char *)&fname, "r");
     if (!fin)
     {
       PrintAndWebOut("can't read file ");

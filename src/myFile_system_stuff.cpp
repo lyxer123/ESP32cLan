@@ -1,6 +1,7 @@
 //File System Stuff
 #include "Arduino.h"
-#include "LittleFS.h"
+// #include "SPIFFS.h"
+#include "SPIFFS.h"
 
 #include "globals.h"
 #include "myInterpreter.h"
@@ -11,9 +12,9 @@ void SaveDataToFile(String fileNameForSave, String DataToSave)
   //Serial.println(fileNameForSave);
   //SPIFFS.begin();
 #ifdef ESP32
-  File f = LittleFS.open(String("/data/" + fileNameForSave + ".dat"), "w");
+  File f = SPIFFS.open(String("/data/" + fileNameForSave + ".dat"), "w");
 #else
-  fs::File f = LittleFS.open(String("/data/" + fileNameForSave + ".dat"), "w");
+  fs::File f = SPIFFS.open(String("/data/" + fileNameForSave + ".dat"), "w");
 #endif
 
   if (!f)
@@ -32,11 +33,11 @@ void SaveDataToFile(String fileNameForSave, String DataToSave)
 String LoadDataFromFile(String fileNameForSave)
 {
   String WhatIwillReturn;
-  //LittleFS.begin();
+  //SPIFFS.begin();
 #ifdef ESP32
-  File f = LittleFS.open(String("/data/" + fileNameForSave + ".dat"), "r");
+  File f = SPIFFS.open(String("/data/" + fileNameForSave + ".dat"), "r");
 #else
-  fs::File f = LittleFS.open(String("/data/" + fileNameForSave + ".dat"), "r");
+  fs::File f = SPIFFS.open(String("/data/" + fileNameForSave + ".dat"), "r");
 #endif
   if (!f)
   {
@@ -65,7 +66,7 @@ static fs::File BasicFileToSave;
 bool OpenToWriteOnFlash(String fileNameForWrite)
 {
   //Serial.printf("Opening SPIFFS file %s\n",(char *)fileNameForWrite.c_str());
-  BasicFileToSave = LittleFS.open(fileNameForWrite, "w");
+  BasicFileToSave = SPIFFS.open(fileNameForWrite, "w");
   if (!BasicFileToSave)
   {
     Serial.println(F("file write open failed"));
@@ -103,7 +104,7 @@ void CloseWriteOnFlash(void)
 
 void LoadBasicProgramFromFlash(String fileNameForRead)
 {
-  fs::File f = LittleFS.open(fileNameForRead, "r");
+  fs::File f = SPIFFS.open(fileNameForRead, "r");
   f.read((uint8_t *)&buf, BUFSIZE);    
   return;
 }
