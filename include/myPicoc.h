@@ -16,9 +16,10 @@
 #else
     #define PICOC_VERSION "v2.2"
 #endif
+
 #define BUFSIZE 18000                           //刘永相
 #define HEAP_SIZE 65000                         //刘永相
-void sendContent(char *it); 
+void sendContent(const char *it); 
 extern void send(char *it);
 extern void sendc(char it);
 extern void sendln(char * it);

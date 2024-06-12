@@ -48,7 +48,7 @@ extern "C"
     void sendc(char it);
     void send(char *it);
     void sprint(char *it);
-    void sendContent(char *it);
+    void sendContent(const char *it);
 
 #ifdef __cplusplus
 }

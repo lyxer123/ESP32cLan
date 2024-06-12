@@ -867,7 +867,7 @@ void HFsetFont(struct ParseState *Parser, struct Value *ReturnValue, struct Valu
 // extern struct StackFrame *TopStackFrame;
 
 // const char *Ident;
-extern void sendContent(char *it);
+extern void sendContent(const char *it);
 extern void send(char *it);
 extern void sendc(char it);
 extern void sendln(char *it);

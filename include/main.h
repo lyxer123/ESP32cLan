@@ -91,7 +91,7 @@ extern "C" {
     #ifdef TFT
     void iconsoleOut(char *what);
     #endif
-    void sendContent(char *it);
+    void sendContent(const char *it);
     void sok();
     int hextoi(char i);
     void urldecode(char *src, char *dst);

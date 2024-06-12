@@ -148,7 +148,7 @@ extern "C"
   void iconsoleOut(char *what);
 #endif
   // send content allows server output to be sent as chunks if sendChunked==1
-  void sendContent(char *it) // send as Web Server output and to Serial - server out includes limited &nbsp; and <BR> for [CR] and 2 spaces for tabs
+  void sendContent(const char *it) // send as Web Server output and to Serial - server out includes limited &nbsp; and <BR> for [CR] and 2 spaces for tabs
   {
     String hit;
     if (strlen(it) < 1)
@@ -945,7 +945,7 @@ String UdpBuffer = "";
 IPAddress UdpRemoteIP;
 int UdpRemotePort;
 
-void sendcontent(char *it);
+void sendcontent(const char *it);
 // place where the program will jump on serial data reception
 int SerialBranchLine = 0;
 int Serial2BranchLine = 0;
