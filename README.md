@@ -1,5 +1,5 @@
 ## 需要库文件
-* ESP32Servo 1.2.1版本可用于arduino ESP的2.x版本，暂时不要使用3.0.0版本（不稳定，跑飞）。  
+* ESP32Servo 1.2.1版本可用于arduino ESP的2.x版本（也不行，感觉不好用），暂时不要使用3.0.0版本（不稳定，跑飞）。  
 3.0.0版本的修改如下
 https://github.com/espressif/arduino-esp32/blob/master/docs/en/migration_guides/2.x_to_3.0.rst#ledc
 * TFT_eSPI版本采用2.5.43版本，里面的SPIFFS需要修改为LittleFS
@@ -21,7 +21,7 @@ https://github.com/espressif/arduino-esp32/blob/master/docs/en/migration_guides/
 * 4.esp32的c语言：https://www.codeproject.com/Articles/5061494/Run-a-C-Language-Interpreter-on-Your-ESP32
 * 5.picoc的arduino版本：https://github.com/rhelmus/picoc-arduino
 
-编译通过，在esp32板子上可运行，而在esp32-s3板子上全跑飞
+编译通过，在esp32板子上可运行（需要arduino-esp32 1.0.6版本，其他的似乎都有点问题），而在esp32-s3板子上全跑飞
 
 ## 原版picoc-arduino与本项目代码差异
 ### 如下文件基本保持一致  
@@ -35,18 +35,18 @@ https://github.com/espressif/arduino-esp32/blob/master/docs/en/migration_guides/
 
 * platform.h 默认设置为 UNIX_HOST，因此可以轻松运行测试UNIX 系统。您需要根据以下条件指定自己的主机设置您的目标平台。   
 
-- clibrary.c   （在这个文件中增加自定义函数，方便调用）     
-- debug.c   
-- expression.c   
-- heap.c   
-- include.c   
-- interpreter.h   
-- lex.c   
-- parse.c   
-- picoc.c   
-- picoc.h   
-- platform.c   
-- platform.h   
-- table.c   
-- type.c   
-- variable.c   
+clibrary.c   （在这个文件中增加自定义函数，方便调用）     
+debug.c   
+expression.c   
+heap.c   
+include.c   
+interpreter.h   
+lex.c   
+parse.c   
+picoc.c   
+picoc.h   
+platform.c   
+platform.h   
+table.c   
+type.c   
+variable.c   
