@@ -7,14 +7,13 @@
 #include <string.h>
 
 #include "myInterpreter.h"
-
 #include "myExpression.h"
 
 /* whether evaluation is left to right for a given precedence level */
-#define IS_LEFT_TO_RIGHT(p) ((p) != 2 && (p) != 14)
-#define BRACKET_PRECEDENCE 20
-#define IS_TYPE_TOKEN(t) ((t) >= TokenIntType && (t) <= TokenUnsignedType)
-#define DEEP_PRECEDENCE (BRACKET_PRECEDENCE*1000)
+#define IS_LEFT_TO_RIGHT(p)     ((p) != 2 && (p) != 14)
+#define BRACKET_PRECEDENCE      20
+#define IS_TYPE_TOKEN(t)        ((t) >= TokenIntType && (t) <= TokenUnsignedType)
+#define DEEP_PRECEDENCE         (BRACKET_PRECEDENCE*1000)
 
 #ifdef DEBUG_EXPRESSIONS
 #define debugf printf

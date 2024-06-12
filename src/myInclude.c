@@ -1,5 +1,5 @@
 /* picoc include system - can emulate system includes from built-in libraries or it can include and parse files if the system has files */
-#include <Arduino.h> 
+#include <Arduino.h>
 
 #include "myPicoc.h"
 #include "myInterpreter.h"
@@ -8,7 +8,7 @@
 
 #ifndef NO_HASH_INCLUDE
 
-char listIncludes=1;
+char listIncludes = 1;
 /* a list of libraries we can include */
 // struct IncludeLibrary
 // {
@@ -20,13 +20,13 @@ char listIncludes=1;
 // };
 
 struct IncludeLibrary *IncludeLibList = NULL;
-void sprint(char * what);
+void sprint(char *what);
 
 /* initialise the built-in include libraries */
 void IncludeInit()
 {
 #ifndef BUILTIN_MINI_STDLIB
-//Ssend("In IncludeInit\n");
+    // Ssend("In IncludeInit\n");
     IncludeRegister("ctype.h", NULL, &StdCtypeFunctions[0], NULL);
     IncludeRegister("errno.h", &StdErrnoSetupFunc, NULL, NULL);
 #ifndef NO_FP
@@ -46,7 +46,7 @@ void IncludeCleanup()
 {
     struct IncludeLibrary *ThisInclude = IncludeLibList;
     struct IncludeLibrary *NextInclude;
-    
+
     while (ThisInclude != NULL)
     {
         NextInclude = ThisInclude->NextLib;
@@ -72,26 +72,27 @@ void IncludeRegister(const char *IncludeName, void (*SetupFunction)(void), struc
 /* include all of the system headers */
 void PicocIncludeAllSystemHeaders(int inctmpl)
 {
-    //Ssend("In PicocIncludeAllSystemHeaders\n");//Ssend("another line\n");
+    // Ssend("In PicocIncludeAllSystemHeaders\n");//Ssend("another line\n");
     struct IncludeLibrary *ThisInclude = IncludeLibList;
-    for (; ThisInclude != NULL; ThisInclude = ThisInclude->NextLib) {
-        //Ssend(ThisInclude->IncludeName);
+    for (; ThisInclude != NULL; ThisInclude = ThisInclude->NextLib)
+    {
+        // Ssend(ThisInclude->IncludeName);
         IncludeFile(ThisInclude->IncludeName);
     }
-    if (inctmpl==1)
-    {    
-
-		      IncludeFile("usefull.h");
+    if (inctmpl == 1)
+    {
+        IncludeFile("usefull.h");
     }
 }
-char fileExists(char * fileName);
+char fileExists(char *fileName);
 /* include one of a number of predefined libraries, or perhaps an actual file */
 void IncludeFile(char *FileName)
 {
-  if (fileExists(FileName)==0) return;
-  listIncludes=0;
+    if (fileExists(FileName) == 0)
+        return;
+    listIncludes = 0;
     struct IncludeLibrary *LInclude;
-    
+
     /* scan for the include file name to see if it's in our list of predefined includes */
     for (LInclude = IncludeLibList; LInclude != NULL; LInclude = LInclude->NextLib)
     {
@@ -101,27 +102,27 @@ void IncludeFile(char *FileName)
             if (!VariableDefined(FileName))
             {
                 VariableDefine(NULL, FileName, NULL, &VoidType, FALSE);
-                
+
                 /* run an extra startup function if there is one */
                 if (LInclude->SetupFunction != NULL)
                     (*LInclude->SetupFunction)();
-                
+
                 /* parse the setup C source code - may define types etc. */
                 if (LInclude->SetupCSource != NULL)
                     PicocParse(FileName, LInclude->SetupCSource, strlen(LInclude->SetupCSource), TRUE, TRUE, FALSE, FALSE);
-                
+
                 /* set up the library functions */
                 if (LInclude->FuncList != NULL)
                     LibraryAdd(&GlobalTable, FileName, LInclude->FuncList);
             }
-            
+
             return;
         }
     }
-    
+
     /* not a predefined file, read a real file */
     PicocPlatformScanFile(FileName);
-    listIncludes=1;
+    listIncludes = 1;
 }
 
 #endif /* NO_HASH_INCLUDE */

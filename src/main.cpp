@@ -2,16 +2,22 @@
 // define ALWAYS_STATION to restart EPS32 if it can't connect to the specified SSID
 //                       when defined it will not enter AP mode on a Station Connect failure. It will restart until it successfully connects
 //                       to the SSID specified in /data/WIFIname.dat using the password specified in /data/WIFIpass.dat
+
 // #define TFT
 // define TFT to enable use of an attached 320x240 TFT Display
+
 // #define SSD1306OLED
 // define SSD1306OLED if using the Wemos ESP32 WROOM with OLED
+
 // #define BME280
 // defining BME 280 will include support for BME280 sensor
+
 // #define NEO_PIXEL
 // defining NEO_PIXEL includes Adafruit_NeoPixel support functions;
+
 // #define ePAPER
 // defining ePAPER includes 1.54 in ePaper Display from WaveShare
+
 #include <Arduino.h>
 #include "globals.h"
 
@@ -295,12 +301,10 @@ extern "C"
   }
   void sPrintln(char *what)
   {
-
     Serial.println(what);
   }
   void sPrintInt(int what)
   {
-
     Serial.println(what);
   }
   void sprint(char *what)
@@ -485,7 +489,6 @@ void ssend(char *what)
   //====================================================================================
   void drawJpeg(char *filename, int xpos, int ypos)
   {
-
     // Serial.println(F("==========================="));
     // Serial.print(F("Drawing file: ")); //Serial.println(filename);
     // Serial.println(F("==========================="));
@@ -532,7 +535,6 @@ void ssend(char *what)
   //====================================================================================
   void jpegRender(int xpos, int ypos)
   {
-
     // retrieve infomration about the image
     uint16_t *pImg;
     uint16_t mcu_w = JpegDec.MCUWidth;

@@ -20,7 +20,6 @@ static double M_2_SQRTPIValue = 1.12837916709551257390;  /* 2/sqrt(pi) */
 static double M_SQRT2Value =    1.41421356237309504880;  /* sqrt(2) */
 static double M_SQRT1_2Value =  0.70710678118654752440;  /* 1/sqrt(2) */
 
-
 void MathSin(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
     ReturnValue->Val->FP = sin(Param[0]->Val->FP);
