@@ -1032,12 +1032,12 @@ void runProgram()
   {
     PicocInitialise(PICOC_STACK_SIZE);
 
-    Serial.print(F("After Initialize, freeMemory="));
+    Serial.print(F("After Initialize, freeMemory="));                 //这个后面容易出错
 
     size_t free1 = system_get_free_heap_size();
     Serial.println(free1);
 
-    //   Serial.println(F("Doing  PicocIncludeAllSystemHeaders"));
+    Serial.println(F("Doing  PicocIncludeAllSystemHeaders"));
     PicocIncludeAllSystemHeaders(1);
   }
   //   Serial.println(F("Doing  PicocIncludeAllSystemHeaders"));

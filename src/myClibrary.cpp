@@ -1253,7 +1253,7 @@ extern "C"
   /* intrinsic functions made available to the language */
   void GenericPrintf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
   {
-    // DebugP.println("Entered GenericPrintf");
+    //DebugP.println("Entered GenericPrintf");
     // literal = 1;
     sendContent("<tr><td colspan=\"2\" style=\"FONT-SIZE:14px; COLOR:#000000; LINE-HEIGHT:10px; FONT-FAMILY:Courier\">-> ");
     literal = 0;
@@ -1340,7 +1340,7 @@ extern "C"
         {
           /* we have to format something */
           if (ArgCount >= NumArgs)
-            sendContent("XXX too few params"); /* not enough parameters for format */
+            sendContent("XXX too few params");                        /* not enough parameters for format */
           else
           {
             NextArg = (struct Value *)((char *)NextArg + MEM_ALIGN(sizeof(struct Value) + TypeStackSizeValue(NextArg)));
@@ -1348,7 +1348,8 @@ extern "C"
                 !((FormatType == &IntType || *FPos == 'f') && IS_NUMERIC_COERCIBLE(NextArg)) &&
                 !(FormatType == CharPtrType && (NextArg->Typ->Base == TypePointer ||
                                                 (NextArg->Typ->Base == TypeArray && NextArg->Typ->FromType->Base == TypeChar))))
-              sendContent("XXX bad type\n"); /* bad type for format */
+              sendContent("XXX bad type1\n");                         /* bad type for format */
+
             else
             {
               switch (*FPos)
@@ -1370,6 +1371,7 @@ extern "C"
                 sendContent((char *)&Bf);
                 break;
               }
+
               case 'd':
                 printf("doing int with format %s and num %d\n",(char *)&Buf,ExpressionCoerceInteger(NextArg));
                 snprintf((char *)&Bf, 200, (char *)&Buf, ExpressionCoerceInteger(NextArg));

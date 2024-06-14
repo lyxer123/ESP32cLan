@@ -24,20 +24,42 @@ static struct CleanupTokenNode *CleanupTokenList = NULL;
 
 
 /* deallocate any memory */
+// void ParseCleanup()
+// {
+//     while (CleanupTokenList != NULL)
+//     {
+//         struct CleanupTokenNode *Next = CleanupTokenList->Next;
+        
+//         HeapFreeMem(CleanupTokenList->Tokens);
+//         if (CleanupTokenList->SourceText != NULL)
+//             HeapFreeMem((void *)CleanupTokenList->SourceText);
+            
+//         HeapFreeMem(CleanupTokenList);
+//         CleanupTokenList = Next;
+//     }
+// }
+
 void ParseCleanup()
 {
     while (CleanupTokenList != NULL)
     {
         struct CleanupTokenNode *Next = CleanupTokenList->Next;
         
-        HeapFreeMem(CleanupTokenList->Tokens);
-        if (CleanupTokenList->SourceText != NULL)
+        if (CleanupTokenList->Tokens != NULL) {
+            HeapFreeMem(CleanupTokenList->Tokens);
+            CleanupTokenList->Tokens = NULL; // Avoid dangling pointer
+        }
+        
+        if (CleanupTokenList->SourceText != NULL) {
             HeapFreeMem((void *)CleanupTokenList->SourceText);
-            
+            CleanupTokenList->SourceText = NULL; // Avoid dangling pointer
+        }
+        
         HeapFreeMem(CleanupTokenList);
         CleanupTokenList = Next;
     }
 }
+
 
 /* parse a statement, but only run it if Condition is TRUE */
 enum ParseResult ParseStatementMaybeRun(struct ParseState *Parser, int Condition, int CheckTrailingSemicolon)

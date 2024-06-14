@@ -46,36 +46,16 @@ int minUs = 1000;
 int maxUs = 2000;
 
 // These are all GPIO pins on the ESP32
-// Recommended pins include 2,4,12-19,21-23,25-27,32-33
-// for the ESP32-S2 the GPIO pins are 1-21,26,33-42
-// for the ESP32-S3 the GPIO pins are 1-21,35-45,47-48
-// for the ESP32-C3 the GPIO pins are 1-10,18-21
-#if defined(CONFIG_IDF_TARGET_ESP32C3)
-int servo1Pin = 7;
-int servo2Pin = 6;
-int servo3Pin = 5;
-int servo4Pin = 4;
-int servo5Pin = 3;
-#else
+// Recommended pins include 2,4,12-19,21-23,25-27,32-33 
 int servo1Pin = 15;
 int servo2Pin = 16;
 int servo3Pin = 14;
-#if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
-int servo4Pin = 13;
-#else
 int servo4Pin = 32;
-#endif
 int servo5Pin = 4;
-#endif
 
 int pos = 0;      // position in degrees
 ESP32PWM pwm;
 void setup() {
-	// Allow allocation of all timers
-	ESP32PWM::allocateTimer(0);
-	ESP32PWM::allocateTimer(1);
-	ESP32PWM::allocateTimer(2);
-	ESP32PWM::allocateTimer(3);
 	Serial.begin(115200);
 	servo1.setPeriodHertz(50);      // Standard 50hz servo
 	servo2.setPeriodHertz(50);      // Standard 50hz servo
@@ -89,13 +69,7 @@ void setup() {
 void loop() {
 	servo1.attach(servo1Pin, minUs, maxUs);
 	servo2.attach(servo2Pin, minUs, maxUs);
-#if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32C3)
-	pwm.attachPin(37, 10000);//10khz
-#elif defined(CONFIG_IDF_TARGET_ESP32C3)
-	pwm.attachPin(7, 10000);//10khz
-#else
-	pwm.attachPin(27, 10000);//10khz
-#endif
+	pwm.attachPin(27, 10000, 12);
 	servo3.attach(servo3Pin, minUs, maxUs);
 	servo4.attach(servo4Pin, minUs, maxUs);
 
@@ -156,7 +130,7 @@ void loop() {
 	servo4.detach();
 	pwm.detachPin(27);
 
-	delay(5000);
+	delay(1000);
 
 }
 
